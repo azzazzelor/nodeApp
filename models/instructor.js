@@ -4,7 +4,6 @@ const mongoose = require('mongoose'),
 	Schema = mongoose.Schema;
 
 const InstructorSchema = new Schema({
-    id : Number,
     userID : {
         type: Schema.Types.ObjectId, ref: 'User'
         },
@@ -77,7 +76,7 @@ const InstructorSchema = new Schema({
         type: String,
         required: false
     },
-},{_id: false });
+});
 
 
 

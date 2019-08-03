@@ -14,11 +14,11 @@ const  session = require('express-session');
  
  app.use(logger('dev'));
 
-app.use(express.json());
+ app.use(express.json());
 
-app.use(express.urlencoded());
+ app.use(express.urlencoded());
 
-app.use(cookieParser());
+ app.use(cookieParser());
 
  app.use(session({secret: 'mySecretKey',resave: true,
  saveUninitialized: true})); 
@@ -28,6 +28,7 @@ app.use(cookieParser());
  app.use(passport.session());
 
  const flash = require('connect-flash');
+
  app.use(flash());
 
 const router = require('./routes/index')

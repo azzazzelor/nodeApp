@@ -1,156 +1,179 @@
-const validateEmail = function (email) {
+const validateEmail = function (email, res) {
     let temple = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
     const result = temple.test(email);
-    if(!result) throw new Error('Invalid email');
+
+    if(!result) res.status(500).json({ error: 'Invalid email address' });
+
     return result;
   }
 
-  const validatePassword = function(password){ 
+  const validatePassword = function(password, res){ 
     let temple = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])[a-zA-Z0-9]{8,64}$/ ;
     const result = temple.test(password);
-    if(!result) throw new Error('Invalid password');
+    
+    if(!result) res.status(500).json({ error: 'Invalid password' });
+
     return result;
 }
 
-const validatePhoneNumber = function (phone_number) {
+const validatePhoneNumber = function (phone_number, res) {
     let temple = /^[+]?(1\-|1\s|1|\d{3}\-|\d{3}\s|)?((\(\d{3}\))|\d{3})(\-|\s)?(\d{3})(\-|\s)?(\d{4})$/g;
     const result = temple.test(phone_number);
-    if(!result) throw new Error('Invalid phone number');
+
+    if(!result) res.status(500).json({ error: 'Invalid phone number' });
+
     return result;
   }
-  const validateBrand = function (brand){
+  const validateBrand = function (brand, res){
     let temple = /([A-Za-z0-9_]{3,50})/ 
     const result = temple.test(brand);
-    if(!result) throw new Error('Invalid brand');
+
+    if(!result) res.status(500).json({ error: 'Invalid car brand' });
+
     return result;
   }
 
-  const validateName = function (name){
+  const validateName = function (name, res){
     let temple = /([A-Za-z0-9_]{3,50})/ 
     const result = temple.test(name);
-    if(!result) throw new Error('Invalid name');
+
+    if(!result) res.status(500).json({ error: 'Invalid name' });
+
     return result;
   }
 
-  const validateLastName = function (name){
+  const validateLastName = function (name, res){
     let temple = /([A-Za-z0-9_]{3,50})/ 
     const result = temple.test(name);
-    if(!result) throw new Error('Invalid last name');
+
+    if(!result) res.status(500).json({ error: 'Invalid last name' });
+
     return result;
   }
 
-  const validateStudentDriverLicense = function (name){
-   if(name === '') throw new Error('Invalid driver license');
-   return true;
+  const validateStudentDriverLicense = function (name, res){
+    if (name) return true;
+
+    res.status(500).json({ error: 'Driver license is required' });
   }
 
 
-  const validateAge = function (age){
-    if(age >= 0 &&  age <= 150) return true;
-    throw new Error('invalid age')
+  const validateAge = function (age, res){
+    if(age >= 16 &&  age <= 150) return true;
+    res.status(500).json({ error: 'Invalid age' });
   }
 
-  const validatePhotoUri = function (photo){
-    let temple = /^[a-z]{4,5}:\/\/[a-z A-Z1-9-_@#$%^&*,'.\/]{5,700}/ 
-    const result = temple.test(photo);
-    if(!result) throw new Error('Invalid photo uri');
-    return result
+  const validatePersonalPhotoUri = function(photo, res) {
+    if(!validatePhotoUri(photo, res)) res.status(500).json({ error: 'Invalid photo uri' });
+  }
+  
+  const validateIdPhotoUri = function(photo, res) {
+    if(!validatePhotoUri(photo, res)) res.status(500).json({ error: 'Invalid id photo uri' });
+  }
+  
+  const validatePhotoUri = function (photo, res){
+      let temple = /^[a-z]{4,5}:\/\/[a-zA-Z1-9-_.]{5,700}/ 
+      const result = temple.test(photo);
+      //check if foto exist on server
+      return result
   }
 
-  const validateDriverExperienceYear = function (year){
-    const Err = new Error('Invalid photo uri');
-    if(+year <= 0 ) throw Err;
-    if(year === '' ) throw Err;
+  const validateDriverExperienceYear = function (year, res){
+    if(+year <= 0 ) res.status(500).json({ error: 'Invalid driver exerience year' });
+
+    if(!year ) res.status(500).json({ error: 'Invalid driver exerience year' });
+
     return true;
   }
 
-  const validateDriverLicenseNumber = function (num){
+  const validateDriverLicenseNumber = function (num, res){
     let temple = /[1-90_-a-zA-z]{4,100}/ 
     const result = temple.test(num);
-    if(!result) throw new Error('Invalid license number');
+
+    if(!result) res.status(500).json({ error: 'Invalid driver license number' });
+
     return result
   }
 
-  const validatePlateNumber = function (num){
-    const Err = new Error('Invalid plate number');
-    if(+num === +0 ) throw Err;
-    if(num === '' ) throw Err;
+  const validatePlateNumber = function (num, res){
+    if(+num === +0 )  res.status(500).json({ error: 'Invalid plate number' });
+    if(num === '' )  res.status(500).json({ error: 'Invalid plate number' });
+
     let temple = /[1-90]/;
     const result = temple.test(num);
-    if(!result) throw new Error('Invalid plate number');
+    if(!result)  res.status(500).json({ error: 'Invalid plate number' });
     return result;
   }
 
-  const validateТransmission = function (string){
+  const validateТransmission = function (string, res){
     let temple = /[a-zA-Z]{1,100}/ 
     const result = temple.test(string);
-    if(!result) throw new Error('Invalid Тransmission');
+
+    if(!result) res.status(500).json({ error: 'Invalid transmission' });
+
     return result
   }
 
-  const validatePrice = function (num){
-    const Err = new Error('Invalid price');
-    if(+num === +0 ) return Err;
-    if(num === '' ) return Err;
+  const validatePrice = function (num, res){
+    
+    if(!num)  res.status(500).json({ error: 'Invalid price' });
+   
     let temple = /[1-90]/;
     const result = temple.test(num);
-    if(!result) throw new Error('Invalid price');
+
+    if(!result) res.status(500).json({ error: 'Invalid price' });
+
     return result;
   }
 
-  const validateCurrency = function (num){
-    const Err = new Error('Invalid Currency');
-    if(+num === +0 ) throw Err;
-    if(num === '' ) throw Err;
-    // valid in base 
-    return true;
+  const validateCurrency = function (num, res){
+    if(num) return true;
+
+    res.status(500).json({ error: 'Invalid currency' });
+      
   }
 
-  const validateZip = function (num){
-    const Err = new Error('Invalid zip coder');
-    if(+num === +0 ) throw Err;
-    if(num === '' ) throw Err;
+   const validateNum= function(num, res){
+    if(+num === +0 ) return false;
+    if(num === '' ) return false;
+
     let temple = /[1-90]/;
     const result = temple.test(num);
-    if(!result) throw new Error('Invalid zip code');
+
     return result;
+   }
+
+  const validateZip = function (num, res){
+    if(!validateNum(num, res)) res.status(500).json({ error: 'Invalid zip' });
   }
 
-  const validateVatNumber = function (num){
-    const Err = new Error('Invalid vat number');
-    if(+num === +0 ) throw Err;
-    if(num === '' ) throw Err;
-    let temple = /[1-90]/;
-    const result = temple.test(num);
-    if(!result) throw new Error('Invalid vat number');
-    return result;
+  const validateVatNumber = function (num, res){
+    if(!validateNum(num, res)) res.status(500).json({ error: 'Invalid vat number' });
   }
-  const validateRegistrationNumber = function(num){
-    const Err = new Error('Invalid registration number');
-    if(+num === +0 ) throw Err;
+  const validateRegistrationNumber = function(num, res){
+     if(!num ) res.status(500).json({ error: 'Invalid registration number' });
+
     let temple = /[1-90]/;
     const result = temple.test(num);
-    if(!result) throw new Error('Invalid vat number');
+    if(!result) res.status(500).json({ error: 'Invalid registration number' });
     return result;
   } 
 
-  const validateLastDayInspection = function (day){
-    const Err = new Error('Invalid last day of inspection');
-    if(+day === +0 ) throw Err;
-    if(day === '' ) throw Err;
-    let temple = /[1-90]/;
-    const result = temple.test(day);
-    if(!result) throw new Error('Invalid last day of inspection');
-    return result;
+  const validateLastDayInspection = function (day, res){
+    if(!validateNum(day, res)) res.status(500).json({ error: 'Invalid last day of inspection' });
   }
 
-  const validateAdress = function (adress){
-    if(adress === '') throw new Error('Invalid adress')
+  const validateAdress = function (adress, res){
+    if(!adress) res.status(500).json({ error: 'Invalid adress' });
+    
     return true;
   }
+
+  exports.validateIdPhotoUri = validateIdPhotoUri;
+  exports.validatePersonalPhotoUri = validatePersonalPhotoUri;
   exports.validateRegistrationNumber = validateRegistrationNumber;
   exports.validateLastName = validateLastName;
-  exports.validateStudentDriverLicense =validateStudentDriverLicense;
+  exports.validateStudentDriverLicense = validateStudentDriverLicense;
   exports.validatePhotoUri = validatePhotoUri;
   exports.validateDriverExperienceYear = validateDriverExperienceYear;
   exports.validateDriverLicenseNumber = validateDriverLicenseNumber;
@@ -167,4 +190,4 @@ const validatePhoneNumber = function (phone_number) {
   exports.validatePhoneNumber = validatePhoneNumber;
   exports.validateName = validateName;
   exports.validateAge = validateAge;
-  exports.validateBrand = validateBrand
+  exports.validateBrand = validateBrand;

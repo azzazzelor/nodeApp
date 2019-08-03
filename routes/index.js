@@ -17,9 +17,13 @@ router.post('/registration', registrationController.registration
 )
 
 // get by id users
-router.get('/student/:id' , studentController.get_by_id)
-router.get('/school/:id' , schoolControllers.get_by_id)
-router.get('/instructor/:id' , instructorControllers.get_by_id)
+router.get('/student/:id' , studentController.get_by_id);
+
+router.get('/school/:id' , schoolControllers.get_by_id);
+
+router.get('/instructor/:id' , instructorControllers.get_by_id);
+
+
 
 
 
