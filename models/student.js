@@ -1,12 +1,10 @@
-'use strict';
-
 const mongoose = require('mongoose'),
 	Schema = mongoose.Schema;
 
 const StudentSchema = new Schema({
-    userID : {
-       type: Schema.Types.ObjectId, ref: 'User',
-        },
+    user_id : {
+        type: Schema.Types.ObjectId, ref: 'User',
+    },
     first_name: {
         type: String,
         required: true,   
@@ -35,8 +33,12 @@ const StudentSchema = new Schema({
     id_photo:{
         type: String,
         required : false
-    }
-});
+    },
+    liked_users: [{
+        type:String,
+        require:false
+    }]
+})
 
 
 

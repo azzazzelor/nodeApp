@@ -1,14 +1,20 @@
-
-const mongoose = require('mongoose')
+require('dotenv').config();
+const mongoose = require('mongoose');
 
 const options = {
     useNewUrlParser: true,
-    useCreateIndex: true
+    useCreateIndex: true,
+    useFindAndModify: false
 };
 
-mongoose.connect("mongodb://localhost:27017/testdb",options,function(err){
-    if(!err){console.log('Mongodb is connected')}
+
+
+mongoose.connect(process.env.HOST, options, onConnect);
+
+function onConnect(error) {
+    if (!error) {
+        console.log('Mongodb is connected');
+    }
 }
-)
 
 module.exports = mongoose;

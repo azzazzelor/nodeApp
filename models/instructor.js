@@ -1,12 +1,10 @@
-'use strict';
-
 const mongoose = require('mongoose'),
 	Schema = mongoose.Schema;
 
 const InstructorSchema = new Schema({
-    userID : {
+    user_id : {
         type: Schema.Types.ObjectId, ref: 'User'
-        },
+    },
     driver_license_number:{
         type: String,
         required: true,
@@ -59,7 +57,7 @@ const InstructorSchema = new Schema({
     
     },
     second_name:{
-    	type: String,
+      	type: String,
         required: true,
         minlength: 3,
         maxlength: 50
@@ -76,9 +74,13 @@ const InstructorSchema = new Schema({
         type: String,
         required: false
     },
-});
+    cover_photo :{
+        type: String,
+        required: false
+    }
+})
 
 
 
 
-module.exports = mongoose.model('Instructor', InstructorSchema);
+module.exports = mongoose.model('Instructor', InstructorSchema)

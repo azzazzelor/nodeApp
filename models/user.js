@@ -1,47 +1,49 @@
-'use strict';
-
 const mongoose = require('mongoose'),
-	Schema = mongoose.Schema,
+	  Schema = mongoose.Schema,
     bcrypt = require('bcryptjs');
     
 const UserSchema = new Schema({
-    roleType: {
-    	type: String, 
-    	required: true,
+  roleType: {
+    type: String, 
+    required: true,
+  },
+  email: {
+    type: String,
+    required: true,
+    minlength: 5,
+    maxlength: 255,
+    unique: true
     },
-    email: {
-        type: String,
-        required: true,
-        minlength: 5,
-        maxlength: 255,
-        unique: true
-      },
-    password: {
-        type: String,
-        required: true,
-        minlength: 8,
-        maxlength: 64
-      },
-    phone_number:{
-        type : String,
-        required: true,
-        unique: true
-    }
+  password: {
+      type: String,
+      required: true,
+      minlength: 8,
+      maxlength: 64
+    },
+  phone_number:{
+      type : String,
+      required: true,
+      unique: true
+  }
 });
-
-
-
 
 const User = module.exports = mongoose.model('User', UserSchema);
 
 module.exports.createUser = function(newUser, callback){
-    bcrypt.genSalt(10, function(err, salt) {
-      bcrypt.hash(newUser.password, salt, function(err, hash) {
-        newUser.password = hash;
-        newUser.save(callback);
-      });
+  bcrypt.genSalt(10, function(err, salt) {
+    if(err) {
+      return err
+    }
+
+    bcrypt.hash(newUser.password, salt, function(err, hash) {
+      if(err) {
+        return err
+      }
+      newUser.password = hash;
+      newUser.save(callback);
     });
-  }
+  });
+}
 
   module.exports.getUserByEmail = function(email, callback){
     var query = {email: email};
