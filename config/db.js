@@ -1,7 +1,7 @@
 require('dotenv').config();
 const mongoose = require('mongoose');
 const HOST = process.env.MONGODB_URI || process.env.HOST;
-const URl = `${HOST}${DB}`;
+const URl = `${HOST}${process.env.DB}`;
 
 const options = {
     useNewUrlParser: true,
