@@ -8,6 +8,8 @@ const cookieParser = require('cookie-parser');
 const flash = require('connect-flash');
 const router = require('./routes/index');
 const app = express();
+const PORT = process.env.PORT || 5000;
+
  
 
 app.use(logger(process.env.LOGGER_STR,));
@@ -25,4 +27,4 @@ app.use('/', router);
 //     res.send(null)
 // })
 
-app.listen(3000,()=>console.log('server statrted at port :3000'))
+app.listen(PORT, () => console.log('server started at port: ${PORT}'));
