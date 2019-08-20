@@ -6,8 +6,8 @@ const student_controller = require('../controllers/studentController');
 const school_controllers = require('../controllers/schoolControllers');
 const instructor_controllers = require('../controllers/instructorControllers');
 const become_instructor_controllers = require('../controllers/becomeInstructorControllers');
-const filter_users_controllers = require('../controllers/filterUsersControllers')
-const find_car = require('../controllers/findCarByNameControllers')
+const filter_users_controllers = require('../controllers/filterUsersControllers');
+const find_car = require('../controllers/findCarByNameControllers');
 //auth
 
 router.post(
@@ -32,15 +32,18 @@ router.post('/school/update/:id' , school_controllers.update_by_id);
 router.post('/instructor/update/:id' , instructor_controllers.update_by_id);
 
 //become instructor
-router.post('/become_instructor/:id', become_instructor_controllers.become_instructor )
+router.post('/become_instructor/:id', become_instructor_controllers.become_instructor );
 
 // update filters 
-router.post('/add_filters/:id', filter_users_controllers.add_filters_for_user )
-router.get('/get_filters/:id', filter_users_controllers.get_user_filters)
+router.post('/add_filters/:id', filter_users_controllers.add_filters_for_user );
+router.get('/get_filters/:id', filter_users_controllers.get_user_filters);
 
 // add like user
-router.post('/add_like_user/:id' , student_controller.add_likes_users )
+router.post('/add_like_user/:id' , student_controller.add_likes_users );
 
 // find car 
-router.get('/get_users_by_car/' , find_car.get_car_by_name )
+router.get('/get_users_by_car/' , find_car.get_car_by_name );
+
+
+
 module.exports = router;
