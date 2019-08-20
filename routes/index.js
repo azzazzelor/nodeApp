@@ -8,6 +8,12 @@ const instructor_controllers = require('../controllers/instructorControllers');
 const become_instructor_controllers = require('../controllers/becomeInstructorControllers');
 const filter_users_controllers = require('../controllers/filterUsersControllers');
 const find_car = require('../controllers/findCarByNameControllers');
+
+router.get("/",
+	function(req, res){
+		res.status(200).json({ messages: 'server is runing' });
+	}
+);
 //auth
 
 router.post(
