@@ -15,16 +15,16 @@ const checkTypeOfSchema = function(reqBody,req,res){
 
     switch(roleType) {
     case 'student':
-        return validStudentSchemasCreateUser(reqBody, req, res)
+        return validStudentSchemasCreateUser(reqBody, req, res);
 
     case 'instructor':
-        return  validInstructorSchemasCreateUser(reqBody, req, res)
+        return  validInstructorSchemasCreateUser(reqBody, req, res);
 
     case 'school':
-        return  validSchoolSchemasCreateUser(reqBody, req, res)
+        return  validSchoolSchemasCreateUser(reqBody, req, res);
 
     default:
-        res.status(400).json({ error: 'roleType not found' })
+        res.status(400).json({ error: 'roleType not found' });
         break;
     }
 }
