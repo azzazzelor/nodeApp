@@ -1,7 +1,5 @@
 require('dotenv').config();
 const mongoose = require('mongoose');
-const HOST = process.env.MONGODB_URI || process.env.HOST;
-const URl = `${HOST}${process.env.DB}`;
 
 const options = {
     useNewUrlParser: true,
@@ -9,7 +7,12 @@ const options = {
     useFindAndModify: false
 };
 
-mongoose.connect(URl, options, onConnect);
+const HOST = process.env.MONGODB_URI || process.env.HOST;
+const DB = "heroku_36nt81n4" || process.env.DB;
+
+const URL = `${HOST}${DB}`;
+
+mongoose.connect(URL, options, onConnect);
 
 function onConnect(error) {
     if (!error) {

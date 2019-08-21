@@ -94,7 +94,7 @@ const update_by_id = function(req,res){
 const add_likes_users = function(req,res){
     const id = req.body.user_id;  
     const liked_user_id = req.params.id;
-    console.log(liked_user_id,id)
+    
     Student.findOneAndUpdate(
         {user_id : id},
         { $push: { liked_users : liked_user_id } },
