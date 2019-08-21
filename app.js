@@ -20,7 +20,7 @@ app.use(session({secret: process.env.SECRET_KEY,resave: true,saveUninitialized: 
 app.use(passport.initialize());
 app.use(passport.session());
 app.use(flash());
-app.use('/', router);
+// app.use('/', router);
 
 // app.get('/logout',function(req,res){
 //     req.logout();
