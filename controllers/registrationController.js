@@ -25,7 +25,7 @@ const checkTypeOfSchema = function(reqBody,req,res){
 
     default:
         res.status(400).json({ error: 'roleType not found' })
-        break
+        break;
     }
 }
                             
