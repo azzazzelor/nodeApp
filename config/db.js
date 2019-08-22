@@ -8,11 +8,8 @@ const options = {
 };
 
 const HOST = process.env.MONGODB_URI || process.env.HOST;
-const DB = "heroku_36nt81n4" || process.env.DB;
 
-const URL = `${HOST}${DB}`;
-
-mongoose.connect(URL, options, onConnect);
+mongoose.connect(HOST, options, onConnect);
 
 function onConnect(error) {
     if (!error) {
