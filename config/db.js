@@ -1,4 +1,3 @@
-require('dotenv').config();
 const mongoose = require('mongoose');
 
 const options = {
@@ -13,11 +12,10 @@ mongoose.connect(HOST, options, onConnect);
 
 function onConnect(error) {
     if (!error) {
-        console.log('Mongodb is connected');
-    }else {
-        console.log(`Mongodb connection error: ${error}`);
-      }
-  
+        console.log("\x1b[32m", 'DB is connected', "\x1b[37m");
+    } else {
+        console.log("\x1b[31m", `DB connection error: ${error}`, "\x1b[37m");
+    }
 }
 
 module.exports = mongoose;

@@ -1,7 +1,4 @@
-package-lock.json
-node_modules/
-public/bundle.*
-tamplateBAse
+node_modules
+npm-debug.log
 .env
 .DS_Store
-.eslintrc.js
