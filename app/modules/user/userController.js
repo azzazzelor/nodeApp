@@ -13,9 +13,47 @@ const {APP_ERRORS} = require('../../../config/constants');
  * @param res
  */
 exports.root = (req, res) => {
-	res.status(200).json({ 
-		messages: 'server is ruining...'
-	});
+
+	const loginErrors = {
+		localLoginError: req.flash('loginMessage'),
+		facebookLoginError: req.flash('facebookError'),
+		googleLoginError: req.flash('gooogleError')
+	};
+
+	switch(loginErrors){
+		case loginErrors.localLoginError.length:
+			res.status(401).json({
+				error: 1,
+				name: "AppError",
+				code: APP_ERRORS.LOCAL_AUTHENTICATE_ERROR,
+				errmsg: loginErrors.localLoginError[0]
+			});
+			break;
+
+		case loginErrors.facebookLoginError:
+			res.status(401).json({
+				error: 1,
+				name: "AppError",
+				code: APP_ERRORS.FACEBOOK_AUTHENTICATE_ERROR,
+				errmsg: loginErrors.facebookLoginError[0]
+			});
+			break;
+
+		case loginErrors.googleLoginError:
+			res.status(401).json({
+				error: 1,
+				name: "AppError",
+				code: APP_ERRORS.GOOGLE_AUTHENTICATE_ERROR,
+				errmsg: loginErrors.googleLoginError[0]
+			});
+			break;
+
+		default :
+			res.status(200).json({
+				error: 0,
+			});
+			break;
+	}
 };
 
 /**
@@ -98,7 +136,6 @@ exports.getUserByID = (id) => {
 	});
 };
 
-
 /**
  * Create User helper
  * @param data
@@ -109,7 +146,9 @@ const createUser = (data) => {
 		email,
         password,
         phoneNumber,
-        roleType
+		roleType,
+		facebook,
+		google
     } = data;
 
 	return new Promise((resolve, reject) => {
@@ -122,13 +161,15 @@ const createUser = (data) => {
 		//check phone number
 		const phoneNumberValidation = validationService.validatePhoneNumber(phoneNumber);
 		if (phoneNumberValidation.error) return reject(phoneNumberValidation);
-
+		
 		//create new user
 		let newUser = new User({
-			email,
+			email: email.toLowerCase(),
 			password,
 			phoneNumber,
-			roleType
+			roleType,
+			facebook,
+			google
 		});
 
 		bcrypt.genSalt(10, (err, salt) => {
@@ -137,7 +178,9 @@ const createUser = (data) => {
 		    bcrypt.hash(newUser.password, salt, (err, hash) => {
 		    	if(err) return reject(err);
 
+		    	//hashed password
 		    	newUser.password = hash;
+
       			newUser.save((err, user) => {
       				if(err) return reject(err);
 
@@ -337,7 +380,6 @@ const createNewInstructor = (data) => {
 	})
 }
 
-
 const createNewSchool = (data) => {
 	const {
 		name,
@@ -413,3 +455,4 @@ const createNewSchool = (data) => {
 		});
 	})
 }
+

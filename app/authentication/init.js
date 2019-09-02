@@ -101,22 +101,20 @@ const initPassport = () => {
 		}
 	));
 
-
-   /**
+ /**
 	 * Init google strategy
 	 */
-    passport.use(new GoogleStrategy({
+    passport.use('google', new GoogleStrategy(
+	    {
+	        clientID        : process.env.GOOGLE_APP_ID,
+	        clientSecret    : process.env.GOOGLE_SECRET,
+	        callbackURL     : process.env.GOOGLE_CALLBACK,
+	        passReqToCallback : true // allows us to pass in the req from our route (lets us check if a user is logged in or not)
 
-        clientID        : process.env.GOOGLE_APP_ID,
-        clientSecret    : process.env.GOOGLE_SECRET,
-        callbackURL     : process.env.GOOGLE_CALLBACK,
-        passReqToCallback : true // allows us to pass in the req from our route (lets us check if a user is logged in or not)
-
-    },
-    function(req, token, refreshToken, profile, next) {
-
+	    },
+    	(req, token, refreshToken, profile, next) => {
 			process.nextTick(() => {
-				// console.log(profile.id);
+				
 				User.findOne({ 'google.id' : profile.id }, (err, user) => {
 
 					if (err) {
@@ -131,9 +129,9 @@ const initPassport = () => {
 					if (!user.google.token) {
 						user.google.token = token;
 						user.google.name  = profile.displayName;
-						// user.google.email = (profile.emails[0].value || '').toLowerCase(); // pull the first email
+						user.google.email = (profile.emails[0].value || '').toLowerCase(); // pull the first email
 
-						user.save(function(err) {
+						user.save((err) => {
 							if (err)
 								return next(err);
 
@@ -142,17 +140,12 @@ const initPassport = () => {
 					}
 
 					return next(null, user); // user found, return that user
-
-				
 				});
 			});
 		}
-	))
+	));
 
-		passport.authenticationMiddleware = authenticationMiddleware;
+	passport.authenticationMiddleware = authenticationMiddleware;
 }
-
-	
-
 
 module.exports = initPassport;

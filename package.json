@@ -17,7 +17,7 @@
     "Mongo",
     "Passport"
   ],
-  "author": "Mark",
+  "author": "VAdim",
   "license": "ISC",
   "dependencies": {
     "bcrypt": "^3.0.6",
