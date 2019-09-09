@@ -3,7 +3,8 @@ const mongoose = require('mongoose');
 const options = {
     useNewUrlParser: true,
     useCreateIndex: true,
-    useFindAndModify: false
+    useFindAndModify: false,
+    useUnifiedTopology: true
 };
 
 const HOST = process.env.MONGODB_URI || process.env.HOST;

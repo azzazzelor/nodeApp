@@ -17,7 +17,7 @@ exports.root = (req, res) => {
 	const loginErrors = {
 		localLoginError: req.flash('loginMessage'),
 		facebookLoginError: req.flash('facebookError'),
-		googleLoginError: req.flash('gooogleError')
+		googleLoginError: req.flash('googleError')
 	};
 
 	switch(loginErrors){
@@ -54,6 +54,8 @@ exports.root = (req, res) => {
 			});
 			break;
 	}
+
+
 };
 
 /**

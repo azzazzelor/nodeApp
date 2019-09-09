@@ -54,6 +54,7 @@ const initPassport = () => {
 		        });
 
     		});
+
     	}
 	));
 
@@ -68,8 +69,9 @@ const initPassport = () => {
 			passReqToCallback : true
 		},
 		(req, accessToken, refreshToken, profile, next) => {
+
 			process.nextTick(() => {
-				console.log(profile.id);
+
 				User.findOne({ 'facebook.id' : profile.id }, (err, user) => {
 					if (err) {
 						return next(err);
@@ -97,6 +99,7 @@ const initPassport = () => {
 					return next(null, user); // user found, return that user
 
 				});
+
 			});
 		}
 	));
@@ -113,6 +116,7 @@ const initPassport = () => {
 
 	    },
     	(req, token, refreshToken, profile, next) => {
+
 			process.nextTick(() => {
 				
 				User.findOne({ 'google.id' : profile.id }, (err, user) => {
@@ -122,7 +126,7 @@ const initPassport = () => {
 					}
 
 					if (!user) {
-						return next(null, false, req.flash('gooogleError', 'User are not exist.'));
+						return next(null, false, req.flash('googleError', 'User are not exist.'));
 					}
 
 					// if there is a user id already but no token (user was linked at one point and then removed)
@@ -141,6 +145,7 @@ const initPassport = () => {
 
 					return next(null, user); // user found, return that user
 				});
+
 			});
 		}
 	));
