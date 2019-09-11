@@ -224,7 +224,10 @@ exports.validateStudentDriverLicense = (status) => {
     if (status === "true" || status === "false") return {
     	error: 0
     };
-
+		if (validatePhotoUri(url)) return {
+    	error: 0
+		};
+		
 	return {
     	error: 1,
 		name: "AppError",
@@ -264,7 +267,7 @@ exports.validateName = (name) => {
 };
 
 exports.validateAdress = (adress) =>{
-	if (typeof(adress) === "undefined") return {
+	if (adress === "") return {
 		error: 1,
 	name: "AppError",
 		code: VALIDATION_ERRORS.INVALID_ADRESS,
@@ -370,7 +373,7 @@ exports.validatePricePerTraining = (price) => {
 };
 
 exports.validatePricePerTrainingCurrency = (curren) =>{
-	if (typeof(curren) === "undefined") return {
+	if (curren === "") return {
 		error: 1,
 	name: "AppError",
 		code: VALIDATION_ERRORS.INVALID_PRICE_PER_TRAINING_CURRENCY,
@@ -392,7 +395,7 @@ exports.validateSchoolLicencePhoto = (url) => {
     	error: 1,
 		name: "AppError",
     	code: VALIDATION_ERRORS.INVALID_SCHOOL_LICENSE_PHOTO,
-		errmsg: 'Invalid cover image url'
+		errmsg: 'Invalid school license photo'
     };
 };
 /**
@@ -467,19 +470,21 @@ exports.validateCarBrand = (brand) => {
 };
 
 exports.validateТransmission = (string) => {
-	if (typeof(string) === "undefined") return {
-    	error: 1,
-		name: "AppError",
-    	code: VALIDATION_ERRORS.INVALID_CAR_TRANSMISSION,
-		errmsg: 'Тransmission is required'
-    };
-
-    let temple = /[a-zA-Z]{1,100}/;
-    const result = temple.test(string);
-
-     if (result) return {
+	if(string === 'manual'){
+		return {
     	error: 0
     };
+	}
+	if(string === 'auto'){
+		return {
+    	error: 0
+    };
+	}
+	if(string === null){
+		return {
+    	error: 0
+    };
+	}
 
     return {
     	error: 1,
