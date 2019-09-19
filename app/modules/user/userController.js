@@ -284,7 +284,7 @@ const createNewInstructor = (data) => {
         drivingSchoolId, 
         coverImage,
         pricePerKmCurrency,
-        pricePerHourCurrency
+		pricePerHourCurrency,
 	} = data;
 
 	const newInstructBodyCar = Object.assign({}, ...data.car);
@@ -364,7 +364,7 @@ const createNewInstructor = (data) => {
 				pricePerHourCurrency,
                 driverLicensePhoto,
                 pricePerKmCurrency,
-                coverImage               
+				coverImage         
 			})
 			newInstructor.save((err, instructor) => {
             	if (err) {
@@ -372,6 +372,7 @@ const createNewInstructor = (data) => {
                     	return reject(err);
                     });
                 } else {
+					User.updateOne({_id:user.id},{instructor:instructor._id},(err)=>{if(err){reject(err)}});
                     return resolve(instructor);
                 }
             });
@@ -440,7 +441,7 @@ const createNewSchool = (data) => {
 				pricePerTrainingCurrency,
 				coverImage,
 				schoolLicensePhoto,
-				personalImage
+				personalImage,				
 			})
 			
 			newSchool.save((err, school) => {
@@ -449,6 +450,7 @@ const createNewSchool = (data) => {
                     	return reject(err);
                     });
                 } else {
+					User.updateOne({_id:user.id},{school:school._id},(err)=>{if(err){reject(err)}});
                     return resolve(school);
                 }
             });
@@ -458,3 +460,76 @@ const createNewSchool = (data) => {
 	})
 }
 
+//Location set/update
+exports.updateLocationUser = function(req, res){
+	const {
+		id,
+		latitude,
+		longitude,
+		type
+	} = req.body;
+	
+	User.updateOne({ _id: id },
+		{
+			$set: {
+				'location.coordinates': [longitude, latitude],
+				'location.type': type
+			}
+		},
+		(err) => {
+			if(err){
+				res.status(401).json(err);
+			} else {
+				res.status(200).json({
+					error: 0,
+				});
+			}
+		}
+	);
+
+};
+
+
+exports.allNearest = function(req, res) {
+	const type = req.params.type;
+	const limit = 10;
+
+	const {
+		latitude,
+		longitude,
+		maxDistance,
+		pageNumber
+	} = req.body;
+	
+	const latitudeNum = +latitude;
+	const longitudeNum = +longitude;
+
+	//TODO: add checks for required params
+	 
+	 User.find(
+		{
+			"roleType": type,
+			"location": {
+				$near:{
+					$geometry: {
+						type: "Point",
+						coordinates: [longitudeNum, latitudeNum]
+					},
+					$maxDistance: +maxDistance
+				}
+			},
+		}
+	)
+	.populate(
+		type
+	)
+	.skip((pageNumber - 1) * limit).limit(limit)
+	.exec((err, users) => {
+		if (err) {
+			res.status(401).json(err);
+		} else {
+			//TODO: prepare what exactly you want returned
+			res.status(200).json(users);
+		}
+	});
+}

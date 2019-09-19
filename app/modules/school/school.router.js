@@ -5,7 +5,7 @@ const SchoolController = require('./schoolController');
 module.exports = (app) => {
     app.get(
         '/school/:id',
-        passport.authenticationMiddleware(),
+        // passport.authenticationMiddleware(),
         SchoolController.getByUserId
     );
     app.post(

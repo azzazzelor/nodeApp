@@ -21,6 +21,7 @@ module.exports = (app) => {
 			scope : ['public_profile', 'email']
 		})
 	);
+
 	app.get('/auth/facebook/callback',
 		passport.authenticate('facebook',{
 			failureRedirect: '/'
@@ -33,6 +34,7 @@ module.exports = (app) => {
 			scope : ['profile', 'email']
 		})
 	);
+
 	app.get('/auth/google/callback',
 		passport.authenticate('google',	{
 			failureRedirect: '/'
@@ -43,4 +45,14 @@ module.exports = (app) => {
 	app.post('/signup',
 		UserController.signup
 	);
+
+	app.post(
+        '/updateUserLocation',
+        UserController.updateLocationUser
+	);
+	
+	app.post(
+		'/allNearest/:type',
+		UserController.allNearest
+	)
 };

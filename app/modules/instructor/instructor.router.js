@@ -23,4 +23,8 @@ module.exports = (app) => {
         passport.authenticationMiddleware(),
         InstructorController.getUsersCar
     )
+    app.post(
+        '/update_location_instructor',
+        InstructorController.updateLocationInstructor
+        )
 };

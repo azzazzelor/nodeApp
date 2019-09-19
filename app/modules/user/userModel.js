@@ -14,13 +14,6 @@ const UserSchema = new Schema({
 		required: true,
 		minlength: 8
 	},
-	facebook: {
-		id: String,
-		token: String,
-		firstName: String,
-		lastName: String,
-		email: String
-	},
 	roleType: {
 		type: String,
 		required: true,
@@ -32,13 +25,66 @@ const UserSchema = new Schema({
 		required: true,
 		unique: true
 	},
+	facebook: {
+		id: {
+			type: String
+		},
+		token: {
+			type: String
+		},
+		firstName: {
+			type: String
+		},
+		lastName: {
+			type: String
+		},
+		email: {
+			type: String
+		}
+	},
 	google: {
-		id: String,
-		token: String,
-		firstName: String,
-		lastName: String,
-		email: String
+		id: {
+			type: String
+		},
+		token: {
+			type: String
+		},
+		firstName: {
+			type: String
+		},
+		lastName: {
+			type: String
+		},
+		email: {
+			type: String
+		}
+	},
+	active:{
+		type: Boolean,
+		default : false
+	},
+	location: {
+		type: { 
+			type: String,
+			enum: ['Point'],
+			required: false,
+		},
+		coordinates: {
+		 type: [Number],
+			required: false
+		 },
+		required: false,
+ 	},
+	school: {
+		type: mongoose.Schema.Types.ObjectId, ref: 'School',
+		required: false
+	},
+	instructor: {
+		type: mongoose.Schema.Types.ObjectId, ref: 'Instructor',
+		required: false
 	}
 });
+
+UserSchema.index({ location: '2dsphere' });
 
 module.exports = mongoose.model('User', UserSchema);

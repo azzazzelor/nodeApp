@@ -324,3 +324,26 @@ exports.getUsersCar = (req,res) => {
     });
 }
 
+
+exports.updateLocationInstructor = function(req,res){
+    createLocationForInstructor(req.body)
+    .then(()=>{
+        res.status(200).json({error: 0});
+    })
+    .catch((err) =>{
+        res.satus(200).json(err);
+    });
+}
+
+const createLocationForInstructor = function(data){
+     const {id, latitude, longitude,} = data;
+     return new Promise((resolve, reject) => {
+        Instructor.updateOne({userId:id},{$push:{'location.coordinates':[longitude, latitude]}},(err,res)=>{
+        if(err){
+            reject(err)
+        }else{
+            resolve(res)
+        }
+     })
+    })
+}
