@@ -10,7 +10,7 @@ module.exports = (app) => {
     );
     app.post(
         '/school/update/:id',
-        passport.authenticationMiddleware(),
+        // passport.authenticationMiddleware(),
         SchoolController.updateById
     );
 };

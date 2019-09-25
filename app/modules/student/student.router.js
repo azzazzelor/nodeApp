@@ -15,7 +15,7 @@ module.exports = (app) => {
     );
     app.post(
         '/add_like_user/:id',
-        passport.authenticationMiddleware(),
+        // passport.authenticationMiddleware(),
         StudentController.add_like_user
     )
 };

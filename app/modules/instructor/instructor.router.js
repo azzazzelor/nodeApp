@@ -5,7 +5,7 @@ const InstructorController = require('./instructorController');
 module.exports = (app) => {
     app.get(
         '/instructor/:id',
-        passport.authenticationMiddleware(),
+        // passport.authenticationMiddleware(),
         InstructorController.getByUserId
     );
     app.post(
@@ -15,12 +15,12 @@ module.exports = (app) => {
     );
     app.post(
         '/become_instructor/:id',
-        passport.authenticationMiddleware(),
+        // passport.authenticationMiddleware(),
         InstructorController.becomeInstructor
     );
     app.get(
         '/get_users_by_car/',
-        passport.authenticationMiddleware(),
+        // passport.authenticationMiddleware(),
         InstructorController.getUsersCar
     )
 };
