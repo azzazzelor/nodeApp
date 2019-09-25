@@ -1,7 +1,7 @@
 const School = require('./schoolModel');
 const User = require('../user/userModel');
-const passwordService = require('../../services/password.service')
 const validationService = require('../../services/validation.service');
+const bcrypt = require('bcryptjs');
 
 exports.getByUserId = (req, res) => {
     School.findOne({userId: req.params.id}, (err, school) => {
@@ -61,30 +61,41 @@ const changeFields = (data,id) => {
 		const personalImageValidation = validationService.validatePersonalPhotoUrl(personalImage);
         if (personalImageValidation.error) return reject(personalImageValidation);
         
-        let newpassw = passwordService.bcrptPassw(password);
-
-        User.findByIdAndUpdate(id , 
-            {   email,
-                password: newpassw,
-                phoneNumber,
-            },
-            (err, user ) =>{
-                if (err) {
-                    return reject(err);
-                }else{
-                    School.findOneAndUpdate(
-                        { userId : id }, // критерий выборки
-                        { $set: { adress, lastDayInspection, name, coverImage, personalImage }}, // параметр обновления
-                        (err, school) => {
-                            if(err){
-                                return reject(err);
-                            }
-                            return resolve(school);
-                        }
-                    )
+        return new Promise(function (res, rej){
+            bcrypt.genSalt(10, function(err, salt) {
+                if (err){rej(err)}else{
+                    bcrypt.hash(password, salt, function(err, hash) {
+                       let newpassword = hash;
+                         res(newpassword)
+                    });
                 }
-            }
-        );
+                
+            });
+        }).then(passw=>{ 
+            User.findByIdAndUpdate(id , 
+                {   email,
+                    password: passw,
+                    phoneNumber,
+                },
+                (err, user ) =>{
+                    if (err) {
+                        return reject(err);
+                    }else{
+                        School.findOneAndUpdate(
+                            { userId : id }, // критерий выборки
+                            { $set: { adress, lastDayInspection, name, coverImage, personalImage }}, // параметр обновления
+                            (err, school) => {
+                                if(err){
+                                    return reject(err);
+                                }
+                                return resolve(school);
+                            }
+                        )
+                    }
+                }
+            );
+        })
+       
     });
 }
 

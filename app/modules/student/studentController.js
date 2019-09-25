@@ -1,7 +1,9 @@
 const Student = require('./studentModel');
 const validationService = require('../../services/validation.service');
-const passwordService = require('../../services/password.service')
 const User = require('../user/userModel');
+const bcrypt = require('bcryptjs');
+
+
 
 exports.getByUserId = (req, res) => {
     Student.findOne({userId: req.params.id}, (err, student) => {
@@ -16,7 +18,7 @@ exports.updateById = (req, res) => {
     const id = req.params.id
 
     return changeFields(reqBody,id).then((student)=>{
-        res.send(student)
+        res.status(200).json(student);
     }).catch((error) => {
         res.status(200).json(error);
     })
@@ -47,9 +49,9 @@ const changeFields = (data,id) => {
         firstName,
         lastName,
         age,
-        personalImage
+        personalImage,
     } = data;
-
+    
     return new Promise((resolve, reject)=>{
         //check email
         const emailValidation = validationService.validateEmail(email);
@@ -73,12 +75,21 @@ const changeFields = (data,id) => {
         const personalImageValidation = validationService.validatePersonalPhotoUrl(personalImage);
         if (personalImageValidation.error) return reject(personalImageValidation);
 
-        let newpassw = passwordService.bcrptPassw(password)
-
-        User.findByIdAndUpdate(id , 
-            {   email,
-                password:newpassw,
-                phoneNumber,
+        return new Promise(function (res, rej){
+            bcrypt.genSalt(10, function(err, salt) {
+                if (err){rej(err)}else{
+                    bcrypt.hash(password, salt, function(err, hash) {
+                       let newpassword = hash;
+                         res(newpassword)
+                    });
+                }
+                
+            });
+        }).then(passw=>{ 
+            User.findByIdAndUpdate(id , 
+            {   email:email,
+                password: passw,
+                phoneNumber:phoneNumber,
             },
             function(err, user ) {
                 if (err) {
@@ -95,7 +106,7 @@ const changeFields = (data,id) => {
                         }
                     )
                 }
-            })
+            })})
         })
 }
 

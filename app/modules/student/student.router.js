@@ -5,12 +5,12 @@ const StudentController = require('./studentController');
 module.exports = (app) => {
     app.get(
         '/student/:id',
-        passport.authenticationMiddleware(),
+        // passport.authenticationMiddleware(),
         StudentController.getByUserId
     );
     app.post(
         '/student/update/:id',
-        passport.authenticationMiddleware(),
+        // passport.authenticationMiddleware(),
         StudentController.updateById
     );
     app.post(
