@@ -29,11 +29,11 @@ exports.sendScript = function(req,res){
     smtpTransport.sendMail(mailOptions, function(error, response){
         if(error){
              
-           res.end("error");
+           res.end("{error: 1}");
         }else{
                
-           res.end("send");
-            }
+           res.end("{error: 0}");
+        }
    });
 }
 

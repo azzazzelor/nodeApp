@@ -27,15 +27,16 @@ exports.updateById = (req, res) => {
 exports.add_like_user = (req,res) =>{
     const id = req.body.userId;  
     const likedUserId = req.params.id;
+    console.log(id, likedUserId);
     
     Student.findOneAndUpdate(
-        {user_id : id},
+        {userId : id},
         { $push: { likedUsers : likedUserId } },
         function(err,like){
             if(err){
-                res.send(err)
+                res.send('{error: 1}')
             }else{
-                res.send(like)
+                res.send('{error: 0}')
             }
         }
     )

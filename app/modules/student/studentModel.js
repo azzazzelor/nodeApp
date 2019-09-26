@@ -34,10 +34,10 @@ const StudentSchema = new Schema({
         type: String,
         required: false
     },
-    likedUsers: [{
-        type: Schema.Types.ObjectId, ref: 'User',
-        require: false
-    }]
+    likedUsers: {
+        type: Array,
+        default: [],
+    }
 });
 
 module.exports = mongoose.model('Student', StudentSchema);

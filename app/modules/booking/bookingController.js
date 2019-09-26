@@ -17,11 +17,29 @@ exports.filterBookings = function(req, res){
 
     const latitudeNum = +latitude;
     const longitudeNum = +longitude;
-    const arr = [];
-
-       const Locates = UserModel.find(
+    const arrWithInstructors = [];
+    const arrWithSchools = [];
+    let resArr = []
+       const LocatesWithInstructors = UserModel.find(
             {
                 "roleType": "instructor",
+                // "roleType": "school",
+                "location": {
+                    $near:{
+                        $geometry: {
+                            type: "Point",
+                            coordinates: [longitudeNum, latitudeNum]
+                        },
+                        $maxDistance: +maxDistance
+                    }
+                },
+            }
+        ).select('_id')
+        LocatesWithInstructors.then((data=>{
+            arrWithInstructors.push(...data);
+           const LocatesWithSchools =  UserModel.find(
+            {
+                // "roleType": "instructor",
                 "roleType": "school",
                 "location": {
                     $near:{
@@ -33,24 +51,49 @@ exports.filterBookings = function(req, res){
                     }
                 },
             }
-        ).select('roleType _id')
-        Locates.then((data=>{
-            arr.push(...data);
-           
+        ).select('_id')
+            return LocatesWithSchools
         }))
-        .then(()=>{
+        .then((LocatesWithSchools)=>{
+            arrWithSchools.push(...LocatesWithSchools);
+
             let instructors = InstructorModel.find({
                 "car.transmission": transmission,
                 pricePerHourCurrency: priceType,
                 "car.pricePerHour": {$gt : priceFrom , $lt: priceTo}
-        }).select('_id')
+        }).select('userId -_id')
         return instructors;
         })
         .then(data=>{
-            //const obj
-            console.log(arr)
-            console.log(data)
+            arrWithInstructors.push(...data);
+            let newarrWithSchools = arrWithSchools.map(a =>  a._id ).map(a => a.toString())
+            let newarrWithInstructors = arrWithInstructors.map(a =>  a._id || a.userId ).map(a => a.toString())
+            let finallInstructors = findDuplicates(newarrWithInstructors)
+            let finallArr = [...newarrWithSchools,...finallInstructors];
+            return finallArr
         })
+        .then(data=>{
+            // let arr =[]
+            return new Promise(function(resolve, reject) {
+                
+              return  new Promise(((res, rej)=>{
+                  data.map(id => {
+                  return new Promise((res, rej)=>{
+                      return OrderModel.find({orderOfilietId:id},(er,res)=>{
+                          if(er){reject(err)}else{
+                              resolve(res)
+                          }
+                      })
+               })
+       
+                }
+            )}))
+            
+        })
+        //.then(data=>{console.log(data)})
+    // }).then(data=>{console.log(data)})
+        //     console.log(data)
+        // })
 
 //  2 отфильтровать по фильтру 
 //  3 проверить по букингу 
@@ -61,8 +104,11 @@ exports.filterBookings = function(req, res){
 // let instructors = InstructorModel.find({transmission: transmission,
 //     pricePerHourCurrency: priceType,
 //     pricePerHour: {$gt : priceFrom , $lt: priceTo}
+})}  
 
-}
+
+let findDuplicates = arr => arr.filter((item, index) => arr.indexOf(item) != index)
+
 
 exports.addBooking = function(req, res){
     const {
@@ -187,4 +233,4 @@ exports.getInProgresStudents = function (req,res) {
 //         let count = 0
 //         rObj[0] = obj.orderUserId
 //         console.log(rObj)
-//     })})
+//     })
