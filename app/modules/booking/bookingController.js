@@ -8,19 +8,22 @@ exports.filterBookings = function(req, res){
         latitude,
         longitude,
         maxDistance,
-        pageNumber,
         priceFrom,
         priceTo,
         priceType,
-        transmission
+        transmission,
+        dateFrom,
+        dateTo
     } = req.body;
 
-    const latitudeNum = +latitude;
-    const longitudeNum = +longitude;
-    const arrWithInstructors = [];
-    const arrWithSchools = [];
-    let resArr = []
-       const LocatesWithInstructors = UserModel.find(
+    try {
+        const latitudeNum = +latitude;
+        const longitudeNum = +longitude;
+        const arrWithInstructors = [];
+        const arrWithSchools = [];
+        let resArr = [];
+        let resArrWithFilerSchoolsInstroctors=[];
+        const LocatesWithInstructors = UserModel.find(
             {
                 "roleType": "instructor",
                 // "roleType": "school",
@@ -73,91 +76,130 @@ exports.filterBookings = function(req, res){
             return finallArr
         })
         .then(data=>{
-            // let arr =[]
-            return new Promise(function(resolve, reject) {
-                
-              return  new Promise(((res, rej)=>{
-                  data.map(id => {
-                  return new Promise((res, rej)=>{
-                      return OrderModel.find({orderOfilietId:id},(er,res)=>{
-                          if(er){reject(err)}else{
-                              resolve(res)
-                          }
-                      })
-               })
-       
-                }
-            )}))
-            
+            resArrWithFilerSchoolsInstroctors.push(...data);
+            const orders =  OrderModel.find({'orderStatus':'inProgress',orderCreateDate : {$gt : dateFrom, $lt: dateTo}}).select('orderStartTime orderEndTime orderType orderOfilietId ')
+            return orders;
         })
-        //.then(data=>{console.log(data)})
-    // }).then(data=>{console.log(data)})
-        //     console.log(data)
-        // })
+        .then(data=>{
+              compare(data)
+            res.send(resArr)
+        })
+        .catch(err=>{
+            res.send('error: 1')
+        })
+      
 
-//  2 отфильтровать по фильтру 
-//  3 проверить по букингу 
+        let resArr = [];
 
-// data=>{ console.log('instructors id'+ data)
-//         console.log("arr with locates ids" +arr)}
 
-// let instructors = InstructorModel.find({transmission: transmission,
-//     pricePerHourCurrency: priceType,
-//     pricePerHour: {$gt : priceFrom , $lt: priceTo}
-})}  
+        const compare = function (arrOfObj){
+        
+            return arrOfObj.reduce((acc,val)=>{
+                let string = val.orderOfilietId.toString()
+                    resArrWithFilerSchoolsInstroctors.forEach(i=>{              
+                        if(i ===string){
+                            arrssaa.push(val)
+                            
+                        }
+                })
+                
+            },[])
+        }
+    } catch (error) {
+        if(error){
+            res.send('{error : 1}')
+        }
+    }
+    
+
+}  
+
 
 
 let findDuplicates = arr => arr.filter((item, index) => arr.indexOf(item) != index)
+
 
 
 exports.addBooking = function(req, res){
     const {
            ownerUserId,
            orderOfilietId,
-           orderStartTime,
            orderType,
-           orderEndTime,
            orderDescription,
-           orderPeriods
+           orderPeriod
         } = req.body;
+        try {
+            let resultArr = [];
+        let inprogress = 'inProgress'
+  
+        const orders = OrderModel.find({orderOfilietId:orderOfilietId,orderStatus:inprogress,orderType:'per_hour'})
+        orders.then(data=>{
+                // console.log(data)
+             data.reduce((acc,val)=>{
+               let start1 = +val.orderStartTime;
+               let end1 = +val.orderEndTime;
+            //    console.log('start end 1  ' + start1,end1)
+               orderPeriod.forEach(element => {
+                   let start2 = +element.orderStartTime;
+                   let end2 = +element.orderEndTime;
+                   compareIntervals(start1,end1,start2,end2,acc)
+               });
+           },[])
+          return resultArr;
+        }).then(data=>{
+            if(data.length === 0){
+                
+                orderPeriod.forEach(element => {
+                    let start = element.orderStartTime;
+                    let end = element.orderEndTime;
+                    
+                    const BookingModel = new OrderModel({
+                        orderUserId: ownerUserId,
+                        orderOfilietId: orderOfilietId,
+                        orderStartTime : start,
+                        orderType: orderType,
+                        orderEndTime : end,
+                        orderDescription : orderDescription
+                    })
+                    BookingModel.save((err,res)=>{
+                        if(err){
+                            res.send(err)
+                        }else{
+                            console.log('okk')
+                        }
+                    })
+                    res.send('error: 0')
+                });
+            }else{
+                res.send(data)
+            }
+        }).catch(err=>{
+            res.send('error: 1')
+        })
+   
+            const  compareIntervals = function (start1 , end1 ,start2, end2){
 
-    // if(compareIntervals()){
-
-    // }
-
-    const BookingModel = new OrderModel({
-        orderUserId: ownerUserId,
-        orderOfilietId: orderOfilietId,
-        orderStartTime : orderStartTime,
-        orderType: orderType,
-        orderEndTime : orderEndTime,
-        orderDescription : orderDescription
-    })
-
-    BookingModel.save((err,res)=>{
-        if(err){
-            console.log(err)
-        }else{
-            console.log(res)
+                if( (start1 > start2 && start1 < end2) || (start2 > start1 && start2 < end1) ){
+                    resultArr.push({start1,end1,start2,end2})
+                    console.log(' пересекаются')
+                }else{
+                    console.log(' не пересекаются')
+                }
+            }
+        } catch (error) {
+            if(error){
+                res.send('error: 1')
+            }
         }
-    })
-
 }
 
 
-// const  compareIntervals = function (start1 , end1 ,start2, end2){
-// 	if( (start1 > start2 && start1 < end2) || (start2 > start1 && start2 < end1) ){
-// 		console.log('пересекаются')
-// 	}else{
-// 		console.log(' не пересекаются')
-// 	}
-// }
 
 exports.getOrders = function (req,res) {
     const type = req.params.type;
     const {orderOfilietId, pageNumber} = req.body;
     const limit = 10;
-
+try {
     OrderModel
     .find({
         orderOfilietId: orderOfilietId,
@@ -171,12 +213,18 @@ exports.getOrders = function (req,res) {
             res.send(result)
         }
     });
+} catch (error) {
+    if(error){
+        res.send('error: 1')
+    }
+}
+   
 }
 
 exports.changeOrderStatus = function (req, res){
     const {orderId, orderStatus } = req.body;
-
-    OrderModel
+    try {
+        OrderModel
     .updateOne({
         '_id': orderId
     },
@@ -192,6 +240,12 @@ exports.changeOrderStatus = function (req, res){
             res.send("error: 0")
         }
     });
+    } catch (error) {
+        if(error){
+            res.send('error: 1')
+        }
+    }
+    
 }
 
 exports.getInProgresStudents = function (req,res) {
@@ -222,15 +276,3 @@ exports.getInProgresStudents = function (req,res) {
         }
         
 }
-
-
-
-
-
-// then(orders =>{
-//     const newArr = orders.map(obj=>{
-//         let rObj = {};
-//         let count = 0
-//         rObj[0] = obj.orderUserId
-//         console.log(rObj)
-//     })

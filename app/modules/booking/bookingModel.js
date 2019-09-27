@@ -12,9 +12,8 @@ const BookingSchema = new Schema({
         ref: 'User'
     },
     orderCreateDate : {
-        type: Date,
-        require: true,
-        default: Date.now
+        type:Number,
+        default: new Date().getTime()
     },
     orderUpdateDate : {
         type: Date,
