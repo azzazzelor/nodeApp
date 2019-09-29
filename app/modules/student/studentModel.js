@@ -23,8 +23,8 @@ const StudentSchema = new Schema({
         required: true
     },
     driverLicenseStatus: {
-        type: Boolean,
-        required: true
+        type: String,
+        // required: true
     },
     personalImage: {
         type: String,

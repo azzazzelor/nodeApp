@@ -7,23 +7,23 @@ const BookingSchema = new Schema({
         type: Schema.Types.ObjectId ,
          ref: 'User',require : false
     },
-    orderOfilietId : {
+    orderOfilietId: {
         type: Schema.Types.ObjectId ,
         ref: 'User'
     },
-    orderCreateDate : {
-        type:Number,
+    orderCreateDate: {
+        type: Number,
         default: new Date().getTime()
     },
-    orderUpdateDate : {
+    orderUpdateDate: {
         type: Date,
         require: false 
     },
-    orderStartTime : {
+    orderStartTime: {
         type : String,
         require: true 
     },
-    orderEndTime : {
+    orderEndTime: {
         type : String,
         require: true
     },
@@ -31,11 +31,11 @@ const BookingSchema = new Schema({
         type: String,
         require: true
     },              // per hour or per km
-    orderStatus : {
+    orderStatus: {
         type : String,
         default: 'pending',
     },
-    orderDescription : {
+    orderDescription: {
         type: String,
         require: false
     }  

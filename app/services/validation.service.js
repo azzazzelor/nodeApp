@@ -214,20 +214,19 @@ exports.validateCoverPhotoUrl = (url) => {
 };
 
 exports.validateStudentDriverLicense = (status) => {
-	if (typeof(status) === "undefined") return {
+	
+		if (validatePhotoUri(status)) return {
+			error: 0
+		}
+    if (status === "true" || status === "false") return {
+    	error: 0
+    };
+		if (typeof(status) === "undefined") return {
     	error: 1,
 		name: "AppError",
     	code: VALIDATION_ERRORS.INVALID_STUDENT_DRIVER_LICENSE_STATUS,
 		errmsg: 'Driver license is required'
     };
-
-    if (status === "true" || status === "false") return {
-    	error: 0
-    };
-		if (validatePhotoUri(url)) return {
-    	error: 0
-		};
-		
 	return {
     	error: 1,
 		name: "AppError",
