@@ -3,8 +3,9 @@ const mongoose = require("mongoose"),
     
 const TheorySchema = new Schema({
     name : String,
-    // photo : String,
+    coursePhoto : {type: String, require: false},
     topics :[{
+        topicPhoto : {type: String, require: false},
         title: String,
         text : String,
         rating : String,

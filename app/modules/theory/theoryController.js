@@ -1,13 +1,14 @@
 const TheoryModel = require('./theoryModel');
 
 exports.addCourse = function (req,res) {
-    const {name, posts, topics} = req.body;
-    const {title, text, rating, data} = topics; 
-   
+    let {name, topics, coursePhoto} = req.body;
+    let {title, text, rating, data, topicPhoto } = topics; 
+  
     const newTheoryModel = new TheoryModel({
         name: name,
-        posts: posts,
+        coursePhoto: coursePhoto,
         topics:{
+            topicPhoto: topicPhoto,
             title: title,
             text: text,
             rating: rating,
