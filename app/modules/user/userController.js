@@ -155,14 +155,14 @@ const createUser = (data) => {
 
 	return new Promise((resolve, reject) => {
 		//check email
-		const emailValidation = validationService.validateEmail(email);
-		if (emailValidation.error) return reject(emailValidation);
-		//check password
-		const passwordValidation = validationService.validatePassword(password);
-		if (passwordValidation.error) return reject(passwordValidation);
-		//check phone number
-		const phoneNumberValidation = validationService.validatePhoneNumber(phoneNumber);
-		if (phoneNumberValidation.error) return reject(phoneNumberValidation);
+		// const emailValidation = validationService.validateEmail(email);
+		// if (emailValidation.error) return reject(emailValidation);
+		// //check password
+		// const passwordValidation = validationService.validatePassword(password);
+		// if (passwordValidation.error) return reject(passwordValidation);
+		// //check phone number
+		// const phoneNumberValidation = validationService.validatePhoneNumber(phoneNumber);
+		// if (phoneNumberValidation.error) return reject(phoneNumberValidation);
 		
 		//create new user
 		let newUser = new User({
