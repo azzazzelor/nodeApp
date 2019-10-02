@@ -69,20 +69,37 @@ exports.newChat = function (req, res) {
         res.send('{ error: 1 }');
     }
 
-    const message = new MessageModel({
+    let newMess = new MessageModel({
         chatId: chat._id,
         body: message,
         author: senderId
     });
 
-        message.save(function(err, newMessage) {
+        newMess.save(function(err, newMessage) {
             if (err) {
             res.send('{ error: 1 }');
             }
 
-            res.status(200).json({ message: 'Chat started!', chatId: chatId._id });
+            res.status(200).send(`chat is started. Chat id : ${chat._id}`)
         });
     });
+}
+
+exports.sendReply = function (req, res){
+    let {chatId, message, senderId} = req.body;
+
+     let reply = new MessageModel({
+        chatId : chatId,
+        body : message,
+        author : senderId
+     })
+     reply.save((err, sentReply)=>{
+         if (err){
+             res.send('{error : 1}')
+         }else{
+            res.status(200).json({ message: 'Reply successfully send!' });
+         }
+     })
 }
 
 
