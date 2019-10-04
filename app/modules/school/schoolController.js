@@ -4,11 +4,16 @@ const validationService = require('../../services/validation.service');
 const bcrypt = require('bcryptjs');
 
 exports.getByUserId = (req, res) => {
-    School.findOne({userId: req.params.id}, (err, school) => {
-        if (err) res.status(404).json(err);
-
-        res.status(200).json(school);
-    });
+    School
+    .findOne({userId: req.params.id})
+    .populate('userId', 'email phoneNumber')
+    .exec((err,result)=>{
+        if(err){
+            res.send('{error: 1}')
+        }else{
+            res.send(result)
+        }
+    })
 };
 
 
@@ -34,6 +39,7 @@ const changeFields = (data,id) => {
         coverImage,
         personalImage
     } = data;
+    
 
     return new Promise((resolve, reject) => {
         //check email

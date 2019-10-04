@@ -1,4 +1,6 @@
 const Student = require('./studentModel');
+const InstructorModel = require('../instructor/instructorModel');
+const SchoolModel = require('../school/schoolModel');
 const validationService = require('../../services/validation.service');
 const User = require('../user/userModel');
 const bcrypt = require('bcryptjs');
@@ -25,18 +27,38 @@ exports.updateById = (req, res) => {
 }   
 
 exports.add_like_user = (req,res) =>{
-    const id = req.body.userId;  
+    // const id = req.body.userId;  
+    const {studentId, roleType}  = req.body;
     const likedUserId = req.params.id;
-    console.log(id, likedUserId);
+    
     
     Student.findOneAndUpdate(
-        {userId : id},
+        {userId : studentId},
         { $push: { likedUsers : likedUserId } },
         function(err,like){
             if(err){
                 res.send('{error: 1}')
             }else{
-                res.send('{error: 0}')
+                if(roleType === 'instructor'){
+                    InstructorModel
+                    .findOneAndUpdate({userId: likedUserId},
+                                      { $push: { studentsWhoLike : studentId } })
+                    .exec((err,result)=>{
+                        if(err){
+                                res.send('error: 1')
+                            }else{
+                                res.send('error: 0')}})
+                }else{
+                    SchoolModel
+                    .findOneAndUpdate(
+                        {userId: likedUserId},
+                        { $push: { studentsWhoLike : studentId } })
+                    .exec((err,result)=>{
+                        if(err){
+                            res.send('error: 1')
+                            }else{
+                            res.send('error: 0')}})
+                }
             }
         }
     )

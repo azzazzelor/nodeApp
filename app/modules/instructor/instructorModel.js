@@ -77,6 +77,10 @@ const InstructorSchema = new Schema({
     coverImage :{
         type: String,
         required: false
+    },
+    studentsWhoLike: {
+        type: Array,
+        default: [],
     }
 })
 

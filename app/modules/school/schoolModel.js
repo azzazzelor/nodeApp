@@ -42,6 +42,10 @@ const SchoolSchema = new Schema({
     personalImage:{
         type: String,
         required : false
+    },
+    studentsWhoLike: {
+        type: Array,
+        default: [],
     }
 });
 
