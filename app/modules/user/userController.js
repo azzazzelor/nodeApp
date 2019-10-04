@@ -495,6 +495,7 @@ exports.allNearest = function(req, res) {
 	const limit = 10;
 
 	const {
+		studentId,
 		latitude,
 		longitude,
 		maxDistance,
@@ -519,7 +520,7 @@ exports.allNearest = function(req, res) {
 				}
 			},
 		}
-	)
+	).select('location email phoneNumber')
 	.populate(
 		type
 	)
@@ -529,7 +530,13 @@ exports.allNearest = function(req, res) {
 			res.status(401).json(err);
 		} else {
 			//TODO: prepare what exactly you want returned
-			res.status(200).json(users);
+
+			users.forEach(user=>{
+				if(user.school.studentsWhoLike.includes(studentId)){
+					console.log('true')
+				}
+			})
+			// res.status(200).json(users);
 		}
 	});
 }

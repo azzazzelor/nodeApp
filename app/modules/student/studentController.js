@@ -74,12 +74,12 @@ const changeFields = (data,id) => {
         age,
         personalImage,
     } = data;
+
     if(password){
-    return new Promise((resolve, reject)=>{
-       
-        //check password
-        const passwordValidation = validationService.validatePassword(password);
-        if (passwordValidation.error) return reject(passwordValidation);
+        return new Promise((resolve, reject)=>{
+            //check password
+            const passwordValidation = validationService.validatePassword(password);
+            if (passwordValidation.error) return reject(passwordValidation);
        
 
         return new Promise(function (res, rej){
@@ -94,9 +94,9 @@ const changeFields = (data,id) => {
             });
         }).then(passw=>{ 
             User.findByIdAndUpdate(id , 
-            {   email:email,
+            {   
                 password: passw,
-                phoneNumber:phoneNumber,
+                
             },
             function(err, user ) {
                 if (err) {
@@ -105,8 +105,9 @@ const changeFields = (data,id) => {
                     return resolve("error: 0")
                 }
             })})
-        })
+        });
         }else{
+            return new Promise((resolve, reject)=>{
              //check email
         const emailValidation = validationService.validateEmail(email);
         if (emailValidation.error) return reject(emailValidation);
@@ -125,14 +126,15 @@ const changeFields = (data,id) => {
          //check personal image
          const personalImageValidation = validationService.validatePersonalPhotoUrl(personalImage);
          if (personalImageValidation.error) return reject(personalImageValidation);
-
+            
          Student.findOneAndUpdate(
             { userId : id }, // критерий выборки
             { $set: { firstName, lastName, age, personalImage}}, // параметр обновления
             function(err, student){
                 if(err){
                     return reject(err);
-                }
+                }else{
+                    
                 User.findByIdAndUpdate(id , 
                     {   
                        email: email,
@@ -142,13 +144,13 @@ const changeFields = (data,id) => {
                         if (err) {
                             return reject(err);
                         }else{
-                           return resolve("error: 0")
+                            return resolve("error: 0")
                         }
                     }
-                );
+                )}
             }
         )
-
+        })
         }
 }
 

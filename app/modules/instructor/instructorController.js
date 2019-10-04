@@ -131,6 +131,7 @@ const changeFields = (data,id) => {
         })
     })
         }else{
+            return new Promise((resolve, reject)=>{
              //check email
         const emailValidation = validationService.validateEmail(email);
         if (emailValidation.error) return reject(emailValidation);
@@ -197,7 +198,7 @@ const changeFields = (data,id) => {
                 );
             }
         )
-
+        })
         }
 }
 
