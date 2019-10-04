@@ -40,33 +40,13 @@ const changeFields = (data,id) => {
         personalImage
     } = data;
     
-
+if(password){
     return new Promise((resolve, reject) => {
-        //check email
-        const emailValidation = validationService.validateEmail(email);
-        if (emailValidation.error) return reject(emailValidation);
+        
         //check password
         const passwordValidation = validationService.validatePassword(password);
         if (passwordValidation.error) return reject(passwordValidation);
-        //check phone number
-        const phoneNumberValidation = validationService.validatePhoneNumber(phoneNumber);
-        if (phoneNumberValidation.error) return reject(phoneNumberValidation);
-        //check  name
-        const firstNameValidation = validationService.validateFirstName(name);
-        if (firstNameValidation.error) return reject(firstNameValidation);
-        //check cover image
-		const coverImageValidation = validationService.validateCoverPhotoUrl(coverImage);
-        if (coverImageValidation.error) return reject(coverImageValidation);
-        //check adress
-		const validateAdress = validationService.validateAdress(adress);
-        if (validateAdress.error) return reject(validateAdress);
-        //check last Day Inspection
-		const validateLastDayInspection = validationService.validateLastDayInspection(lastDayInspection);
-        if (validateLastDayInspection.error) return reject(validateLastDayInspection);
-        //check personal image
-		const personalImageValidation = validationService.validatePersonalPhotoUrl(personalImage);
-        if (personalImageValidation.error) return reject(personalImageValidation);
-        
+       
         return new Promise(function (res, rej){
             bcrypt.genSalt(10, function(err, salt) {
                 if (err){rej(err)}else{
@@ -79,30 +59,70 @@ const changeFields = (data,id) => {
             });
         }).then(passw=>{ 
             User.findByIdAndUpdate(id , 
-                {   email,
+                {   
                     password: passw,
-                    phoneNumber,
+                    
                 },
                 (err, user ) =>{
                     if (err) {
                         return reject(err);
                     }else{
-                        School.findOneAndUpdate(
-                            { userId : id }, // критерий выборки
-                            { $set: { adress, lastDayInspection, name, coverImage, personalImage }}, // параметр обновления
-                            (err, school) => {
-                                if(err){
-                                    return reject(err);
-                                }
-                                return resolve(school);
-                            }
-                        )
+                        return resolve("error: 0")
                     }
                 }
             );
         })
        
     });
+            }else {
+                return new Promise((resolve, reject)=>{
+                //check email
+        const emailValidation = validationService.validateEmail(email);
+        if (emailValidation.error) return reject(emailValidation);
+         //check phone number
+         const phoneNumberValidation = validationService.validatePhoneNumber(phoneNumber);
+         if (phoneNumberValidation.error) return reject(phoneNumberValidation);
+         //check  name
+         const firstNameValidation = validationService.validateFirstName(name);
+         if (firstNameValidation.error) return reject(firstNameValidation);
+         //check cover image
+         const coverImageValidation = validationService.validateCoverPhotoUrl(coverImage);
+         if (coverImageValidation.error) return reject(coverImageValidation);
+         //check adress
+         const validateAdress = validationService.validateAdress(adress);
+         if (validateAdress.error) return reject(validateAdress);
+         //check last Day Inspection
+         const validateLastDayInspection = validationService.validateLastDayInspection(lastDayInspection);
+         if (validateLastDayInspection.error) return reject(validateLastDayInspection);
+         //check personal image
+         const personalImageValidation = validationService.validatePersonalPhotoUrl(personalImage);
+         if (personalImageValidation.error) return reject(personalImageValidation);
+         
+         School.findOneAndUpdate(
+            { userId : id }, // критерий выборки
+            { $set: { adress, lastDayInspection, name, coverImage, personalImage }}, // параметр обновления
+            (err, school) => {
+                if(err){
+                    return reject(err);
+                }
+                User.findByIdAndUpdate(id , 
+                    {   
+                       email: email,
+                       phoneNumber: phoneNumber
+                    },
+                    (err, user ) =>{
+                        if (err) {
+                            return reject(err);
+                        }else{
+                           return resolve("error: 0")
+                        }
+                    }
+                );
+            }
+        )
+
+            })
+}
 }
 
 

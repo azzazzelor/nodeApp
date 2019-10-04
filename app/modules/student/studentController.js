@@ -74,29 +74,13 @@ const changeFields = (data,id) => {
         age,
         personalImage,
     } = data;
-    
+    if(password){
     return new Promise((resolve, reject)=>{
-        //check email
-        const emailValidation = validationService.validateEmail(email);
-        if (emailValidation.error) return reject(emailValidation);
+       
         //check password
         const passwordValidation = validationService.validatePassword(password);
         if (passwordValidation.error) return reject(passwordValidation);
-        //check phone number
-        const phoneNumberValidation = validationService.validatePhoneNumber(phoneNumber);
-        if (phoneNumberValidation.error) return reject(phoneNumberValidation);
-        //check first name
-        const firstNameValidation = validationService.validateFirstName(firstName);
-        if (firstNameValidation.error) return reject(firstNameValidation);
-        //check last name
-        const lastNameValidation = validationService.validateLastName(lastName);
-        if (lastNameValidation.error) return reject(lastNameValidation);
-        //check age
-        const ageValidation = validationService.validateAge(age);
-        if (ageValidation.error) return reject(ageValidation);
-        //check personal image
-        const personalImageValidation = validationService.validatePersonalPhotoUrl(personalImage);
-        if (personalImageValidation.error) return reject(personalImageValidation);
+       
 
         return new Promise(function (res, rej){
             bcrypt.genSalt(10, function(err, salt) {
@@ -118,19 +102,54 @@ const changeFields = (data,id) => {
                 if (err) {
                     return reject(err);
                 }else{
-                    Student.findOneAndUpdate(
-                        { userId : id }, // критерий выборки
-                        { $set: { firstName, lastName, age, personalImage}}, // параметр обновления
-                        function(err, student){
-                            if(err){
-                                return reject(err);
-                            }
-                            return resolve(student);
-                        }
-                    )
+                    return resolve("error: 0")
                 }
             })})
         })
+        }else{
+             //check email
+        const emailValidation = validationService.validateEmail(email);
+        if (emailValidation.error) return reject(emailValidation);
+         //check phone number
+         const phoneNumberValidation = validationService.validatePhoneNumber(phoneNumber);
+         if (phoneNumberValidation.error) return reject(phoneNumberValidation);
+         //check first name
+         const firstNameValidation = validationService.validateFirstName(firstName);
+         if (firstNameValidation.error) return reject(firstNameValidation);
+         //check last name
+         const lastNameValidation = validationService.validateLastName(lastName);
+         if (lastNameValidation.error) return reject(lastNameValidation);
+         //check age
+         const ageValidation = validationService.validateAge(age);
+         if (ageValidation.error) return reject(ageValidation);
+         //check personal image
+         const personalImageValidation = validationService.validatePersonalPhotoUrl(personalImage);
+         if (personalImageValidation.error) return reject(personalImageValidation);
+
+         Student.findOneAndUpdate(
+            { userId : id }, // критерий выборки
+            { $set: { firstName, lastName, age, personalImage}}, // параметр обновления
+            function(err, student){
+                if(err){
+                    return reject(err);
+                }
+                User.findByIdAndUpdate(id , 
+                    {   
+                       email: email,
+                       phoneNumber: phoneNumber
+                    },
+                    (err, user ) =>{
+                        if (err) {
+                            return reject(err);
+                        }else{
+                           return resolve("error: 0")
+                        }
+                    }
+                );
+            }
+        )
+
+        }
 }
 
 

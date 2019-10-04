@@ -98,48 +98,12 @@ const changeFields = (data,id) => {
         pricePerHour
     } = newReqbodyCar;
     
-
+    if(password){
     return new Promise((resolve, reject)=>{
-        //check email
-        const emailValidation = validationService.validateEmail(email);
-        if (emailValidation.error) return reject(emailValidation);
         //check password
         const passwordValidation = validationService.validatePassword(password);
         if (passwordValidation.error) return reject(passwordValidation);
-        //check phone number
-        const phoneNumberValidation = validationService.validatePhoneNumber(phoneNumber);
-        if (phoneNumberValidation.error) return reject(phoneNumberValidation);
-        // check driver experience year
-		const validateExperienceYear = validationService.validateExperienceYear(driverExperienceYear);
-		if (validateExperienceYear.error) return reject(validateExperienceYear);
-        //check first name
-        const firstNameValidation = validationService.validateFirstName(firstName);
-        if (firstNameValidation.error) return reject(firstNameValidation);
-        //check last name
-        const lastNameValidation = validationService.validateLastName(lastName);
-        if (lastNameValidation.error) return reject(lastNameValidation);
-        //check personal image
-        const personalImageValidation = validationService.validatePersonalPhotoUrl(personalImage);
-        if (personalImageValidation.error) return reject(personalImageValidation);
-        //check cover image
-		const coverImageValidation = validationService.validateCoverPhotoUrl(coverImage);
-        if (coverImageValidation.error) return reject(coverImageValidation);
-        //check brand
-		const validateCarBrand = validationService.validateCarBrand(brand);
-        if (validateCarBrand.error) return reject(validateCarBrand);
-        //check transmission
-		const validateТransmission = validationService.validateТransmission(transmission);
-		if (validateТransmission.error) return reject(validateТransmission);
-		//check registration Number
-		const validateCarRegistrationNumber = validationService.validateCarRegistrationNumber(registrationNumber);
-		if (validateCarRegistrationNumber.error) return reject(validateCarRegistrationNumber);
-		//check price Per Km
-		const validatePricePerKM = validationService.validatePricePerKM(pricePerKm);
-		if (validatePricePerKM.error) return reject(validatePricePerKM);
-		//check price Per Hour
-		const validatePricePerHour = validationService.validatePricePerHour(pricePerHour);
-		if (validatePricePerHour.error) return reject(validatePricePerHour);
-        
+       
         
 
         return new Promise(function (res, rej){
@@ -154,35 +118,87 @@ const changeFields = (data,id) => {
             });
         }).then(passw=>{
             User.findByIdAndUpdate(id , 
-            {   email,
+            {  
                 password: passw,
-                phoneNumber,
             },
             function(err, user ) {
                 if (err) {
                     return reject(err);
                 }else{
-                    Instructor.findOneAndUpdate(
-                        { userId : id }, // критерий выборки
-                        { $set: {
-                            firstName,
-                            lastName,
-                            driverExperienceYear,
-                            personalImage,
-                            coverImage,
-                            car:[{transmission,brand,registrationNumber,pricePerKm,pricePerHour}]
-                            }}, // параметры обновления
-                        function(err, instructor){
-                            if(err){
-                                return reject(err);
-                            }
-                            return resolve(instructor);
-                        }
-                    )
+                    return resolve("error: 0")
                 }
             })
         })
     })
+        }else{
+             //check email
+        const emailValidation = validationService.validateEmail(email);
+        if (emailValidation.error) return reject(emailValidation);
+         //check phone number
+         const phoneNumberValidation = validationService.validatePhoneNumber(phoneNumber);
+         if (phoneNumberValidation.error) return reject(phoneNumberValidation);
+         // check driver experience year
+         const validateExperienceYear = validationService.validateExperienceYear(driverExperienceYear);
+         if (validateExperienceYear.error) return reject(validateExperienceYear);
+         //check first name
+         const firstNameValidation = validationService.validateFirstName(firstName);
+         if (firstNameValidation.error) return reject(firstNameValidation);
+         //check last name
+         const lastNameValidation = validationService.validateLastName(lastName);
+         if (lastNameValidation.error) return reject(lastNameValidation);
+         //check personal image
+         const personalImageValidation = validationService.validatePersonalPhotoUrl(personalImage);
+         if (personalImageValidation.error) return reject(personalImageValidation);
+         //check cover image
+         const coverImageValidation = validationService.validateCoverPhotoUrl(coverImage);
+         if (coverImageValidation.error) return reject(coverImageValidation);
+         //check brand
+         const validateCarBrand = validationService.validateCarBrand(brand);
+         if (validateCarBrand.error) return reject(validateCarBrand);
+         //check transmission
+         const validateТransmission = validationService.validateТransmission(transmission);
+         if (validateТransmission.error) return reject(validateТransmission);
+         //check registration Number
+         const validateCarRegistrationNumber = validationService.validateCarRegistrationNumber(registrationNumber);
+         if (validateCarRegistrationNumber.error) return reject(validateCarRegistrationNumber);
+         //check price Per Km
+         const validatePricePerKM = validationService.validatePricePerKM(pricePerKm);
+         if (validatePricePerKM.error) return reject(validatePricePerKM);
+         //check price Per Hour
+         const validatePricePerHour = validationService.validatePricePerHour(pricePerHour);
+         if (validatePricePerHour.error) return reject(validatePricePerHour);
+
+         Instructor.findOneAndUpdate(
+            { userId : id }, // критерий выборки
+            { $set: {
+                firstName,
+                lastName,
+                driverExperienceYear,
+                personalImage,
+                coverImage,
+                car:[{transmission,brand,registrationNumber,pricePerKm,pricePerHour}]
+                }}, // параметры обновления
+            function(err, instructor){
+                if(err){
+                    return reject(err);
+                }
+                User.findByIdAndUpdate(id , 
+                    {   
+                       email: email,
+                       phoneNumber: phoneNumber
+                    },
+                    (err, user ) =>{
+                        if (err) {
+                            return reject(err);
+                        }else{
+                           return resolve("error: 0")
+                        }
+                    }
+                );
+            }
+        )
+
+        }
 }
 
 exports.becomeInstructor = (req, res) => {
