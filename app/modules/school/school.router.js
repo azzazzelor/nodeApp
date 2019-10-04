@@ -13,5 +13,10 @@ module.exports = (app) => {
         // passport.authenticationMiddleware(),
         SchoolController.updateById
     );
+    app.get(
+        '/get_school_instructors',
+        // passport.authenticationMiddleware(),
+        SchoolController.getInstructors
+    )
 };
 

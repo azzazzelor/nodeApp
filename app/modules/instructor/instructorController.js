@@ -56,11 +56,16 @@ const createUser = (data) => {
 };
 
 exports.getByUserId = (req, res) => {
-    Instructor.findOne({userId: req.params.id}, (err, instructor) => {
-        if (err) res.status(404).json(err);
-
-        res.status(200).json(instructor);
-    });
+    Instructor
+    .findOne({userId: req.params.id})
+    .populate('userId', 'email phoneNumber')
+    .exec((err,result)=>{
+        if(err){
+            res.send('{error: 1}')
+        }else{
+            res.send(result)
+        }
+    })
 };
 
 

@@ -373,6 +373,8 @@ const createNewInstructor = (data) => {
                     });
                 } else {
 					User.updateOne({_id:user.id},{instructor:instructor._id},(err)=>{if(err){reject(err)}});
+					School.findOneAndUpdate({userId: drivingSchoolId},
+						{ $push: { instructors : user.id } },(err=>{reject(err)}));
                     return resolve(instructor);
                 }
             });
@@ -451,6 +453,7 @@ const createNewSchool = (data) => {
                     });
                 } else {
 					User.updateOne({_id:user.id},{school:school._id},(err)=>{if(err){reject(err)}});
+
                     return resolve(school);
                 }
             });

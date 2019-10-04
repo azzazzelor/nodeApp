@@ -127,4 +127,15 @@ if(password){
 
 
 
-
+exports.getInstructors = function (req, res) {
+    const {schoolId} = req.body;
+    School
+    .find({ instructors : { "$in" : [schoolId]} })
+    .exec((err,result)=>{
+        if(err){
+            res.send('{error: 1}')
+        }else{
+            res.send(result)
+        }
+    })
+}

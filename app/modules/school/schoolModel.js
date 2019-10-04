@@ -46,6 +46,10 @@ const SchoolSchema = new Schema({
     studentsWhoLike: {
         type: Array,
         default: [],
+    },
+    instructors : {
+        type: Array,
+        default: [],
     }
 });
 

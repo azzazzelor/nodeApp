@@ -8,11 +8,16 @@ const bcrypt = require('bcryptjs');
 
 
 exports.getByUserId = (req, res) => {
-    Student.findOne({userId: req.params.id}, (err, student) => {
-        if (err) res.status(404).json(err);
-
-        res.status(200).json(student);
-    });
+    Student    
+    .findOne({userId: req.params.id})
+    .populate('userId', 'email phoneNumber')
+    .exec((err,result)=>{
+        if(err){
+            res.send('{error: 1}')
+        }else{
+            res.send(result)
+        }
+    })
 };
 
 exports.updateById = (req, res) => {
