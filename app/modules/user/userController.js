@@ -530,12 +530,36 @@ exports.allNearest = function(req, res) {
 			res.status(401).json(err);
 		} else {
 			//TODO: prepare what exactly you want returned
-
-			users.forEach(user=>{
+			
+			let arr = [];
+			if(type === 'school'){
+			 users.forEach(user=>{
 				if(user.school.studentsWhoLike.includes(studentId)){
-					console.log('true')
+					let newUser = {};
+					newUser[0] = user._doc;
+					newUser[1] = 'isLiked';
+					arr.push(newUser)
+				}else{
+					arr.push(user)
 				}
+				res.send(arr)
 			})
+		}else{
+			let arr = [];
+				console.log(users)
+					users.forEach(user=>{
+						if(user.instructor.studentsWhoLike.includes(studentId)){
+							let newUser = {};
+							newUser[0] = user._doc;
+							newUser[1] = 'isLiked';
+							arr.push(newUser)
+						}else{
+							arr.push(user)
+						}
+						res.send(arr)
+					})
+				}
+			
 			// res.status(200).json(users);
 		}
 	});
