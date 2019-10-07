@@ -23,14 +23,14 @@ const StudentSchema = new Schema({
         required: true
     },
     driverLicenseStatus: {
+        type: Boolean,
+        required: true
+    },
+    driverLicensePhoto: {
         type: String,
-        // required: true
+        required: true
     },
     personalImage: {
-        type: String,
-        required: false
-    },
-    coverImage: {
         type: String,
         required: false
     },

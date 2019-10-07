@@ -220,8 +220,8 @@ const createNewStudent = (data) => {
         lastName,
         age,
         driverLicenseStatus,
-        personalImage,
-        //coverImage
+		personalImage,
+		driverLicensePhoto
     } = data;
 
 	return new Promise((resolve, reject) => {
@@ -240,9 +240,9 @@ const createNewStudent = (data) => {
 		//check personal image
 		const personalImageValidation = validationService.validatePersonalPhotoUrl(personalImage);
 		if (personalImageValidation.error) return reject(personalImageValidation);
-		//check cover image
-		// const coverImageValidation = validationService.validateCoverPhotoUrl(coverImage);
-		// if (coverImageValidation.error) return reject(coverImageValidation);
+		//check license photo
+		const licensePhotoValidation = validationService.validateDriverLicensePhoto(driverLicensePhoto);
+		if (licensePhotoValidation.error) return reject(licensePhotoValidation);
 
 		createUser(data).then((user) => {
 
@@ -253,7 +253,7 @@ const createNewStudent = (data) => {
                 age: +age,
                 driverLicenseStatus,
                 personalImage,
-                // coverImage
+				driverLicensePhoto
             });
 
             newStudent.save((err, student) => {

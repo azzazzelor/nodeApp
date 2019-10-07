@@ -42,19 +42,18 @@ exports.validatePassword = (password) => {
     	code: VALIDATION_ERRORS.INVALID_PASSWORD,
 		errmsg: 'Password is required'
     };
-
-    let temple = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])[a-zA-Z0-9]{8,64}$/;
-    const result = temple.test(password);
-    
-    if (result) return {
-    	error: 0
-    };
-
+		
+    if(password.length < 8){
+			return {
+				error: 1,
+			name: "AppError",
+				code: VALIDATION_ERRORS.INVALID_PASSWORD,
+			errmsg: 'Invalid password'
+			};
+		}
+		
     return {
-    	error: 1,
-		name: "AppError",
-    	code: VALIDATION_ERRORS.INVALID_PASSWORD,
-		errmsg: 'Invalid password'
+    	error: 0
     };
 };
 
@@ -196,7 +195,7 @@ exports.validatePersonalPhotoUrl = (url) => {
     };
 };
 
-exports.validateCoverPhotoUrl = (url) => {
+exports.validateDriverLicensePhoto = (url) => {
 	if (typeof(url) === "undefined" || !url) return {
     	error: 0
     };
@@ -208,16 +207,16 @@ exports.validateCoverPhotoUrl = (url) => {
     return {
     	error: 1,
 		name: "AppError",
-    	code: VALIDATION_ERRORS.INVALID_COVER_IMAGE_URL,
-		errmsg: 'Invalid cover image url'
+    	code: VALIDATION_ERRORS.INVALID_DRIVER_LICENSE_PHOTO,
+		errmsg: 'Invalid student license photo'
     };
 };
 
 exports.validateStudentDriverLicense = (status) => {
 	
-		if (validatePhotoUri(status)) return {
-			error: 0
-		}
+		// if (validatePhotoUri(status)) return {
+		// 	error: 0
+		// }
     if (status === "true" || status === "false") return {
     	error: 0
     };
