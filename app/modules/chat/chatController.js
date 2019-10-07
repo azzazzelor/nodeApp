@@ -4,6 +4,10 @@ const ChatModel = require('./chatModel');
 exports.getChats = function (req, res) {
     const {userId} = req.body;
     
+    if(!userId) {
+        res.status(422).send({ error: 'Please enter userID.' });
+    }
+
     ChatModel
     .find({participants: userId})
     .select('_id')
@@ -35,7 +39,9 @@ exports.getChats = function (req, res) {
 
 exports.getChat = function (req, res) {
     const {chatId} = req.body;
-
+     if(!chatId) {
+        res.status(422).send({ error: 'Please enter chatId.' });
+        }
     MessageModel
     .find({chatId : chatId})
     .select('createdAt body author')
@@ -51,6 +57,10 @@ exports.getChat = function (req, res) {
 
 exports.newChat = function (req, res) {
     const {recipientId, message, senderId} =req.body;
+
+    if(!senderId) {
+        res.status(422).send({ error: 'Please choose a valid senderId.' });
+    }
 
     if(!recipientId) {
         res.status(422).send({ error: 'Please choose a valid recipient for your message.' });
@@ -87,6 +97,16 @@ exports.newChat = function (req, res) {
 
 exports.sendReply = function (req, res){
     let {chatId, message, senderId} = req.body;
+
+    if(!message) {
+        res.status(422).send({ error: 'Please enter a message.' });
+    }
+    if(!chatId) {
+        res.status(422).send({ error: 'Please enter a chatId.' });
+    }
+    if(!senderId) {
+        res.status(422).send({ error: 'Please enter a senderId.' });
+    }
 
      let reply = new MessageModel({
         chatId : chatId,
