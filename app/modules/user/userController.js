@@ -404,8 +404,8 @@ const createNewSchool = (data) => {
 		const personalImageValidation = validationService.validatePersonalPhotoUrl(personalImage);
 		if (personalImageValidation.error) return reject(personalImageValidation);
 		//check cover image
-		// const coverImageValidation = validationService.validateCoverPhotoUrl(coverImage);
-		// if (coverImageValidation.error) return reject(coverImageValidation);
+		const coverImageValidation = validationService.validateCoverPhotoUrl(coverImage);
+		if (coverImageValidation.error) return reject(coverImageValidation);
 		//check name
 		const validateName = validationService.validateName(name);
 		if (validateName.error) return reject(validateName);
@@ -445,7 +445,7 @@ const createNewSchool = (data) => {
 				schoolLicensePhoto,
 				personalImage,				
 			})
-			console.log(newSchool)
+
 			newSchool.save((err, school) => {
             	if (err) {
                     removeUser(user._id).then(() => {

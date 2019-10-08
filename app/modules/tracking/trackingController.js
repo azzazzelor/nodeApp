@@ -36,7 +36,10 @@ exports.addPoints = function (req, res) {
             res.send(`price per ${distance}m is ${resulst} currency`)
         }
     })
- }
+}
+
+ 
+
 
 
 

@@ -180,7 +180,10 @@ exports.validateAge = (age) => {
 
 exports.validatePersonalPhotoUrl = (url) => {
 	if (typeof(url) === "undefined" || !url) return {
-    	error: 0
+			error: 1,
+			name: "AppError",
+    	code: VALIDATION_ERRORS.INVALID_PERSONAL_IMAGE_URL,
+		errmsg: 'Invalid personal image url'
     };
 
     if (validatePhotoUri(url)) return {
@@ -197,7 +200,10 @@ exports.validatePersonalPhotoUrl = (url) => {
 
 exports.validateDriverLicensePhoto = (url) => {
 	if (typeof(url) === "undefined" || !url) return {
-    	error: 0
+			error: 1,
+			name: "AppError",
+    	code: VALIDATION_ERRORS.INVALID_DRIVER_LICENSE_PHOTO,
+		errmsg: 'Invalid student license photo'
     };
     
     if (validatePhotoUri(url)) return {
@@ -211,6 +217,27 @@ exports.validateDriverLicensePhoto = (url) => {
 		errmsg: 'Invalid student license photo'
     };
 };
+
+exports.validateCoverPhotoUrl = (url) => {
+	
+	
+	if (validatePhotoUri(url)) return {
+		error: 0
+	};
+
+	if (typeof(url) === "undefined" || !url) return {
+		error: 1,
+		name: "AppError",
+		code: VALIDATION_ERRORS.INVALID_SCHOOL_COVER_PHOTO,
+	errmsg: 'Invalid cover photo'
+	};
+	return {
+		error: 1,
+	name: "AppError",
+		code: VALIDATION_ERRORS.INVALID_SCHOOL_COVER_PHOTO,
+	errmsg: 'Invalid cover photo'
+	};
+}
 
 exports.validateStudentDriverLicense = (status) => {
 	
