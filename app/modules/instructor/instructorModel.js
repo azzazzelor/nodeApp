@@ -33,16 +33,16 @@ const InstructorSchema = new Schema({
         },
         pricePerHour: {
             type:String,
-            required:true
+            required: true
         }
     }],
        
     pricePerKmCurrency: {
-        type:String,
-        required:true
+        type: String,
+        required: true
     },
     pricePerHourCurrency: {
-        type:String,
+        type: String,
         required:true
     }, 
     drivingSchoolId : {
