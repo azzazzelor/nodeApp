@@ -18,5 +18,10 @@ module.exports = (app) => {
         // passport.authenticationMiddleware(),
         StudentController.add_like_user
     )
+    app.get(
+        '/get_status',
+        // passport.authenticationMiddleware(),
+        StudentController.get_status
+    )
 };
 

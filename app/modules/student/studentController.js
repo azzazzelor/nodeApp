@@ -160,4 +160,16 @@ const changeFields = (data,id) => {
 }
 
 
-
+exports.get_status = function(req, res){
+    const {userId, } = req.body;
+    User
+    .findById(userId)
+    .select('active')
+    .exec((err, result)=>{
+        if(err){
+            res.send(err)
+        }else{
+            res.send(result)
+        }
+    })
+}
