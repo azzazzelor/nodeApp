@@ -50,6 +50,10 @@ const SchoolSchema = new Schema({
     instructors : {
         type: Array,
         default: [],
+    },
+    rating: {
+        rate: {type: String,default: 0},
+        emount: {type: String,default: 0}
     }
 });
 

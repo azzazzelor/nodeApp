@@ -139,3 +139,32 @@ exports.getInstructors = function (req, res) {
         }
     })
 }
+
+exports.changeRating = function (req, res) {
+    const {userId, rates, roleType } =req.body;
+    School.findOne({userId:userId})
+    .exec((err,school)=>{
+        if(err){
+            res.send('{error: 1}')
+        }else{
+           let newEmount = +school.rating.emount + 1; 
+        //    console.log(newEmount)
+        //    console.log(school.rating.rate)
+        //    console.log(rates)
+           let newRate = (Number(school.rating.rate) + Number(rates))/newEmount;
+             console.log(newRate)
+        // changesRating(...school,rates,req,res)
+        //    changesRating(newEmount, rates, oldRate )
+
+
+        }
+    })
+}
+
+const changesRating = function (school, retes,req,res){
+// console.log('emount'+emount);
+// console.log('rating'+rating);
+// console.log('oldRate'+oldRate);
+    let newEmount = +school.rating.emount + 1; 
+    let oldRate = +school.rate;
+}
