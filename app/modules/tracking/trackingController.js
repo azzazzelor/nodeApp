@@ -38,6 +38,24 @@ exports.addPoints = function (req, res) {
     })
 }
 
+exports.getTrack = function (req, res) {
+    const {trackingId} = req.body;
+
+    if(!trackingId) {
+        res.status(422).send({ error: 'Please enter tracking Id.' });
+    }
+
+    TrackingModel
+    .findById(trackingId)
+    .exec((err, result)=>{
+        if(err){
+            res.send(err)
+        }else{
+            res.send(result)
+        }
+    })
+
+}
  
 
 

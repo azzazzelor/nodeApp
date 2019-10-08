@@ -11,4 +11,9 @@ module.exports = (app) => {
         //passport.authenticationMiddleware(),
         TrackingController.addPoints
    );
+   app.get(
+       '/getTracking',
+        //passport.authenticationMiddleware(),
+        TrackingController.getTrack
+   )
 };
