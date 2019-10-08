@@ -533,7 +533,8 @@ exports.allNearest = function(req, res) {
 			res.status(401).json(err);
 		} else {
 			//TODO: prepare what exactly you want returned
-			
+			console.log(users)
+
 			let arr = [];
 			if(type === 'school'){
 			 users.forEach(user=>{
@@ -545,8 +546,9 @@ exports.allNearest = function(req, res) {
 				}else{
 					arr.push(user)
 				}
-				res.send(arr)
+				
 			})
+			res.send(arr)
 		}else{
 			let arr = [];
 				console.log(users)
@@ -559,8 +561,9 @@ exports.allNearest = function(req, res) {
 						}else{
 							arr.push(user)
 						}
-						res.send(arr)
+					
 					})
+					res.send(arr)	
 				}
 			
 			// res.status(200).json(users);
