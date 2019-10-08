@@ -525,7 +525,7 @@ exports.allNearest = function(req, res) {
 		}
 	).select('location email phoneNumber')
 	.populate(
-		type
+		{ path: type, select: '-userId' }
 	)
 	.skip((pageNumber - 1) * limit).limit(limit)
 	.exec((err, users) => {
