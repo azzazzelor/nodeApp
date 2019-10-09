@@ -93,17 +93,10 @@ const changeFields = (data,id) => {
         coverImage
     } = data;
 
-    const newReqbodyCar = Object.assign({}, ...data.car)
-      
-    const { 
-        brand,
-        transmission,
-        registrationNumber,
-        pricePerKm,
-        pricePerHour
-    } = newReqbodyCar;
+    
     
     if(password){
+        
     return new Promise((resolve, reject)=>{
         //check password
         const passwordValidation = validationService.validatePassword(password);
@@ -136,6 +129,16 @@ const changeFields = (data,id) => {
         })
     })
         }else{
+            const newReqbodyCar = Object.assign({}, ...data.car)
+      
+            const { 
+                brand,
+                transmission,
+                registrationNumber,
+                pricePerKm,
+                pricePerHour
+            } = newReqbodyCar;
+            
             return new Promise((resolve, reject)=>{
              //check email
         const emailValidation = validationService.validateEmail(email);
