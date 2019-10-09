@@ -509,7 +509,7 @@ exports.allNearest = function(req, res) {
 	const longitudeNum = +longitude;
 
 	//TODO: add checks for required params
-	 
+	 if(studentId){
 	 User.find(
 		{
 			"roleType": type,
@@ -571,4 +571,30 @@ exports.allNearest = function(req, res) {
 			// res.status(200).json(users);
 		}}
 	});
+}else{
+	User.find(
+		{
+			"roleType": type,
+			"location": {
+				$near:{
+					$geometry: {
+						type: "Point",
+						coordinates: [longitudeNum, latitudeNum]
+					},
+					$maxDistance: +maxDistance
+				}
+			},
+		}
+	).select('location email phoneNumber')
+	.populate(
+		{ path: type, select: '-userId' }
+	)
+	.skip((pageNumber - 1) * limit).limit(limit)
+	.exec((err, users) => {
+		if (err) {
+			res.status(401).json(err);
+		} else {
+			res.status(200).json(users);
+		}})
+}
 }
