@@ -130,7 +130,8 @@ if(password){
 exports.getInstructors = function (req, res) {
     const {schoolId} = req.body;
     School
-    .find({ instructors :  {$all : [schoolId]} })
+    .find({userId: schoolId})
+    .select('instructors -_id')
     .exec((err,result)=>{
         if(err){
             res.send('{error: 1}')
