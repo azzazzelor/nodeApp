@@ -3,7 +3,7 @@ const passport = require('passport');
 const BookingController = require('./bookingController');
 
 module.exports = (app) => {
-    app.get(
+    app.post(
         '/filterAvalibleBookings',
         // passport.authenticationMiddleware(),
         BookingController.filterBookings
@@ -13,7 +13,7 @@ module.exports = (app) => {
         //passport.authenticationMiddleware(),
         BookingController.addBooking
     );
-    app.get(
+    app.post(
         '/getOrders/:type',
         //passport.authenticationMiddleware(),
         BookingController.getOrders
@@ -23,7 +23,7 @@ module.exports = (app) => {
         //passport.authenticationMiddleware(),
         BookingController.changeOrderStatus
     )
-    app.get(
+    app.post(
         '/getInProgresStudents',
         //passport.authenticationMiddleware(),
         BookingController.getInProgresStudents

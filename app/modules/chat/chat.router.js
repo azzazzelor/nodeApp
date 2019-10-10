@@ -4,12 +4,12 @@ const ChatController = require('./chatController');
 
 
 module.exports = (app) => {
-    app.get(
+    app.post(
         '/getChats',
         //passport.authenticationMiddleware(),
         ChatController.getChats
     );
-    app.get(
+    app.post(
         '/getChat',
         // passport.authenticationMiddleware(),
         ChatController.getChat
