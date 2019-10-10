@@ -344,10 +344,10 @@ exports.getUsersCar = (req,res) => {
 
     
     if(brand === ''){
-        res.status(400).json({ error: 'No brand' })
+        res.status(400).json({ error: 'No brand' }).end();
     }
     if(isNaN(pageNum)){
-        res.status(400).json({ error: 'No page number' })
+        res.status(400).json({ error: 'No page number' }).end();
     }
 
     Instructor
@@ -355,9 +355,9 @@ exports.getUsersCar = (req,res) => {
     .skip((pageNum - 1) * limit).limit(limit)
     .exec(function(err, result) {
         if(err){
-            res.send(err)
+             res.status(400).json({ error: 1 }).end();
         }else{
-            res.send(result)
+            res.status(200).json(result);
         }
     });
 }
