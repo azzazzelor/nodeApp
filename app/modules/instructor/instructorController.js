@@ -352,7 +352,7 @@ exports.getUsersCar = (req,res) => {
 
     Instructor
     .find({'car': {$elemMatch: {brand: brand }}})
-    .select('-userId -plateNumber')
+    .select('-plateNumber')
     .skip((pageNum - 1) * limit).limit(limit)
     .exec(function(err, result) {
         if(err){
