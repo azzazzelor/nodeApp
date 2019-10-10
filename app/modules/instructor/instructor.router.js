@@ -18,7 +18,7 @@ module.exports = (app) => {
         // passport.authenticationMiddleware(),
         InstructorController.becomeInstructor
     );
-    app.get(
+    app.post(
         '/get_users_by_car',
         // passport.authenticationMiddleware(),
         InstructorController.getUsersCar
