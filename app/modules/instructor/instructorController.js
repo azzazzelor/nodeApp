@@ -138,7 +138,7 @@ const changeFields = (data,id) => {
                 pricePerKm,
                 pricePerHour
             } = newReqbodyCar;
-            
+
             return new Promise((resolve, reject)=>{
              //check email
         const emailValidation = validationService.validateEmail(email);
@@ -342,6 +342,7 @@ exports.getUsersCar = (req,res) => {
     const pageNum = +req.body.pageNumber;
     const limit = 10;
 
+    
     if(brand === ''){
         res.status(400).json({ error: 'No brand' })
     }
