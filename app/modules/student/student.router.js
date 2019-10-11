@@ -19,6 +19,11 @@ module.exports = (app) => {
         StudentController.add_like_user
     )
     app.post(
+        '/take_like/:id',
+        // passport.authenticationMiddleware(),
+        StudentController.takeLike
+    )
+    app.post(
         '/get_status',
         // passport.authenticationMiddleware(),
         StudentController.get_status

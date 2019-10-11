@@ -18,10 +18,10 @@ module.exports = (app) => {
         // passport.authenticationMiddleware(),
         SchoolController.getInstructors
     );
-    app.post(
-        '/change_rating',
-         // passport.authenticationMiddleware(),
-         SchoolController.changeRating
-    )
+    // app.post(
+    //     '/change_rating',
+    //      // passport.authenticationMiddleware(),
+    //      SchoolController.changeRating
+    // )
 };
 

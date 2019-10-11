@@ -173,3 +173,39 @@ exports.get_status = function(req, res){
         }
     })
 }
+
+exports.takeLike = function (req, res){
+    const {studentId, roleType}  = req.body;
+    const likedUserId = req.params.id;
+
+    Student.findOneAndUpdate(
+        {userId : studentId},
+        { $pull: { likedUsers : likedUserId } },
+        function(err,like){
+            if(err){
+                res.send('{error: 1}')
+            }else{
+                if(roleType === 'instructor'){
+                    InstructorModel
+                    .findOneAndUpdate({userId: likedUserId},
+                                      { $pull: { studentsWhoLike : studentId } })
+                    .exec((err,result)=>{
+                        if(err){
+                                res.send('error: 1')
+                            }else{
+                                res.send('error: 0')}})
+                }else{
+                    SchoolModel
+                    .findOneAndUpdate(
+                        {userId: likedUserId},
+                        { $pull: { studentsWhoLike : studentId } })
+                    .exec((err,result)=>{
+                        if(err){
+                            res.send('error: 1')
+                            }else{
+                            res.send('error: 0')}})
+                }
+            }
+        }
+    )
+}
