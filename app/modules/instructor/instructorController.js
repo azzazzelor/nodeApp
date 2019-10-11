@@ -352,6 +352,7 @@ exports.getUsersCar = (req,res) => {
 
     Instructor
     .find({'car': {$elemMatch: {brand: brand }}})
+    .populate({path:'userId' ,select:'location'})
     .select('-plateNumber')
     .skip((pageNum - 1) * limit).limit(limit)
     .exec(function(err, result) {

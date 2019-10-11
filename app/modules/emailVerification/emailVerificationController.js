@@ -28,7 +28,6 @@ exports.sendScript = function(req,res){
 
     smtpTransport.sendMail(mailOptions, function(error, response){
         if(error){
-             
            res.end("{error: 1}");
         }else{
                
@@ -45,8 +44,8 @@ exports.getScript = function (req, res) {
             
 
             User.update({email:emeil},{"active": "true"},(err, result)=>{
-                if(err){console.log(err)}else{
-                    console.log(result)
+                if(err){res.send('error: 1')}else{
+                    res.send('error: 0 ')
                 }
             })
             res.end("<h1>Email "+mailOptions.to+" is been Successfully verified");
