@@ -16,6 +16,7 @@ exports.getChats = function (req, res) {
             res.send('{ error: 1}')
         }else{
             let fullChats = [];
+
             chats.forEach((chat)=>{
                 MessageModel.find({'chatId': chat._id })
                 .populate({
@@ -36,6 +37,30 @@ exports.getChats = function (req, res) {
                 })
                 .populate({
                     path: 'recipientId',
+                    select :'email -_id', 
+                    populate : {
+                        path : 'student',
+                        select: 'personalImage firstName lastName -_id'
+                    }
+                })
+                .populate({
+                    path: 'author',
+                    select :'email -_id', 
+                    populate : {
+                        path : 'school',
+                        select: 'personalImage name -_id'
+                    }
+                })
+                .populate({
+                    path: 'author',
+                    select :'email -_id', 
+                    populate : {
+                        path : 'instructor',
+                        select: 'personalImage firstName lastName -_id'
+                    }
+                })
+                .populate({
+                    path: 'author',
                     select :'email -_id', 
                     populate : {
                         path : 'student',
