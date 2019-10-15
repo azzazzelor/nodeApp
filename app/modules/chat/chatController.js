@@ -124,17 +124,17 @@ exports.sendReply = function (req, res){
     let {chatId, message, senderId, recipientId} = req.body;
 
     if(!message) {
-        res.status(422).send({ error: 'Please enter a message.' });
+        res.status(422).send({ error: 'Please enter a message.' }).end();
     }
     if(!chatId) {
-        res.status(422).send({ error: 'Please enter a chatId.' });
+        res.status(422).send({ error: 'Please enter a chatId.' }).end();
     }
     if(!senderId) {
-        res.status(422).send({ error: 'Please enter a senderId.' });
+        res.status(422).send({ error: 'Please enter a senderId.' }).end();
     }
 
     if(!recipientId) {
-        res.status(422).send({ error: 'Please enter a senderId.' });
+        res.status(422).send({ error: 'Please enter a senderId.' }).end();
     }
     
      let reply = new MessageModel({
