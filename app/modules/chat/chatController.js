@@ -24,7 +24,7 @@ exports.getChats = function (req, res) {
                     select :'email -_id', 
                     populate : {
                         path : 'school',
-                        select: 'personalImage name -_id'
+                        select: 'personalImage userId name -_id'
                     }
                 })
                 .populate({
@@ -32,7 +32,7 @@ exports.getChats = function (req, res) {
                     select :'email -_id', 
                     populate : {
                         path : 'instructor',
-                        select: 'personalImage firstName lastName -_id'
+                        select: 'personalImage firstName userId lastName -_id'
                     }
                 })
                 .populate({
@@ -40,7 +40,7 @@ exports.getChats = function (req, res) {
                     select :'email -_id', 
                     populate : {
                         path : 'student',
-                        select: 'personalImage firstName lastName -_id'
+                        select: 'personalImage firstName userId lastName -_id'
                     }
                 })
                 .populate({
@@ -48,7 +48,7 @@ exports.getChats = function (req, res) {
                     select :'email -_id', 
                     populate : {
                         path : 'school',
-                        select: 'personalImage name -_id'
+                        select: 'personalImage userId name -_id'
                     }
                 })
                 .populate({
@@ -56,7 +56,7 @@ exports.getChats = function (req, res) {
                     select :'email -_id', 
                     populate : {
                         path : 'instructor',
-                        select: 'personalImage firstName lastName -_id'
+                        select: 'personalImage firstName userId lastName -_id'
                     }
                 })
                 .populate({
@@ -64,7 +64,7 @@ exports.getChats = function (req, res) {
                     select :'email -_id', 
                     populate : {
                         path : 'student',
-                        select: 'personalImage firstName lastName -_id'
+                        select: 'personalImage firstName userId lastName -_id'
                     }
                 })
                 .sort('-createdAt')
