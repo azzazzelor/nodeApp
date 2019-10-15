@@ -262,6 +262,7 @@ const createNewStudent = (data) => {
                     	return reject(err);
                     });
                 } else {
+					User.updateOne({_id:user.id},{student:student._id},(err)=>{if(err){reject(err)}});
                     return resolve(student);
                 }
             });

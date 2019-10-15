@@ -82,6 +82,10 @@ const UserSchema = new Schema({
 	instructor: {
 		type: mongoose.Schema.Types.ObjectId, ref: 'Instructor',
 		required: false
+	},
+	student: {
+		type: mongoose.Schema.Types.ObjectId, ref: 'Student',
+		required: false
 	}
 });
 

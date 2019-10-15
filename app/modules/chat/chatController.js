@@ -18,6 +18,30 @@ exports.getChats = function (req, res) {
             let fullChats = [];
             chats.forEach((chat)=>{
                 MessageModel.find({'chatId': chat._id })
+                .populate({
+                    path: 'recipientId',
+                    select :'email -_id', 
+                    populate : {
+                        path : 'school',
+                        select: 'personalImage name -_id'
+                    }
+                })
+                .populate({
+                    path: 'recipientId',
+                    select :'email -_id', 
+                    populate : {
+                        path : 'instructor',
+                        select: 'personalImage firstName lastName -_id'
+                    }
+                })
+                .populate({
+                    path: 'recipientId',
+                    select :'email -_id', 
+                    populate : {
+                        path : 'student',
+                        select: 'personalImage firstName lastName -_id'
+                    }
+                })
                 .sort('-createdAt')
                 .limit(1)
                 .exec((err, messaage)=>{
@@ -56,7 +80,7 @@ exports.getChat = function (req, res) {
 }
 
 exports.newChat = function (req, res) {
-    const {recipientId, message, senderId} =req.body;
+    const {recipientId, message, senderId} = req.body;
 
     if(!senderId) {
         res.status(422).send({ error: 'Please choose a valid senderId.' });
@@ -82,7 +106,8 @@ exports.newChat = function (req, res) {
     let newMess = new MessageModel({
         chatId: chat._id,
         body: message,
-        author: senderId
+        author: senderId,
+        recipientId: recipientId
     });
 
         newMess.save(function(err, newMessage) {
@@ -96,7 +121,7 @@ exports.newChat = function (req, res) {
 }
 
 exports.sendReply = function (req, res){
-    let {chatId, message, senderId} = req.body;
+    let {chatId, message, senderId, recipientId} = req.body;
 
     if(!message) {
         res.status(422).send({ error: 'Please enter a message.' });
@@ -108,10 +133,15 @@ exports.sendReply = function (req, res){
         res.status(422).send({ error: 'Please enter a senderId.' });
     }
 
+    if(!recipientId) {
+        res.status(422).send({ error: 'Please enter a senderId.' });
+    }
+    
      let reply = new MessageModel({
         chatId : chatId,
         body : message,
-        author : senderId
+        author : senderId,
+        recipientId: recipientId
      })
      reply.save((err, sentReply)=>{
          if (err){
