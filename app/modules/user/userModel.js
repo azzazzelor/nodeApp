@@ -86,13 +86,13 @@ const UserSchema = new Schema({
 	student: {
 		type: mongoose.Schema.Types.ObjectId, ref: 'Student',
 		required: false
-	}, 
+	},
 	activeChats: {
 		type: Array, 
 		default : []
-	} 
-});
+	},
+})
 
-UserSchema.index({ location: '2dsphere' });
+UserSchema.index({ location: '2dsphere' })
 
 module.exports = mongoose.model('User', UserSchema);
