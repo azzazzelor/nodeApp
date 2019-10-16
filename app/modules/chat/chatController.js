@@ -1,5 +1,6 @@
 const MessageModel = require('./messageModel');
 const ChatModel = require('./chatModel');
+const UserModel = require('../user/userModel')
 
 exports.getChats = function (req, res) {
     const {userId} = req.body;
@@ -141,6 +142,24 @@ exports.newChat = function (req, res) {
                 return res.send('{ error: 1 }');
             }
 
+            let obj = {
+                'senderId':senderId,
+                'recipientId': recipientId,
+                'chatId': chat._id,
+            }
+            
+            UserModel.findOneAndUpdate({_id: senderId}, {$push: {activeChats: obj}},(err,result)=>{
+                if(err){
+                    return res.send({error: 1})
+                }else{
+                    UserModel.findOneAndUpdate({_id: recipientId}, {$push: {activeChats: obj}},(err,result)=>{
+                        if(err){
+                            return res.send({error: 1})
+                        }
+                    })
+                    
+                }
+            })
             return res.status(200).json(`${chat._id}`)
         });
     });

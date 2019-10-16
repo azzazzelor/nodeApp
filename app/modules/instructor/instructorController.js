@@ -58,7 +58,7 @@ const createUser = (data) => {
 exports.getByUserId = (req, res) => {
     Instructor
     .findOne({userId: req.params.id})
-    .populate('userId', 'email phoneNumber')
+    .populate('userId', 'email phoneNumber activeChats')
     .exec((err,result)=>{
         if(err){
             res.send('{error: 1}')
