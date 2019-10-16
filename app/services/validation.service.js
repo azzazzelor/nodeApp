@@ -117,19 +117,10 @@ exports.validateFirstName = (name) => {
 		errmsg: 'First name is required'
     };
 
-    let temple = /([A-Za-z]{2,50})/;
-    const result = temple.test(name);
-
-    if (result) return {
+     return {
     	error: 0
     };
 
-    return {
-    	error: 1,
-		name: "AppError",
-    	code: VALIDATION_ERRORS.INVALID_FIRST_NAME,
-		errmsg: 'Invalid first name'
-    };
 };
 
 exports.validateLastName = (name) => {
@@ -276,19 +267,18 @@ exports.validateName = (name) => {
 		errmsg: 'Name is required'
     };
 
-    let temple = /([A-Za-z]{2,50})/;
-    const result = temple.test(name);
+   
 
-    if (result) return {
+    return {
     	error: 0
     };
 
-    return {
-    	error: 1,
-		name: "AppError",
-    	code: VALIDATION_ERRORS.INVALID_NAME,
-		errmsg: 'Invalid name'
-    };
+    // return {
+    // 	error: 1,
+		// name: "AppError",
+    // 	code: VALIDATION_ERRORS.INVALID_NAME,
+		// errmsg: 'Invalid name'
+    // };
 };
 
 exports.validateAdress = (adress) =>{
