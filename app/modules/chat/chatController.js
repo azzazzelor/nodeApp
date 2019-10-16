@@ -73,9 +73,10 @@ exports.getChats = function (req, res) {
                     if(err){
                         return res.send('{error: 1}')
                     }else{
-                        fullChats.push(messaage);
+                        fullChats.push(...messaage);
                         if(fullChats.length === chats.length){
-                            return res.status(200).json({ chats: fullChats });
+                             return res.status(200).json({ chats: fullChats });
+                            
                         }
                     }
                 })
@@ -140,7 +141,7 @@ exports.newChat = function (req, res) {
                 return res.send('{ error: 1 }');
             }
 
-            return res.status(200).send(`chat is started. Chat id : ${chat._id}`)
+            return res.status(200).json(`${chat._id}`)
         });
     });
 }
