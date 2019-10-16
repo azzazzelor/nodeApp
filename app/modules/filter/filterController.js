@@ -13,9 +13,9 @@ exports.add_filters = function(req,res){
         {upsert:true},
         function(err,filter){
             if(err){
-                res.send(err)
+                return res.send(err)
             }else{ 
-                res.send(filter)
+                return res.send(filter)
             }           
         }
     )
@@ -28,10 +28,10 @@ exports.get_filters = function(req,res){
         {userId : id},
         function(err, filt ){
            if(err){
-               res.send(err)
+            return res.send(err)
                .end()
             }
-           res.send(filt).end()
+            return res.send(filt).end()
         }
     )
 

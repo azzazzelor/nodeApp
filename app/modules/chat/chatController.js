@@ -5,7 +5,7 @@ exports.getChats = function (req, res) {
     const {userId} = req.body;
     
     if(!userId) {
-        res.status(422).send({ error: 'Please enter userID.' });
+        return res.status(422).send({ error: 'Please enter userID.' });
     }
 
     ChatModel
@@ -13,7 +13,7 @@ exports.getChats = function (req, res) {
     .select('_id')
     .exec((err,chats)=>{
         if(err){
-            res.send('{ error: 1}')
+            return res.send('{ error: 1}')
         }else{
             let fullChats = [];
 
@@ -71,7 +71,7 @@ exports.getChats = function (req, res) {
                 .limit(1)
                 .exec((err, messaage)=>{
                     if(err){
-                        res.send('{error: 1}')
+                        return res.send('{error: 1}')
                     }else{
                         fullChats.push(messaage);
                         if(fullChats.length === chats.length){
@@ -89,7 +89,7 @@ exports.getChats = function (req, res) {
 exports.getChat = function (req, res) {
     const {chatId} = req.body;
      if(!chatId) {
-        res.status(422).send({ error: 'Please enter chatId.' });
+        return res.status(422).send({ error: 'Please enter chatId.' });
         }
     MessageModel
     .find({chatId : chatId})
@@ -97,9 +97,9 @@ exports.getChat = function (req, res) {
     .sort('-createdAt')
     .exec((err, messages)=> {
         if (err) {
-          res.send('{ error: 1 }');
+            return res.send('{ error: 1 }');
         }else{
-        res.status(200).json({ chat: messages });
+            return res.status(200).json({ chat: messages });
         }
     });
 }
@@ -108,15 +108,15 @@ exports.newChat = function (req, res) {
     const {recipientId, message, senderId} = req.body;
 
     if(!senderId) {
-        res.status(422).send({ error: 'Please choose a valid senderId.' });
+        return  res.status(422).send({ error: 'Please choose a valid senderId.' });
     }
 
     if(!recipientId) {
-        res.status(422).send({ error: 'Please choose a valid recipient for your message.' });
+        return  res.status(422).send({ error: 'Please choose a valid recipient for your message.' });
     }
     
     if(!message) {
-    res.status(422).send({ error: 'Please enter a message.' });
+        return res.status(422).send({ error: 'Please enter a message.' });
     }
 
     const Chat = new ChatModel({
@@ -125,7 +125,7 @@ exports.newChat = function (req, res) {
 
     Chat.save((err, chat)=> {
     if (err) {
-        res.send('{ error: 1 }');
+        return res.send('{ error: 1 }');
     }
 
     let newMess = new MessageModel({
@@ -137,10 +137,10 @@ exports.newChat = function (req, res) {
 
         newMess.save(function(err, newMessage) {
             if (err) {
-            res.send('{ error: 1 }');
+                return res.send('{ error: 1 }');
             }
 
-            res.status(200).send(`chat is started. Chat id : ${chat._id}`)
+            return res.status(200).send(`chat is started. Chat id : ${chat._id}`)
         });
     });
 }
@@ -149,17 +149,17 @@ exports.sendReply = function (req, res){
     let {chatId, message, senderId, recipientId} = req.body;
 
     if(!message) {
-        res.status(422).send({ error: 'Please enter a message.' }).end();
+        return status(422).send({ error: 'Please enter a message.' }).end();
     }
     if(!chatId) {
-        res.status(422).send({ error: 'Please enter a chatId.' }).end();
+        return res.status(422).send({ error: 'Please enter a chatId.' }).end();
     }
     if(!senderId) {
-        res.status(422).send({ error: 'Please enter a senderId.' }).end();
+        return res.status(422).send({ error: 'Please enter a senderId.' }).end();
     }
 
     if(!recipientId) {
-        res.status(422).send({ error: 'Please enter a senderId.' }).end();
+        return res.status(422).send({ error: 'Please enter a senderId.' }).end();
     }
     
      let reply = new MessageModel({
@@ -170,9 +170,9 @@ exports.sendReply = function (req, res){
      })
      reply.save((err, sentReply)=>{
          if (err){
-             res.send('{error : 1}')
+            return res.send('{error : 1}')
          }else{
-            res.status(200).json({ message: 'Reply successfully send!' });
+            return res.status(200).json({ message: 'Reply successfully send!' });
          }
      })
 }

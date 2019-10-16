@@ -163,15 +163,15 @@ exports.addBooking = function(req, res){
                     })
                     BookingModel.save((err,res)=>{
                         if(err){
-                            res.send(err)
+                            return res.send(err)
                         }else{
-                            console.log('okk')
+                            // console.log('okk')
                         }
                     })
-                    res.send('error: 0')
+                    return res.send('error: 0')
                 });
             }else{
-                res.send(data)
+                return res.send(data)
             }
         }).catch(err=>{
             res.send('error: 1')
@@ -181,9 +181,6 @@ exports.addBooking = function(req, res){
 
                 if( (start1 > start2 && start1 < end2) || (start2 > start1 && start2 < end1) ){
                     resultArr.push({start1,end1,start2,end2})
-                    console.log(' пересекаются')
-                }else{
-                    console.log(' не пересекаются')
                 }
             }
         } catch (error) {
