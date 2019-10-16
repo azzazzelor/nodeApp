@@ -493,7 +493,6 @@ exports.updateLocationUser = function(req, res){
 
 };
 
-
 exports.allNearest = function(req, res) {
 	const type = req.params.type;
 	const limit = 10;
