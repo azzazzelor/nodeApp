@@ -124,7 +124,8 @@ exports.addBooking = function (req, res){
            orderOfilietId,
            orderType,
            orderDescription,
-           orderPeriod
+           orderPeriod,
+           unicID
         } = req.body;
         // try {
             let resultArr = [];
@@ -157,7 +158,8 @@ exports.addBooking = function (req, res){
                         orderStartTime : start,
                         orderType: orderType,
                         orderEndTime : end,
-                        orderDescription : orderDescription
+                        orderDescription : orderDescription,
+                        unicId: unicID
                     })
                     BookingModel.save((err,result)=>{
                         if(err){
@@ -167,11 +169,10 @@ exports.addBooking = function (req, res){
                 });
                 return res.status(200).json('error: 0').end();
             }else{
-                console.log('3')
+ 
                 return res.status(200).json('error: 1');
             }
         }).catch(err=>{
-            console.log('4')
             return res.status(200).json('error: 1');
         })
    
@@ -205,8 +206,12 @@ try {
         if(err){
             res.send(err)
         }else{
-            res.send(result)
-        }
+            if(result.length === 0){
+                return  res.status(200).json(result)
+            }else{  
+                const doubles = compare(result);
+                return  res.status(200).json(doubles)}
+            }
     });
 } catch (error) {
     if(error){
@@ -214,6 +219,27 @@ try {
     }
 }
    
+}
+
+const compare = function (arr){
+    let resultArr = [];
+    let myArr = arr;
+   do {
+       let newArr =[];
+       let element = myArr.pop();
+       let newQuery = element.unicId;
+        newArr.push(element)
+       
+       for(let i of myArr ){
+           let tempQuery = i.unicId;
+           if(tempQuery === newQuery){
+            myArr.splice(myArr.indexOf(i),1)
+            newArr.push(i)
+           }
+       }
+       resultArr.push(newArr);
+   } while (myArr.length !== 0);
+   return resultArr;
 }
 
 exports.changeOrderStatus = function (req, res){
@@ -271,3 +297,6 @@ exports.getInProgresStudents = function (req,res) {
         }
         
 }
+
+
+

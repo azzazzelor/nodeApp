@@ -38,7 +38,11 @@ const BookingSchema = new Schema({
     orderDescription: {
         type: String,
         require: false
-    }  
+    },  
+    unicId: {
+        type: String,
+        required: true
+    }
 });
 
 // BookingSchema.static('compareTimes',function(start2,end2,cb){
