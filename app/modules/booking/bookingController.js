@@ -161,17 +161,17 @@ exports.addBooking = function(req, res){
                     })
                     BookingModel.save((err,result)=>{
                         if(err){
-                            return res.send(err).end()
+                            return res.status(200).json('error: 1');
                         }else{
-                            return res.send('error: 0').end()
+                            return res.status(200).json('error: 0');
                         }
                     })
                 });
             }else{
-                return res.send('error: 1').end()
+                return res.status(200).json('error: 1');
             }
         }).catch(err=>{
-            return res.send('error: 1').end()
+            return res.status(200).json('error: 1');
         })
    
             const  compareIntervals = function (start1 , end1 ,start2, end2){
@@ -182,7 +182,7 @@ exports.addBooking = function(req, res){
             }
         } catch (error) {
             if(error){
-               return  res.send('error: 1').end()
+                return res.status(200).json('error: 1');
             }
         }
 }
