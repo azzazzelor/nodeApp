@@ -162,9 +162,10 @@ exports.addBooking = function(req, res){
                     BookingModel.save((err,result)=>{
                         if(err){
                             return res.send(err).end()
+                        }else{
+                            return res.send('error: 0').end()
                         }
                     })
-                    return res.send('error: 0').end()
                 });
             }else{
                 return res.send('error: 1').end()
