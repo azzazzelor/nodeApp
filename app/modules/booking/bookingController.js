@@ -161,18 +161,18 @@ exports.addBooking = function(req, res){
                     })
                     BookingModel.save((err,res)=>{
                         if(err){
-                            return res.send(err)
+                            return res.send(err).end()
                         }else{
                             // console.log('okk')
                         }
                     })
-                    return res.send('error: 0')
+                    return res.send('error: 0').end()
                 });
             }else{
-                return res.send('error: 1')
+                return res.send('error: 1').end()
             }
         }).catch(err=>{
-            res.send('error: 1')
+            res.send('error: 1').end()
         })
    
             const  compareIntervals = function (start1 , end1 ,start2, end2){
@@ -183,7 +183,7 @@ exports.addBooking = function(req, res){
             }
         } catch (error) {
             if(error){
-                res.send('error: 1')
+                res.send('error: 1').end()
             }
         }
 }
