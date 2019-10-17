@@ -161,16 +161,17 @@ exports.addBooking = function (req, res){
                     })
                     BookingModel.save((err,result)=>{
                         if(err){
-                            return res.status(200).json('error: 1')
-                        }else{
-                            return res.status(200).json('error: 0').end();
+                            return res.status(200).json('error: 1')                     
                         }
                     })
                 });
+                return res.status(200).json('error: 0').end();
             }else{
+                console.log('3')
                 return res.status(200).json('error: 1');
             }
         }).catch(err=>{
+            console.log('4')
             return res.status(200).json('error: 1');
         })
    
