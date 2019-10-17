@@ -119,6 +119,7 @@ let findDuplicates = arr => arr.filter((item, index) => arr.indexOf(item) != ind
 
 
 exports.addBooking = function (req, res){
+   
     const {
            ownerUserId,
            orderOfilietId,
@@ -127,14 +128,14 @@ exports.addBooking = function (req, res){
            orderPeriod,
            unicID
         } = req.body;
-        // try {
+        
             let resultArr = [];
             let inprogress = 'inProgress'
   
         const orders = OrderModel.find({orderOfilietId:orderOfilietId,orderStatus:inprogress,orderType:'per_hour'})
         orders.then(data=>{
                 // console.log(data)
-             data.reduce((acc,val)=>{
+             data.forEach((val)=>{
                let start1 = +val.orderStartTime;
                let end1 = +val.orderEndTime;
             //    console.log('start end 1  ' + start1,end1)
@@ -143,7 +144,7 @@ exports.addBooking = function (req, res){
                    let end2 = +element.orderEndTime;
                    compareIntervals(start1,end1,start2,end2,acc)
                });
-           },[])
+           })
           return resultArr;
         }).then(data=>{
             if(data.length === 0){
@@ -163,6 +164,7 @@ exports.addBooking = function (req, res){
                     })
                     BookingModel.save((err,result)=>{
                         if(err){
+                            
                             return res.status(200).json('error: 1')                     
                         }
                     })
