@@ -110,8 +110,6 @@ exports.filterBookings = function(req, res){
             res.send('{error : 1}')
         }
     }
-    
-
 }  
 
 
@@ -130,7 +128,7 @@ exports.addBooking = function(req, res){
         } = req.body;
         try {
             let resultArr = [];
-        let inprogress = 'inProgress'
+            let inprogress = 'inProgress'
   
         const orders = OrderModel.find({orderOfilietId:orderOfilietId,orderStatus:inprogress,orderType:'per_hour'})
         orders.then(data=>{
@@ -171,7 +169,7 @@ exports.addBooking = function(req, res){
                     return res.send('error: 0')
                 });
             }else{
-                return res.send(data)
+                return res.send('error: 1')
             }
         }).catch(err=>{
             res.send('error: 1')
