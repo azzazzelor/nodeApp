@@ -203,7 +203,7 @@ try {
         orderOfilietId: orderOfilietId,
         orderStatus: type
     })
-    .skip((+pageNumber - 1) * limit).limit(limit)
+    // .skip((+pageNumber - 1) * limit).limit(limit)
     .exec(function(err, result) {
         if(err){
             res.send(err)
