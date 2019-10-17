@@ -118,7 +118,7 @@ let findDuplicates = arr => arr.filter((item, index) => arr.indexOf(item) != ind
 
 
 
-exports.addBooking = function(req, res){
+exports.addBooking = function (req, res){
     const {
            ownerUserId,
            orderOfilietId,
@@ -126,7 +126,7 @@ exports.addBooking = function(req, res){
            orderDescription,
            orderPeriod
         } = req.body;
-        try {
+        // try {
             let resultArr = [];
             let inprogress = 'inProgress'
   
@@ -180,11 +180,11 @@ exports.addBooking = function(req, res){
                     resultArr.push({start1,end1,start2,end2})
                 }
             }
-        } catch (error) {
-            if(error){
-                return res.status(200).json('error: 1');
-            }
-        }
+        // } catch (error) {
+        //     if(error){
+        //         return res.status(200).json('error: 1');
+        //     }
+        // }
 }
 
 
