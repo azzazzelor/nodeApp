@@ -223,7 +223,7 @@ try {
    
 }
 
-const compare = function (arr){
+const compare = function (arr) {
     let resultArr = [];
     let myArr = arr;
    do {
@@ -231,18 +231,35 @@ const compare = function (arr){
        let element = myArr.pop();
        let newQuery = element.unicId;
         newArr.push(element)
-       
        for(let i of myArr ){
            let tempQuery = i.unicId;
            if(tempQuery === newQuery){
-            myArr.splice(myArr.indexOf(i),1)
-            newArr.push(i)
+            newArr.push(i);
+            myArr.splice(myArr.indexOf(i),1);
            }
+           continue;
        }
        resultArr.push(newArr);
    } while (myArr.length !== 0);
    return resultArr;
 }
+// while (myArr.length !== 0) {
+//         let newArr =[];
+//         let element = myArr.shift();
+//         let newQuery = element.unicId;
+//         //newArr.push(element);
+//         for(let i of myArr){
+//             let tempQuery = i.unicId;
+//             if(tempQuery === newQuery){
+//             myArr.splice(myArr.indexOf(i),1)
+//             newArr.push(i)
+//             }
+//             resultArr.push(newArr);
+//         }
+        
+// }
+// console.log(resultArr)
+// }
 
 exports.changeOrderStatus = function (req, res){
     const {orderId, orderStatus } = req.body;

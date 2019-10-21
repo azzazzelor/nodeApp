@@ -81,7 +81,11 @@ const InstructorSchema = new Schema({
     studentsWhoLike: {
         type: Array,
         default: [],
-    }
+    },
+    dateOfBirth: {
+        type: String,
+        required: true
+    },
 })
 
 

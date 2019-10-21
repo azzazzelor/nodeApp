@@ -146,27 +146,17 @@ exports.validateLastName = (name) => {
     };
 };
 
-exports.validateAge = (age) => {
-	if (typeof(age) === "undefined") return {
+exports.validateBirth = (birth) => {
+	if (typeof(birth) === "undefined") return {
     	error: 1,
 		name: "AppError",
-    	code: VALIDATION_ERRORS.INVALID_AGE,
-		errmsg: 'Age is required'
+    	code: VALIDATION_ERRORS.INVALID_BIRTH,
+		errmsg: ' Birth day is required'
     };
 
-    let temple = /([0-9])/;
-    const result = temple.test(age);
-
-    if (result && +age >= 16 &&  +age <= 150) return {
+   return {
     	error: 0
-    };
-
-    return {
-    	error: 1,
-		name: "AppError",
-    	code: VALIDATION_ERRORS.INVALID_AGE,
-		errmsg: 'Invalid age'
-    };
+    }; 
 };
 
 exports.validatePersonalPhotoUrl = (url) => {

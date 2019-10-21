@@ -218,7 +218,7 @@ const createNewStudent = (data) => {
 	const {
         firstName,
         lastName,
-        age,
+        dateOfBirth,
         driverLicenseStatus,
 		personalImage,
 		driverLicensePhoto
@@ -231,9 +231,9 @@ const createNewStudent = (data) => {
 		//check last name
 		const lastNameValidation = validationService.validateLastName(lastName);
 		if (lastNameValidation.error) return reject(lastNameValidation);
-		//check age
-		const ageValidation = validationService.validateAge(age);
-		if (ageValidation.error) return reject(ageValidation);
+		//check birth
+		const validateBirth = validationService.validateBirth(dateOfBirth);
+		if (validateBirth.error) return reject(validateBirth);
 		//check driver license status
 		const driverLicenseStatusValidation = validationService.validateStudentDriverLicense(driverLicenseStatus);
 		if (driverLicenseStatusValidation.error) return reject(driverLicenseStatusValidation);
@@ -250,7 +250,7 @@ const createNewStudent = (data) => {
                 userId: user.id,
                 firstName,
                 lastName,
-                age: +age,
+                dateOfBirth,
                 driverLicenseStatus,
                 personalImage,
 				driverLicensePhoto
@@ -275,6 +275,7 @@ const createNewStudent = (data) => {
 
 const createNewInstructor = (data) => {
 	const {
+		dateOfBirth,
 		firstName,
         lastName,
         personalImage,
@@ -309,6 +310,8 @@ const createNewInstructor = (data) => {
 		const personalImageValidation = validationService.validatePersonalPhotoUrl(personalImage);
 		if (personalImageValidation.error) return reject(personalImageValidation);
 		//check cover image
+		const validateBirth = validationService.validateBirth(dateOfBirth);
+		if (validateBirth.error) return reject(validateBirth);
 		const coverImageValidation = validationService.validateCoverPhotoUrl(coverImage);
 		if (coverImageValidation.error) return reject(coverImageValidation);
 		//check driver License Number
@@ -356,7 +359,8 @@ const createNewInstructor = (data) => {
                     registrationNumber,
                     pricePerKm,
                     pricePerHour,
-                }],
+				}],
+				dateOfBirth,
                 firstName,
                 lastName,
                 plateNumber,

@@ -18,8 +18,8 @@ const StudentSchema = new Schema({
         minlength: 2,
         maxlength: 50
     },
-    age: {
-        type: Number,
+    dateOfBirth: {
+        type: String,
         required: true
     },
     driverLicenseStatus: {
