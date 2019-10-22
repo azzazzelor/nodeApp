@@ -38,5 +38,10 @@ module.exports = (app) => {
           //passport.authenticationMiddleware(),
           BookingController.getByUnicId
     )
+    app.post(
+        '/finishOrder',
+        //passport.authenticationMiddleware(),
+        BookingController.finishOrder
+    )
 };
 

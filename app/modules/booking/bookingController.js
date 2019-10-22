@@ -326,7 +326,7 @@ exports.getInProgresStudents = function (req,res) {
             .select('orderUserId -_id');
 
         Models
-        .skip((+pageNumber - 1) * limit).limit(limit)
+        .skip(( +pageNumber - 1) * limit).limit(limit)
         .then(data=>{  
             if(data.length !==0 ){
             let uniq = {}
@@ -346,7 +346,7 @@ exports.getInProgresStudents = function (req,res) {
 }
 
 exports.getByUnicId = function (req, res){
-    const {unicID} = req.body;
+    const { unicID } = req.body;
 
     if(!unicID) {
         return  res.status(422).send({ error: 'Please send unicID.' });
@@ -361,3 +361,20 @@ exports.getByUnicId = function (req, res){
         res.send('error: 1')
     })
 }
+
+exports.finishOrder = function (req, res) {
+    const { orderId } = req.body;
+    let finished = 'Finished';
+
+    OrderModel
+    .findOneAndUpdate(
+        {_id:orderId},
+        { $set : {  orderStatus: finished }}
+    )
+    .then(result=>{
+        res.send('error: 0')
+    })
+    .catch(error=>{
+        res.send('error: 1')
+    })
+}  
