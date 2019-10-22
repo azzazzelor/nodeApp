@@ -90,9 +90,9 @@ const UserSchema = new Schema({
 	activeChats: {
 		type: Array, 
 		default : [],
-	},
+	}
 })
 
-UserSchema.index({ location: '2dsphere' }),
+UserSchema.index({ location: '2dsphere' });
 
 module.exports = mongoose.model('User', UserSchema)
