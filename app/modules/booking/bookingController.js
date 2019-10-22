@@ -197,52 +197,59 @@ exports.getOrders = function (req,res) {
     const type = req.params.type;
     const {orderOfilietId, pageNumber} = req.body;
     const limit = 10;
-try {
-    OrderModel
-    .find({
-        orderOfilietId: orderOfilietId,
-        orderStatus: type
-    })
-    // .skip((+pageNumber - 1) * limit).limit(limit)
-    .exec(function(err, result) {
-        if(err){
-            res.send(err)
-        }else{
-            if(result.length === 0){
-                return  res.status(200).json(result)
-            }else{  
-                const doubles = compare(result);
-                return  res.status(200).json(doubles)}
-            }
-    });
-} catch (error) {
-    if(error){
-        res.send('error: 1')
-    }
-}
-   
+
+        try {
+            OrderModel
+            .find({
+                orderOfilietId: orderOfilietId,
+                orderStatus: type
+            })
+            // .skip((+pageNumber - 1) * limit).limit(limit)
+            .exec(function(err, result) {
+                if(err){
+                    res.send(err)
+                }else{
+                    if(result.length === 0){
+                        return  res.status(200).json(result)
+                    }else{  
+                        let grouped = getGroupedArray(result, 'unicId');
+                        return res.status(200).json(grouped)
+                    }
+                }
+            });
+        } catch (error) {
+                res.send('error: 1')
+        }
 }
 
-const compare = function (arr) {
-    let resultArr = [];
-    let myArr = arr;
-   do {
-       let newArr =[];
-       let element = myArr.pop();
-       let newQuery = element.unicId;
-        newArr.push(element)
-       for(let i of myArr ){
-           let tempQuery = i.unicId;
-           if(tempQuery === newQuery){
-            newArr.push(i);
-            myArr.splice(myArr.indexOf(i),1);
-           }
-           continue;
-       }
-       resultArr.push(newArr);
-   } while (myArr.length !== 0);
-   return resultArr;
-}
+const getGroupedArray = (array, key) => {
+    const object = array.reduce((sum, current) => {
+      (sum[current[key]] = sum[current[key]] || []).push(current);
+      return sum;
+    }, {});
+  
+    return Object.values(object);
+  };
+// const compare = function (arr) {
+//     let resultArr = [];
+//     let myArr = arr;
+//    do {
+//        let newArr =[];
+//        let element = myArr.pop();
+//        let newQuery = element.unicId;
+//         newArr.push(element)
+//        for(let i of myArr ){
+//            let tempQuery = i.unicId;
+//            if(tempQuery === newQuery){
+//             newArr.push(i);
+//             myArr.splice(myArr.indexOf(i),1);
+//            }
+//            continue;
+//        }
+//        resultArr.push(newArr);
+//    } while (myArr.length !== 0);
+//    return resultArr;
+//}
 // while (myArr.length !== 0) {
 //         let newArr =[];
 //         let element = myArr.shift();
@@ -326,7 +333,7 @@ exports.getInProgresStudents = function (req,res) {
             .select('orderUserId -_id');
 
         Models
-        .skip(( +pageNumber - 1) * limit).limit(limit)
+        .skip((+pageNumber - 1) * limit).limit(limit)
         .then(data=>{  
             if(data.length !==0 ){
             let uniq = {}
