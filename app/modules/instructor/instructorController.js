@@ -237,7 +237,8 @@ const studentBecomeInstructor = (data,id) =>{
         drivingSchoolId, 
         coverImage,
         pricePerKmCurrency,
-        pricePerHourCurrency
+        pricePerHourCurrency,
+        dateOfBirth
 	} = data;
 
 	const newInstructBodyCar = Object.assign({}, ...data.car);
@@ -251,6 +252,8 @@ const studentBecomeInstructor = (data,id) =>{
     } = newInstructBodyCar;
 
     return new Promise((resolve, reject)=>{
+        const validateBirth = validationService.validateBirth(dateOfBirth);
+		if (validateBirth.error) return reject(validateBirth);
         //check first name
 		const firstNameValidation = validationService.validateFirstName(firstName);
 		if (firstNameValidation.error) return reject(firstNameValidation);
@@ -325,7 +328,8 @@ const studentBecomeInstructor = (data,id) =>{
 				pricePerHourCurrency,
                 driverLicensePhoto,
                 pricePerKmCurrency,
-                coverImage               
+                coverImage,
+                dateOfBirth              
             })
 			newInstructor.save((err, instructor) => {
             	if (err) {

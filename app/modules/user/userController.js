@@ -604,7 +604,12 @@ exports.allNearest = function(req, res) {
 }
 
 exports.verification = function (req, res) {
-    const {userId} =req.body;
+	const {userId} =req.body;
+	
+	if(!userId) {
+        return  res.status(422).send({ error: 'Please send userID.' });
+	}
+	
     User
     .findById(userId)
     .then(data=>{
@@ -614,6 +619,9 @@ exports.verification = function (req, res) {
                 }else{
                     res.send(false)
                 }
-    })
+	})
+	.catch(error=>{
+		res.send('error: 1')
+	})
 }
 

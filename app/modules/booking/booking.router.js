@@ -33,5 +33,10 @@ module.exports = (app) => {
         //passport.authenticationMiddleware(),
         BookingController.getInProgresStudents
     );
+    app.post(
+        '/getByUnicId',
+          //passport.authenticationMiddleware(),
+          BookingController.getByUnicId
+    )
 };
 
