@@ -91,8 +91,8 @@ const UserSchema = new Schema({
 		type: Array, 
 		default : []
 	},
-})
+});
 
-UserSchema.index({ location: '2dsphere' })
+UserSchema.index({ location: '2dsphere' });
 
 module.exports = mongoose.model('User', UserSchema);
