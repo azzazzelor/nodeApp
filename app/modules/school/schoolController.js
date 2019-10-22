@@ -6,7 +6,7 @@ const bcrypt = require('bcryptjs');
 exports.getByUserId = (req, res) => {
     School
     .findOne({userId: req.params.id})
-    .populate('userId', 'email phoneNumber activeChats')
+    .populate('userId', 'email phoneNumber activeChats location')
     .exec((err,result)=>{
         if(err){
             res.send('{error: 1}')
