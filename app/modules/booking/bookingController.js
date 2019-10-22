@@ -345,5 +345,19 @@ exports.getInProgresStudents = function (req,res) {
         
 }
 
+exports.getByUnicId = function (req, res){
+    const {unicID} = req.body;
 
-
+    if(!unicID) {
+        return  res.status(422).send({ error: 'Please send unicID.' });
+	}
+    
+    OrderModel
+    .find({unicId: unicID })
+    .then(data=>{
+        res.send(data)
+    })
+    .catch(error=>{
+        res.send('error: 1')
+    })
+}
