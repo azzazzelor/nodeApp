@@ -17,17 +17,21 @@ module.exports = (app) => {
         '/getOrders/:type',
         //passport.authenticationMiddleware(),
         BookingController.getOrders
-    )
+    );
     app.post(
-        '/changeOrderStatus',
+        '/acceptById',
         //passport.authenticationMiddleware(),
-        BookingController.changeOrderStatus
-    )
+        BookingController.accept
+    );
+    app.post(
+        '/declineById',
+        //passport.authenticationMiddleware(),
+        BookingController.decline
+    );
     app.post(
         '/getInProgresStudents',
         //passport.authenticationMiddleware(),
         BookingController.getInProgresStudents
-    )
-
+    );
 };
 

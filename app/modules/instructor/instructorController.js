@@ -83,6 +83,7 @@ exports.updateById = (req, res) => {
 const changeFields = (data,id) => {
 
     const {
+        dateOfBirth,
         email,
         password,
         phoneNumber,
@@ -176,11 +177,14 @@ const changeFields = (data,id) => {
          //check price Per Hour
          const validatePricePerHour = validationService.validatePricePerHour(pricePerHour);
          if (validatePricePerHour.error) return reject(validatePricePerHour);
-
+         const validateBirth = validationService.validateBirth(dateOfBirth);
+         if (validateBirth.error) return reject(validateBirth);
+         
          Instructor.findOneAndUpdate(
             { userId : id }, // критерий выборки
             { $set: {
                 firstName,
+                dateOfBirth,
                 lastName,
                 driverExperienceYear,
                 personalImage,

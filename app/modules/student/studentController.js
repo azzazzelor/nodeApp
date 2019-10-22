@@ -76,7 +76,7 @@ const changeFields = (data,id) => {
         phoneNumber,
         firstName,
         lastName,
-        age,
+        dateOfBirth,
         personalImage,
     } = data;
 
@@ -125,16 +125,15 @@ const changeFields = (data,id) => {
          //check last name
          const lastNameValidation = validationService.validateLastName(lastName);
          if (lastNameValidation.error) return reject(lastNameValidation);
-         //check age
-         const ageValidation = validationService.validateAge(age);
-         if (ageValidation.error) return reject(ageValidation);
+         const validateBirth = validationService.validateBirth(dateOfBirth);
+		 if (validateBirth.error) return reject(validateBirth);
          //check personal image
          const personalImageValidation = validationService.validatePersonalPhotoUrl(personalImage);
          if (personalImageValidation.error) return reject(personalImageValidation);
             
          Student.findOneAndUpdate(
             { userId : id }, // критерий выборки
-            { $set: { firstName, lastName, age, personalImage}}, // параметр обновления
+            { $set: { firstName, lastName, dateOfBirth, personalImage}}, // параметр обновления
             function(err, student){
                 if(err){
                     return reject(err);

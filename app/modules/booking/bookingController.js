@@ -261,31 +261,59 @@ const compare = function (arr) {
 // console.log(resultArr)
 // }
 
-exports.changeOrderStatus = function (req, res){
-    const {orderId, orderStatus } = req.body;
-    try {
-        OrderModel
-    .updateOne({
-        '_id': orderId
-    },
-    {
-        $set : {
-            orderStatus: orderStatus
+// exports.changeOrderStatus = function (req, res){
+//     const {orderId, orderStatus } = req.body;
+//     try {
+//         OrderModel
+//     .updateOne({
+//         '_id': orderId
+//     },
+//     {
+//         $set : {
+//             orderStatus: orderStatus
+//         }
+//     })
+//     .exec(function(err, result) {
+//         if(err){
+//             res.send(err)
+//         }else{
+//             res.send("error: 0")
+//         }
+//     });
+//     } catch (error) {
+//         if(error){
+//             res.send('error: 1')
+//         }
+//     }
+    
+//}
+
+exports.accept = function (req, res) {
+    const {unicID} = req.body;
+    let inprogress = 'inProgress';
+    OrderModel
+    .updateMany(
+        {unicId:unicID},
+        { $set : {  orderStatus: inprogress }},(err,result)=>{
+            if(err){
+                res.send('error: 1')
+            }else{
+                res.send('error: 0')
+            }
+        })
+    
+}
+
+exports.decline = function (req, res) {
+    const {unicID} = req.body;
+    OrderModel
+    .deleteMany({unicId:unicID},(err,result)=>{
+        if(err){
+            res.send('error: 1')
+        }else{
+            res.send('error: 0')
         }
     })
-    .exec(function(err, result) {
-        if(err){
-            res.send(err)
-        }else{
-            res.send("error: 0")
-        }
-    });
-    } catch (error) {
-        if(error){
-            res.send('error: 1')
-        }
-    }
-    
 }
 
 exports.getInProgresStudents = function (req,res) {

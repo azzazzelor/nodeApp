@@ -42,7 +42,7 @@ const BookingSchema = new Schema({
     unicId: {
         type: String,
         required: true
-    }
+    },
 });
 
 // BookingSchema.static('compareTimes',function(start2,end2,cb){
