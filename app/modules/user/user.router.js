@@ -54,5 +54,10 @@ module.exports = (app) => {
 	app.post(
 		'/allNearest/:type',
 		UserController.allNearest
+	);
+	app.post(
+        '/verification',
+        // passport.authenticationMiddleware(),
+        UserController.verification
 	)
 };

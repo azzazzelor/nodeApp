@@ -602,3 +602,18 @@ exports.allNearest = function(req, res) {
 		}})
 }
 }
+
+exports.verification = function (req, res) {
+    const {userId} =req.body;
+    User
+    .findById(userId)
+    .then(data=>{
+        const {active} = data;
+                if(active){
+                    res.send(true)
+                }else{
+                    res.send(false)
+                }
+    })
+}
+
