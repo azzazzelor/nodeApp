@@ -171,7 +171,7 @@ exports.addBooking = function (req, res){
                                     }
                                 })
                             });
-                            
+
                             return res.status(200).json('error: 0').end();
             //             }else{
             
@@ -212,7 +212,7 @@ exports.getOrders = function (req,res) {
                 orderOfilietId: orderOfilietId,
                 orderStatus: type
             })
-            .skip((+pageNumber - 1) * limit).limit(limit)
+            // .skip((+pageNumber - 1) * limit).limit(limit)
             .exec(function(err, result) {
                 if(err){
                     res.send(err)
