@@ -6,36 +6,102 @@ exports.accountAuth = function (req, res){
     // create acc 
     // verify acc 
     //add paypent card to acc 
+    let acc = 'acct_1FWgzWJiDjSKwqNC';
 
-    let card; 
-    stripe.tokens.create({
-        card: {
-          number: '4242424242424242',
-          exp_month: 12,
-          exp_year: 2020,
-          cvc: '123'
+    stripe.accounts.update(
+      acc,
+      {
+        tos_acceptance: {
+          date: Math.floor(Date.now() / 1000),
+          ip: request.connection.remoteAddress 
         }
-      }).then((err,result)=>{
-          if(err){
-              console.log(err)
-          }else{
-              card = result.id
-              console.log(card)
-          }
-      }).then(()=>{
-        stripe.accounts.create({
-            type: 'custom',
-            country: 'CH',
-            email: 'bob@example.com',
-            
-          }, function(err, account) {
-                if(err){console.log(err)}else{console.log(account)}
-          });
-      })
+      },()=>{}
+    )
+// stripe.accounts.update(
+//   acc,
+  // {business_type: "individual"},
+  //{
+    // individual: {
+    // first_name : 'testName',
+    //  last_name : 'testLast',
+    //   dob: {
+    //     day: '21',
+    //      month: '03',
+    //     year: '1997'
+    //   },
+      // address: {
+      //   line1: 'Föhrenweg',
+      //   city: 'Giswil',
+      //   postal_code: '6074',
+      // },
+    //   email: 'tesr@email.com',
+    //  phone: '+41754111234'
+    //},
+//     tos_acceptance: {
+//             date: Math.floor(Date.now() / 1000),
+//             ip: request.connection.remoteAddress 
+//           },
+
+//         },
+//   function(err, account) {
+//     console.log(err);
+//     console.log(account);
+//   }
+// );
+    
+    // let card; 
+    // stripe.tokens.create({
+    //     card: {
+    //       number: '4242424242424242',
+    //       exp_month: 12,
+    //       exp_year: 2020,
+    //       cvc: '123'
+    //     }
+    //   })
+    //   .then((result)=>{
+    //     card = result.id;
+    //     console.log(card)
+    //       stripe.accounts.create({
+    //         type: 'custom',
+    //         country: 'CH',
+    //         email: 'fullyTest@example.com',
+    //             requested_capabilities: ['card_payments', 'transfers'],
+    //             tos_acceptance: {
+    //               date: Math.floor(Date.now() / 1000),
+    //               ip: request.connection.remoteAddress // Assumes you're not using a proxy
+    //             }
+         
+    //       },(err,result)=>{
+    //         console.log(err)
+    //         console.log(result)})
+    //      })   
+    //   .catch(err=>{
+    //     console.log(err)
+    //   })
+      
 
 }
 
+const createStripeAcc = function () {
+
+};
+const createCard = function () {
+
+};
+const verifyAcc = function () {
+
+};
+
+
 /* 
+Business type
+Bank account or debit card
+Date of birth
+Legal name
+Terms of service acceptance
+
+ requested_capabilities: ['card_payments', 'transfers']
+
 individual.first_name	
 individual.last_name	
 individual.dob.day	
@@ -95,5 +161,72 @@ stripe.charges.create({
 });
 
 
+stripe.accounts.createExternalAccount(
+  'acct_1FGgPFIvRm4SRAz9',
+  {
+    external_account: 'tok_mastercard_debit',
+  },
+  function(err, card) {
+    // asynchronously called
+  }
+);
 
+stripe.accounts.retrieveExternalAccount(
+  'acct_1FGgPFIvRm4SRAz9',
+  'card_1FWUutIvRm4SRAz9yLCXISG6',
+  function(err, card) {
+    // asynchronously called
+  }
+)
+
+
+
+ let card; 
+    stripe.tokens.create({
+        card: {
+          number: '4242424242424242',
+          exp_month: 12,
+          exp_year: 2020,
+          cvc: '123'
+        }
+      })
+      .then((result)=>{
+        card = result.id;
+        console.log(card)
+          stripe.accounts.create({
+            type: 'custom',
+            country: 'CH',
+            email: 'testAcc@example.com',
+            business_type: 'individual',
+                // requested_capabilities: ['card_payments', 'transfers'],
+                // tos_acceptance: {
+                //   date: Math.floor(Date.now() / 1000),
+                //   ip: request.connection.remoteAddress // Assumes you're not using a proxy
+                // }
+         
+          }),(err,result)=>{
+            console.log(err)
+            console.log(result)}
+         })   
+      .then((data)=>{
+        console.log(data)
+      })
+      .catch(err=>{
+        console.log(err)
+      })
+      
+
+}
+individual: {
+first_name : 'testName',
+ last_name : 'testLast',
+  dob: {
+    day: '21',
+     month: '03',
+    year: '1997'
+  },
+  address: 'srt.Mailon 32',
+  email: 'tesr@email.com',
+ phone: '3806895043748'
+},
 */

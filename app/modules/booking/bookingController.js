@@ -134,19 +134,21 @@ exports.addBooking = function (req, res){
   
         const orders = OrderModel.find({orderOfilietId:orderOfilietId,orderStatus:inprogress,orderType:'per_hour'})
         orders.then(data=>{
-                // console.log(data)
+                console.log(data)
              data.forEach((val)=>{
                let start1 = +val.orderStartTime;
                let end1 = +val.orderEndTime;
+            //    console.log(start1,end1)
             //    console.log('start end 1  ' + start1,end1)
                orderPeriod.forEach(element => {
                    let start2 = +element.orderStartTime;
                    let end2 = +element.orderEndTime;
-                   compareIntervals(start1,end1,start2,end2,acc)
+                   compareIntervals(start1,end1,start2,end2)
                });
            })
           return resultArr;
         }).then(data=>{
+            // console.log(data)
             if(data.length === 0){
                 
                 orderPeriod.forEach(element => {
@@ -178,12 +180,11 @@ exports.addBooking = function (req, res){
             return res.status(200).json('error: 1');
         })
    
-            const  compareIntervals = function (start1 , end1 ,start2, end2){
-
-                if( (start1 > start2 && start1 < end2) || (start2 > start1 && start2 < end1) ){
-                    resultArr.push({start1,end1,start2,end2})
-                }
+        const  compareIntervals = function (start1 , end1 ,start2, end2){
+            if( (start1 > start2 && start1 < end2) || (start2 > start1 && start2 < end1) ){
+                resultArr.push(start1 , end1 ,start2, end2)
             }
+        }
         // } catch (error) {
         //     if(error){
         //         return res.status(200).json('error: 1');
@@ -204,7 +205,7 @@ exports.getOrders = function (req,res) {
                 orderOfilietId: orderOfilietId,
                 orderStatus: type
             })
-            // .skip((+pageNumber - 1) * limit).limit(limit)
+            .skip((+pageNumber - 1) * limit).limit(limit)
             .exec(function(err, result) {
                 if(err){
                     res.send(err)
