@@ -129,69 +129,70 @@ exports.addBooking = function (req, res){
            unicID
         } = req.body;
         
-            let resultArr = [];
-            let inprogress = 'inProgress'
-  
-        const orders = OrderModel.find({orderOfilietId:orderOfilietId,orderStatus:inprogress,orderType:'per_hour'})
-        orders.then(data=>{
-                console.log(data)
-             data.forEach((val)=>{
-               let start1 = +val.orderStartTime;
-               let end1 = +val.orderEndTime;
-            //    console.log(start1,end1)
-            //    console.log('start end 1  ' + start1,end1)
-               orderPeriod.forEach(element => {
-                   let start2 = +element.orderStartTime;
-                   let end2 = +element.orderEndTime;
-                   compareIntervals(start1,end1,start2,end2)
-               });
-           })
-          return resultArr;
-        }).then(data=>{
-            // console.log(data)
-            if(data.length === 0){
-                
-                orderPeriod.forEach(element => {
-                    let start = element.orderStartTime;
-                    let end = element.orderEndTime;
-                    
-                    const BookingModel = new OrderModel({
-                        orderUserId: ownerUserId,
-                        orderOfilietId: orderOfilietId,
-                        orderStartTime : start,
-                        orderType: orderType,
-                        orderEndTime : end,
-                        orderDescription : orderDescription,
-                        unicId: unicID
-                    })
-                    BookingModel.save((err,result)=>{
-                        if(err){
+            //     let resultArr = [];
+            //     let inprogress = 'inProgress'
+    
+            //         const orders = OrderModel.find({orderOfilietId:orderOfilietId,orderStatus:inprogress,orderType:'per_hour'})
+            //         orders.then(data=>{
+            //                 // console.log(data)
+            //             data.forEach((val)=>{
+            //             let start1 = +val.orderStartTime;
+            //             let end1 = +val.orderEndTime;
+            //             //    console.log(start1,end1)
+            //             //    console.log('start end 1  ' + start1,end1)
+            //             orderPeriod.forEach(element => {
+            //                 let start2 = +element.orderStartTime;
+            //                 let end2 = +element.orderEndTime;
+            //                 compareIntervals(start1,end1,start2,end2)
+            //             });
+            //         })
+            //         return resultArr;
+            //         }).then(data=>{
+            //             // console.log(data)
+            //             if(data.length === 0){
                             
-                            return res.status(200).json('error: 1')                     
-                        }
-                    })
-                });
-                return res.status(200).json('error: 0').end();
-            }else{
- 
-                return res.status(200).json('error: 1');
-            }
-        }).catch(err=>{
-            return res.status(200).json('error: 1');
-        })
-   
-        const  compareIntervals = function (start1 , end1 ,start2, end2){
-            if(start1===start2 ){
-                resultArr.push(start1 , end1 )
-            }
-            if(end1===end2 ){
-                resultArr.push(start1 , end1 )
-            }
-            if( (start1 > start2 && start1 < end2) || (start2 > start1 && start2 < end1) ){
-                resultArr.push(start1 , end1 ,start2, end2)
-            }
-        }
-        // } catch (error) {
+                            orderPeriod.forEach(element => {
+                                let start = element.orderStartTime;
+                                let end = element.orderEndTime;
+                                
+                                const BookingModel = new OrderModel({
+                                    orderUserId: ownerUserId,
+                                    orderOfilietId: orderOfilietId,
+                                    orderStartTime : start,
+                                    orderType: orderType,
+                                    orderEndTime : end,
+                                    orderDescription : orderDescription,
+                                    unicId: unicID
+                                })
+                                BookingModel.save((err,result)=>{
+                                    if(err){
+                                        
+                                        return res.status(200).json('error: 1')                     
+                                    }
+                                })
+                            });
+                            
+                            return res.status(200).json('error: 0').end();
+            //             }else{
+            
+            //                 return res.status(200).json('error: 1');
+            //             }
+            //         }).catch(err=>{
+            //             return res.status(200).json('error: 1');
+            //         })
+            
+            //         const  compareIntervals = function (start1 , end1 ,start2, end2){
+            //             if(start1===start2 ){
+            //                 resultArr.push(start1 , end1 )
+            //             }
+            //             if(end1===end2 ){
+            //                 resultArr.push(start1 , end1 )
+            //             }
+            //             if( (start1 > start2 && start1 < end2) || (start2 > start1 && start2 < end1) ){
+            //                 resultArr.push(start1 , end1 ,start2, end2)
+            //             }
+            //         }
+            // // } catch (error) {
         //     if(error){
         //         return res.status(200).json('error: 1');
         //     }

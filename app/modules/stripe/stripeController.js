@@ -10,13 +10,14 @@ exports.accountAuth = function (req, res){
 
     stripe.accounts.update(
       acc,
-      {
-        tos_acceptance: {
+      
+        {tos_acceptance: {
           date: Math.floor(Date.now() / 1000),
           ip: request.connection.remoteAddress 
-        }
-      },()=>{}
+        }}
+      
     )
+
 // stripe.accounts.update(
 //   acc,
   // {business_type: "individual"},
