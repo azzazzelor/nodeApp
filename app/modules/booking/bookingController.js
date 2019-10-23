@@ -181,6 +181,12 @@ exports.addBooking = function (req, res){
         })
    
         const  compareIntervals = function (start1 , end1 ,start2, end2){
+            if(start1===start2 ){
+                resultArr.push(start1 , end1 )
+            }
+            if(end1===end2 ){
+                resultArr.push(start1 , end1 )
+            }
             if( (start1 > start2 && start1 < end2) || (start2 > start1 && start2 < end1) ){
                 resultArr.push(start1 , end1 ,start2, end2)
             }
