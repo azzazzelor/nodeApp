@@ -22,7 +22,7 @@ exports.filterBookings = function(req, res){
         const arrWithInstructors = [];
         const arrWithSchools = [];
         let resArr = [];
-        let resArrWithFilerSchoolsInstroctors=[];
+        let resArrWithFilerSchoolsInstroctors = [];
         const LocatesWithInstructors = UserModel.find(
             {
                 "roleType": "instructor",
@@ -77,7 +77,7 @@ exports.filterBookings = function(req, res){
         })
         .then(data=>{
             resArrWithFilerSchoolsInstroctors.push(...data);
-            const orders =  OrderModel.find({'orderStatus':'inProgress',orderCreateDate : {$gt : dateFrom, $lt: dateTo}}).select('orderStartTime orderEndTime orderType orderOfilietId ')
+            const orders = OrderModel.find({'orderStatus':'inProgress',orderCreateDate : {$gt : dateFrom, $lt: dateTo}}).select('orderStartTime orderEndTime orderType orderOfilietId ')
             return orders;
         })
         .then(data=>{
@@ -89,21 +89,19 @@ exports.filterBookings = function(req, res){
         })
       
 
-        let resArr = [];
+        // let resArr = [];
 
 
         const compare = function (arrOfObj){
         
-            return arrOfObj.reduce((acc,val)=>{
+            return arrOfObj.filter((val)=>{
                 let string = val.orderOfilietId.toString()
                     resArrWithFilerSchoolsInstroctors.forEach(i=>{              
-                        if(i ===string){
-                            arrssaa.push(val)
-                            
+                        if(i === string){
+                            resArr.push(val)
                         }
-                })
-                
-            },[])
+                }) 
+            })
         }
     } catch (error) {
         if(error){

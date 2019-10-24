@@ -1,22 +1,48 @@
 const StripeModel = require('./stripeModel');
 const stripe = require("stripe")(process.env.STRIPE_API_KEY);
 
-exports.accountAuth = function (req, res){
+exports.accountAuth = function (req, res) {
     // create card token 
     // create acc 
     // verify acc 
     //add paypent card to acc 
     let acc = 'acct_1FWgzWJiDjSKwqNC';
+    stripe.tokens.create({
+      card: {
+        number: '4242424242424242',
+        exp_month: 12,
+        exp_year: 2020,
+        cvc: '123'
+      }
+    })
+    .then((card=>{
+      let id = card.id;
+      stripe.accounts.createExternalAccount(
+        acc,
+        {
+          external_account: id,
+        }
+      );
+      
+    }))
+    .then(result=>{
+      console.log(result)
+    })
+    .catch(err=>{
+      console.log(err)
+    })
+  //   stripe.accounts.update(
+  //     'acct_1FWgzWJiDjSKwqNC',
+  //       {tos_acceptance: {
+  //         date: Math.floor(Date.now() / 1000),
+  //         ip: request.connection.remoteAddress 
+  //       }},
+  // function(err, account) {
+  //   console.log(err);
+  //   console.log(account);
+  // }
+  //   )
 
-    stripe.accounts.update(
-      acc,
-      
-        {tos_acceptance: {
-          date: Math.floor(Date.now() / 1000),
-          ip: request.connection.remoteAddress 
-        }}
-      
-    )
 
 // stripe.accounts.update(
 //   acc,
