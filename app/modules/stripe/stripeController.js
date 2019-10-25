@@ -7,20 +7,35 @@ exports.accountAuth = function (req, res) {
     // verify acc 
     //add paypent card to acc 
     let acc = 'acct_1FWgzWJiDjSKwqNC';
+
+  //   stripe.accounts.update(
+  //     acc,
+  //       {tos_acceptance: {
+  //         date: Math.floor(Date.now() / 1000),
+  //         ip: req.ip
+  //       }},
+  // function(err, account) {
+  //   console.log(err);
+  //   console.log(account);
+  // }
+  //   )
+
     stripe.tokens.create({
       card: {
-        number: '4242424242424242',
+        number: '4000000000004210',
         exp_month: 12,
         exp_year: 2020,
-        cvc: '123'
+        cvc: '123',
+        currency: 'chf'
       }
     })
     .then((card=>{
-      let id = card.id;
+      console.log(card)
+      // console.log(id)
       stripe.accounts.createExternalAccount(
         acc,
         {
-          external_account: id,
+          external_account: 'tok_mastercard_debit_transferSuccess'
         }
       );
       
@@ -77,7 +92,7 @@ exports.accountAuth = function (req, res) {
 // );
     
     // let card; 
-    // stripe.tokens.create({
+    // return stripe.tokens.create({
     //     card: {
     //       number: '4242424242424242',
     //       exp_month: 12,
@@ -91,22 +106,39 @@ exports.accountAuth = function (req, res) {
     //       stripe.accounts.create({
     //         type: 'custom',
     //         country: 'CH',
-    //         email: 'fullyTest@example.com',
-    //             requested_capabilities: ['card_payments', 'transfers'],
-    //             tos_acceptance: {
-    //               date: Math.floor(Date.now() / 1000),
-    //               ip: request.connection.remoteAddress // Assumes you're not using a proxy
-    //             }
+    //         email: 'test@example.com',
+    //         business_type: 'individual'
+    //             // tos_acceptance: {
+    //             //   date: Math.floor(Date.now() / 1000),
+    //             //   ip: request.connection.remoteAddress // Assumes you're not using a proxy
+    //             // }
          
-    //       },(err,result)=>{
-    //         console.log(err)
-    //         console.log(result)})
+    //       },(err,result)=>{            
+    //         const {id} = result;
+    //         console.log(id)
+    //         stripe.accounts.retrieve(
+    //           id,
+    //           function(err, account) {
+    //             console.log(account.id)
+    //             stripe.accounts.update(
+    //               account.id,
+    //                 {tos_acceptance: {
+    //                   date: Math.floor(Date.now() / 1000),
+    //                   ip: req.ip
+    //                 }},
+    //           function(err, account) {
+    //             console.log(err);
+    //             console.log(account);
+    //           }
+    //             )
+    //           }
+    //         );
+    //       })
     //      })   
     //   .catch(err=>{
     //     console.log(err)
     //   })
-      
-
+     
 }
 
 const createStripeAcc = function () {

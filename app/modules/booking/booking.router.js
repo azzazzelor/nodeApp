@@ -42,6 +42,11 @@ module.exports = (app) => {
         '/finishOrder',
         //passport.authenticationMiddleware(),
         BookingController.finishOrder
+    );
+    app.post(
+        '/getStudentsOrders',
+        //passport.authenticationMiddleware(),
+        BookingController.getStudentsOrders
     )
 };
 

@@ -5,7 +5,8 @@ const BookingSchema = new Schema({
 
     orderUserId: {
         type: Schema.Types.ObjectId ,
-         ref: 'User',require : false
+        ref: 'User',
+        require : false
     },
     orderOfilietId: {
         type: Schema.Types.ObjectId ,

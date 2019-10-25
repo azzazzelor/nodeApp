@@ -377,6 +377,11 @@ exports.getByUnicId = function (req, res){
 
 exports.finishOrder = function (req, res) {
     const { orderId } = req.body;
+
+    if(!orderId) {
+        return  res.status(422).send({ error: 'Please send orderId.' });
+    }
+    
     let finished = 'Finished';
 
     OrderModel
@@ -391,3 +396,17 @@ exports.finishOrder = function (req, res) {
         res.send('error: 1')
     })
 }  
+
+exports.getStudentsOrders = function (req, res) {
+    const { studentId } = req.body;
+    let inprogress = 'inProgress';
+
+    OrderModel
+    .find({orderUserId: studentId,orderStatus:inprogress})
+    .then(data=>{
+        res.send(data)
+    })
+    .catch(error=>{
+        res.send('error: 1')
+    })
+}
