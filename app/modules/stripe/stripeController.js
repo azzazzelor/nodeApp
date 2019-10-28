@@ -6,149 +6,135 @@ exports.accountAuth = function (req, res) {
     // create acc 
     // verify acc 
     //add paypent card to acc 
-    let acc = 'acct_1FWgzWJiDjSKwqNC';
-
-  //   stripe.accounts.update(
-  //     acc,
-  //       {tos_acceptance: {
-  //         date: Math.floor(Date.now() / 1000),
-  //         ip: req.ip
-  //       }},
-  // function(err, account) {
-  //   console.log(err);
-  //   console.log(account);
-  // }
-  //   )
-
-    stripe.tokens.create({
-      card: {
-        number: '4000000000004210',
-        exp_month: 12,
-        exp_year: 2020,
-        cvc: '123',
-        currency: 'chf'
-      }
-    })
-    .then((card=>{
-      console.log(card)
-      // console.log(id)
-      stripe.accounts.createExternalAccount(
-        acc,
-        {
-          external_account: 'tok_mastercard_debit_transferSuccess'
-        }
-      );
-      
-    }))
-    .then(result=>{
-      console.log(result)
-    })
-    .catch(err=>{
-      console.log(err)
-    })
-  //   stripe.accounts.update(
-  //     'acct_1FWgzWJiDjSKwqNC',
-  //       {tos_acceptance: {
-  //         date: Math.floor(Date.now() / 1000),
-  //         ip: request.connection.remoteAddress 
-  //       }},
-  // function(err, account) {
-  //   console.log(err);
-  //   console.log(account);
-  // }
-  //   )
-
-
-// stripe.accounts.update(
-//   acc,
-  // {business_type: "individual"},
-  //{
-    // individual: {
-    // first_name : 'testName',
-    //  last_name : 'testLast',
-    //   dob: {
-    //     day: '21',
-    //      month: '03',
-    //     year: '1997'
-    //   },
-      // address: {
-      //   line1: 'Föhrenweg',
-      //   city: 'Giswil',
-      //   postal_code: '6074',
-      // },
-    //   email: 'tesr@email.com',
-    //  phone: '+41754111234'
-    //},
-//     tos_acceptance: {
-//             date: Math.floor(Date.now() / 1000),
-//             ip: request.connection.remoteAddress 
-//           },
-
-//         },
-//   function(err, account) {
-//     console.log(err);
-//     console.log(account);
-//   }
-// );
-    
-    // let card; 
-    // return stripe.tokens.create({
-    //     card: {
-    //       number: '4242424242424242',
-    //       exp_month: 12,
-    //       exp_year: 2020,
-    //       cvc: '123'
-    //     }
-    //   })
-    //   .then((result)=>{
-    //     card = result.id;
-    //     console.log(card)
-    //       stripe.accounts.create({
-    //         type: 'custom',
-    //         country: 'CH',
-    //         email: 'test@example.com',
-    //         business_type: 'individual'
-    //             // tos_acceptance: {
-    //             //   date: Math.floor(Date.now() / 1000),
-    //             //   ip: request.connection.remoteAddress // Assumes you're not using a proxy
-    //             // }
-         
-    //       },(err,result)=>{            
-    //         const {id} = result;
-    //         console.log(id)
-    //         stripe.accounts.retrieve(
-    //           id,
-    //           function(err, account) {
-    //             console.log(account.id)
-    //             stripe.accounts.update(
-    //               account.id,
-    //                 {tos_acceptance: {
-    //                   date: Math.floor(Date.now() / 1000),
-    //                   ip: req.ip
-    //                 }},
-    //           function(err, account) {
-    //             console.log(err);
-    //             console.log(account);
-    //           }
-    //             )
-    //           }
-    //         );
-    //       })
-    //      })   
-    //   .catch(err=>{
+    let acc1 = 'acct_1FX57XBz3zbIMGXl';
+    let acc2 = 'acct_1FWgzWJiDjSKwqNC';
+    // stripe.charges.create({
+    //   amount: 1500,
+    //   currency: "chf",
+    //   source: acc
+    // }).then(result=>{
+    //   console.log(result)
+    // }).catch(err=>{
+    //   console.log(err)
+    // })
+    // stripe.transfers.create({
+    //   amount: 1,
+    //   currency: "chf",
+    //   destination: acc,
+    // }).then(result=>{
+    //     console.log(result)
+    //   }).catch(err=>{
     //     console.log(err)
     //   })
+  //  let r = Math.random().toString(36).substring(7);
+
+ 
+    // stripe.charges.create({
+    //   amount: 10000,
+    //   currency: "chf",
+    //   source: acc,
+    //   transfer_group: r,
+    // }).then(result=>{
+    //       console.log(result)
+    //     }).catch(err=>{
+    //       console.log(err)
+    //     })
+    
+    // // Create a Transfer to the connected account (later):
+    // stripe.transfers.create({
+    //   amount: 7000,
+    //   currency: "chf",
+    //   destination: acc,
+    //   transfer_group: r,
+    // }).then(result=>{
+    //       console.log(result)
+    //     }).catch(err=>{
+    //       console.log(err)
+    //     })
+    stripe.charges.create({
+      amount: 1000,
+      currency: "chf",
+      source: acc1,
+      application_fee_amount: 123,
+      transfer_data: {
+        destination: acc2,
+      },
+    }).then(result=>{
+            console.log(result)
+          }).catch(err=>{
+            console.log(err)
+          })
      
 }
 
-const createStripeAcc = function () {
-
+const createStripeAcc = function (acc, req, res) {
+  stripe.accounts.create({
+            type: 'custom',
+            country: 'CH',
+            email: 'test@example.com',
+            business_type: 'individual'
+                })
 };
-const createCard = function () {
+const createCard = function (acc, req, res) {
 
+  stripe.tokens.create({
+    card: {
+      number: '4000000000004210',
+      exp_month: 12,
+      exp_year: 2020,
+      cvc: '123',
+      currency: 'chf'
+    }
+  })
+  .then((card=>{
+    console.log(card)
+    // console.log(id)
+    stripe.accounts.createExternalAccount(
+      acc,
+      {
+        external_account: 'tok_mastercard_debit_transferSuccess'
+      }
+    );
+    
+  }))
+  .then(result=>{
+    console.log(result)
+  })
+  .catch(err=>{
+    console.log(err)
+  })
 };
-const verifyAcc = function () {
+const verifyAcc = function (acc, req, res) {
+stripe.accounts.update(
+  acc,
+  {
+    individual: {
+    first_name : 'testName',
+     last_name : 'testLast',
+      dob: {
+        day: '21',
+         month: '03',
+        year: '1997'
+      },
+      address: {
+        line1: 'Föhrenweg',
+        city: 'Giswil',
+        postal_code: '6074',
+      },
+      email: 'tesr@email.com',
+     phone: '+41754111234'
+    },
+    tos_acceptance: {
+            date: Math.floor(Date.now() / 1000),
+            ip: req.ip
+          },
 
+        },
+  function(err, account) {
+    console.log(err);
+    console.log(account);
+  }
+);
 };
 
 

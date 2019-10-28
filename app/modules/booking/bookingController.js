@@ -236,43 +236,7 @@ const getGroupedArray = (array, key) => {
   
     return Object.values(object);
   };
-// const compare = function (arr) {
-//     let resultArr = [];
-//     let myArr = arr;
-//    do {
-//        let newArr =[];
-//        let element = myArr.pop();
-//        let newQuery = element.unicId;
-//         newArr.push(element)
-//        for(let i of myArr ){
-//            let tempQuery = i.unicId;
-//            if(tempQuery === newQuery){
-//             newArr.push(i);
-//             myArr.splice(myArr.indexOf(i),1);
-//            }
-//            continue;
-//        }
-//        resultArr.push(newArr);
-//    } while (myArr.length !== 0);
-//    return resultArr;
-//}
-// while (myArr.length !== 0) {
-//         let newArr =[];
-//         let element = myArr.shift();
-//         let newQuery = element.unicId;
-//         //newArr.push(element);
-//         for(let i of myArr){
-//             let tempQuery = i.unicId;
-//             if(tempQuery === newQuery){
-//             myArr.splice(myArr.indexOf(i),1)
-//             newArr.push(i)
-//             }
-//             resultArr.push(newArr);
-//         }
-        
-// }
-// console.log(resultArr)
-// }
+
 
 // exports.changeOrderStatus = function (req, res){
 //     const {orderId, orderStatus } = req.body;
@@ -404,7 +368,8 @@ exports.getStudentsOrders = function (req, res) {
     OrderModel
     .find({orderUserId: studentId,orderStatus:inprogress})
     .then(data=>{
-        res.send(data)
+            let grouped = getGroupedArray(data, 'unicId');
+            return res.status(200).json(grouped)
     })
     .catch(error=>{
         res.send('error: 1')
