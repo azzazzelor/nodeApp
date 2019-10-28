@@ -179,7 +179,7 @@ exports.takeLike = function (req, res){
 
     Student.findOneAndUpdate(
         {userId : studentId},
-        { $pull: { likedUsers : likedUserId } },
+        { $pull: { likedUsers : {likedUserId,roleType}}},
         function(err,like){
             if(err){
                 res.send('{error: 1}')
