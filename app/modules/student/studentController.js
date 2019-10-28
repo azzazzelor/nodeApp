@@ -39,7 +39,7 @@ exports.add_like_user = (req,res) =>{
     
     Student.findOneAndUpdate(
         {userId : studentId},
-        { $push: { likedUsers : likedUserId } },
+        { $push: { likedUsers : {likedUserId,roleType} } },
         function(err,like){
             if(err){
                 res.send('{error: 1}')

@@ -17,15 +17,15 @@ exports.accountAuth = function (req, res) {
     // }).catch(err=>{
     //   console.log(err)
     // })
-    // stripe.transfers.create({
-    //   amount: 1,
-    //   currency: "chf",
-    //   destination: acc,
-    // }).then(result=>{
-    //     console.log(result)
-    //   }).catch(err=>{
-    //     console.log(err)
-    //   })
+    stripe.transfers.create({
+      amount: 1,
+      currency: "chf",
+      destination: acc1,
+    }).then(result=>{
+        console.log(result)
+      }).catch(err=>{
+        console.log(err)
+      })
   //  let r = Math.random().toString(36).substring(7);
 
  
@@ -51,19 +51,18 @@ exports.accountAuth = function (req, res) {
     //     }).catch(err=>{
     //       console.log(err)
     //     })
-    stripe.charges.create({
-      amount: 1000,
-      currency: "chf",
-      source: acc1,
-      application_fee_amount: 123,
-      transfer_data: {
-        destination: acc2,
-      },
-    }).then(result=>{
-            console.log(result)
-          }).catch(err=>{
-            console.log(err)
-          })
+    // stripe.charges.create({
+    //   amount: 1000,
+    //   currency: "chf",
+    //   source: acc1,
+    //   transfer_data: {
+    //     destination: acc2,
+    //   },
+    // }).then(result=>{
+    //         console.log(result)
+    //       }).catch(err=>{
+    //         console.log(err)
+    //       })
      
 }
 
