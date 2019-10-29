@@ -3,12 +3,12 @@ const Filter = require('./filterModel');
 exports.add_filters = function(req,res){
     const reqBody = req.body;  
     const id = req.params.id;
-    const {city,priceCurrency,priceFrom,priceTo,rate,transmission,time,availibleDateFrom,availibleDateTo} = reqBody;
+    const {km,priceCurrency,priceFrom,priceTo,rate,transmission,time,availibleDateFrom,availibleDateTo} = reqBody;
 
     Filter.findOneAndUpdate(
         {userId : id},
         {
-            $set: {city,priceCurrency,priceFrom,priceTo,rate,transmission,time,availibleDateFrom,availibleDateTo}
+            $set: {km,priceCurrency,priceFrom,priceTo,rate,transmission,time,availibleDateFrom,availibleDateTo}
         },
         {upsert:true},
         function(err,filter){
