@@ -22,5 +22,5 @@ module.exports = (app) => {
         '/get_users_by_car',
         // passport.authenticationMiddleware(),
         InstructorController.getUsersCar
-    )
+    );
 };
