@@ -52,8 +52,14 @@ const SchoolSchema = new Schema({
         default: [],
     },
     rating: {
-        rate: {type: String,default: 0},
-        emount: {type: String,default: 0}
+        rate: {
+            type: String,
+            default: 0
+        },
+        emount: {
+            type: String,
+            default: 0
+        }
     }
 });
 

@@ -2,6 +2,7 @@ const School = require('./schoolModel');
 const User = require('../user/userModel');
 const validationService = require('../../services/validation.service');
 const bcrypt = require('bcryptjs');
+const Instructor = require('../instructor/instructorModel')
 
 exports.getByUserId = (req, res) => {
     School
@@ -143,29 +144,27 @@ exports.getInstructors = function (req, res) {
 
 exports.changeRating = function (req, res) {
     const {userId, rates, roleType } =req.body;
-    School.findOne({userId:userId})
-    .exec((err,school)=>{
-        if(err){
-            res.send('{error: 1}')
-        }else{
-           let newEmount = +school.rating.emount + 1; 
-        //    console.log(newEmount)
-        //    console.log(school.rating.rate)
-        //    console.log(rates)
-           let newRate = (Number(school.rating.rate) + Number(rates))/newEmount;
-             console.log(newRate)
-        // changesRating(...school,rates,req,res)
-        //    changesRating(newEmount, rates, oldRate )
-
-
-        }
-    })
-}
-
-const changesRating = function (school, retes,req,res){
-// console.log('emount'+emount);
-// console.log('rating'+rating);
-// console.log('oldRate'+oldRate);
-    let newEmount = +school.rating.emount + 1; 
-    let oldRate = +school.rate;
+    if(roleType === 'school'){
+        School.findOne({userId: userId})
+        .then(data=>{
+        const { emount, rate  } = data.rating;
+        let neEm = +emount + 1;
+        let newRate = (Number(rate) + Number(rates))/neEm;
+        return School.findOneAndUpdate({userId: userId},{
+            $set:{"rating.rate": newRate,"rating.emount": neEm}})
+        })
+        .then(data=>{res.send('error: 0')})
+        .catch(er=>{res.send('error: 1')})   
+    }else{
+        Instructor.findOne({userId: userId})
+        .then(data=>{
+        const { emount, rate  } = data.rating;
+        let neEm = +emount + 1;
+        let newRate = (Number(rate) + Number(rates))/neEm;
+        return Instructor.findOneAndUpdate({userId: userId},{
+            $set:{"rating.rate": newRate,"rating.emount": neEm}})
+        })
+        .then(data=>{res.send('error: 0')})
+        .catch(er=>{res.send('error: 1')})  
+    }   
 }

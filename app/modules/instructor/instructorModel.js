@@ -86,6 +86,16 @@ const InstructorSchema = new Schema({
         type: String,
         required: true
     },
+    rating: {
+        rate: {
+            type: String,
+            default: 0
+        },
+        emount: {
+            type: String,
+            default: 0
+        }
+    }
 })
 
 
