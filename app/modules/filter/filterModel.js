@@ -5,7 +5,7 @@ const FilterSchema = new Schema({
     userId : {
         type: Schema.Types.ObjectId, ref: "User"
     },
-    city : {
+    km: {
         type: String,
         required: true
     },

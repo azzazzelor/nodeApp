@@ -17,6 +17,26 @@ exports.accountAuth = function (req, res) {
     // }).catch(err=>{
     //   console.log(err)
     // })
+    // stripe.payouts.create({
+    //   amount: 1000,
+    //   currency: 'chf',
+    // }, {
+    //   stripe_account: acc1,
+    // }).then(function(payout) {
+      
+    // });
+    // stripe.charges.create({
+    //   amount: 1000,
+    //   currency: "chf",
+    //   source: acc1,
+    //   application_fee_amount: 123,
+    //   transfer_data: {
+    //     destination: acc2,
+    //   },
+    // }).then(function(charge) {
+    //   console.log(charge)
+    // }).catch(err=>{
+    //   console.log(err)})
     stripe.transfers.create({
       amount: 1,
       currency: "chf",
@@ -72,6 +92,8 @@ const createStripeAcc = function (acc, req, res) {
             country: 'CH',
             email: 'test@example.com',
             business_type: 'individual'
+                }).then(data=>{
+                  return 
                 })
 };
 const createCard = function (acc, req, res) {
