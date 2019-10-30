@@ -2,7 +2,7 @@ const mongoose = require("mongoose"),
 	Schema = mongoose.Schema;
     
 const StripeSchema = new Schema({
-    emails: {
+    Email: {
         type: String,
         require: true
     },
