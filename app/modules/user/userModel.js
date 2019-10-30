@@ -90,7 +90,7 @@ const UserSchema = new Schema({
 	activeChats: {
 		type: Array, 
 		default : [],
-	},
+	}
 })
 
 UserSchema.index({ location: '2dsphere' });
