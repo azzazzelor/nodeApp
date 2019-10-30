@@ -5,14 +5,14 @@ exports.createAcc = function (req, res) {
    const {
      email,
      phone, 
-     zipCode, //postal_code 6074
-     city,   //Giswil
-     address, //line1 'Föhrenweg'
+     zipCode, 
+     city,   
+     address, 
      dobYear, 
      dobMonth, 
      dobDay, 
      last_name,
-     first_name  //'vadim'
+     first_name  
     } = req.body;
 
     if(!email) {
@@ -45,7 +45,7 @@ exports.createAcc = function (req, res) {
     if(!last_name) {
       return res.status(422).send({ error: 'Please enter last name.' });
     }
-
+    let newNumber = "+" + phone;
 
     stripe.accounts.create({
       type: 'custom',
@@ -66,7 +66,7 @@ exports.createAcc = function (req, res) {
             postal_code: zipCode,
           },
           email: email,
-         phone: phone
+         phone: newNumber
         }, 
         tos_acceptance: {
           date: Math.floor(Date.now() / 1000),
@@ -77,33 +77,82 @@ exports.createAcc = function (req, res) {
               let newStripeModel = new StripeModel({
                 email: email,
                 stripeAccKey: id
-              })
+              });
               newStripeModel.save((err,result)=>{
                 if(err){
                   console.log(err)
                   res.send(err)
                 }else{
-                  res.send('error: 0')
-                }
+                  res.send({error: 0})
+                } 
               })
           }).catch(err=>{
-            console.log(err)
+            res.send({
+              error: 1,
+              errorName: 'StripeError',
+              errorMessage : err.raw.message
+            })
           })
 }
 exports.addCard = function (req, res) {
+  const {
+         email,
+         number,
+         exp_month,
+         exp_year, 
+         cvc  
+        } = req.body;
+
+        if(!email) {
+          return res.status(422).send({ error: 'Please enter email.' });
+        }
+        if(!number) {
+          return res.status(422).send({ error: 'Please enter card number.' });
+        }
+        if(!exp_month) {
+          return res.status(422).send({ error: 'Please enter exp_month.' });
+        }
+        if(!exp_year) {
+          return res.status(422).send({ error: 'Please enter exp_year.' });
+        }
+        if(!cvc) {
+          return res.status(422).send({ error: 'Please enter cvc.' });
+        }
+        let new_exp_month = +exp_month;
+        let new_exp_year = +exp_year;
+
+        stripe.tokens.create({
+          card: {
+            number: number,
+            exp_month: new_exp_month,
+            exp_year: new_exp_year,
+            cvc: cvc,
+            currency: 'chf'
+          }
+        })
+        .then((card=>{
+          let {id} = card;
+          return StripeModel.find({email:email})
+          
+          // console.log(id)
+          // stripe.accounts.createExternalAccount(
+          //   acc,
+          //   {
+          //     external_account: 'tok_mastercard_debit_transferSuccess'
+          //   }
+          // );
+          
+        }))
+        .then(result=>{
+           console.log(result, id)
+        })
+        .catch(err=>{
+          console.log(err)
+        })
 
 }
 
-const createStripeAcc = function (acc, req, res) {
-  stripe.accounts.create({
-            type: 'custom',
-            country: 'CH',
-            email: 'test@example.com',
-            business_type: 'individual'
-                }).then(data=>{
-                  return 
-                })
-};
+
 const createCard = function (acc, req, res) {
 
   stripe.tokens.create({
