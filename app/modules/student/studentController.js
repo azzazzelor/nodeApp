@@ -78,6 +78,9 @@ const changeFields = (data,id) => {
         lastName,
         dateOfBirth,
         personalImage,
+        city,
+		address,
+		zipCode
     } = data;
 
     if(password){
@@ -130,10 +133,26 @@ const changeFields = (data,id) => {
          //check personal image
          const personalImageValidation = validationService.validatePersonalPhotoUrl(personalImage);
          if (personalImageValidation.error) return reject(personalImageValidation);
-            
+         //check zip code
+		 const validateZipCode = validationService.validateZipCode(zipCode);
+		 if (validateZipCode.error) return reject(validateZipCode);
+		 //adress
+		 const validateAddress = validationService.validateAddress(address);
+		 if (validateAddress.error) return reject(validateAddress);
+		 //city
+		 const validateCity = validationService.validateCity(city);
+         if (validateCity.error) return reject(validateCity);
+         
          Student.findOneAndUpdate(
             { userId : id }, // критерий выборки
-            { $set: { firstName, lastName, dateOfBirth, personalImage}}, // параметр обновления
+            { $set: { city,
+                      address,
+                      zipCode,
+                      firstName, 
+                      lastName, 
+                      dateOfBirth, 
+                      personalImage
+                    }}, // параметр обновления
             function(err, student){
                 if(err){
                     return reject(err);

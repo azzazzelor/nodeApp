@@ -1,89 +1,97 @@
 const StripeModel = require('./stripeModel');
 const stripe = require("stripe")(process.env.STRIPE_API_KEY);
 
-exports.accountAuth = function (req, res) {
-    // create card token 
-    // create acc 
-    // verify acc 
-    //add paypent card to acc 
-    let acc1 = 'acct_1FX57XBz3zbIMGXl';
-    let acc2 = 'acct_1FWgzWJiDjSKwqNC';
-    // stripe.charges.create({
-    //   amount: 1500,
-    //   currency: "chf",
-    //   source: acc
-    // }).then(result=>{
-    //   console.log(result)
-    // }).catch(err=>{
-    //   console.log(err)
-    // })
-    // stripe.payouts.create({
-    //   amount: 1000,
-    //   currency: 'chf',
-    // }, {
-    //   stripe_account: acc1,
-    // }).then(function(payout) {
-      
-    // });
-    // stripe.charges.create({
-    //   amount: 1000,
-    //   currency: "chf",
-    //   source: acc1,
-    //   application_fee_amount: 123,
-    //   transfer_data: {
-    //     destination: acc2,
-    //   },
-    // }).then(function(charge) {
-    //   console.log(charge)
-    // }).catch(err=>{
-    //   console.log(err)})
-    stripe.transfers.create({
-      amount: 1,
-      currency: "chf",
-      destination: acc1,
-    }).then(result=>{
-        console.log(result)
-      }).catch(err=>{
-        console.log(err)
-      })
-  //  let r = Math.random().toString(36).substring(7);
+exports.createAcc = function (req, res) {
+   const {
+     email,
+     phone, 
+     zipCode, //postal_code 6074
+     city,   //Giswil
+     address, //line1 'Föhrenweg'
+     dobYear, 
+     dobMonth, 
+     dobDay, 
+     last_name,
+     first_name  //'vadim'
+    } = req.body;
 
- 
-    // stripe.charges.create({
-    //   amount: 10000,
-    //   currency: "chf",
-    //   source: acc,
-    //   transfer_group: r,
-    // }).then(result=>{
-    //       console.log(result)
-    //     }).catch(err=>{
-    //       console.log(err)
-    //     })
-    
-    // // Create a Transfer to the connected account (later):
-    // stripe.transfers.create({
-    //   amount: 7000,
-    //   currency: "chf",
-    //   destination: acc,
-    //   transfer_group: r,
-    // }).then(result=>{
-    //       console.log(result)
-    //     }).catch(err=>{
-    //       console.log(err)
-    //     })
-    // stripe.charges.create({
-    //   amount: 1000,
-    //   currency: "chf",
-    //   source: acc1,
-    //   transfer_data: {
-    //     destination: acc2,
-    //   },
-    // }).then(result=>{
-    //         console.log(result)
-    //       }).catch(err=>{
-    //         console.log(err)
-    //       })
-     
+    if(!email) {
+      return res.status(422).send({ error: 'Please enter email.' });
+    }
+    if(!phone) {
+      return res.status(422).send({ error: 'Please enter phone.' });
+    }
+    if(!zipCode) {
+      return res.status(422).send({ error: 'Please enter zipCode.' });
+    }
+    if(!address) {
+      return res.status(422).send({ error: 'Please enter address.' });
+    }
+    if(!city) {
+      return res.status(422).send({ error: 'Please enter city.' });
+    }
+    if(!dobYear) {
+      return res.status(422).send({ error: 'Please enter birth year.' });
+    }
+    if(!dobMonth) {
+      return res.status(422).send({ error: 'Please enter  birth month.' });
+    }
+    if(!dobDay) {
+      return res.status(422).send({ error: 'Please enter birth day.' });
+    }
+    if(!first_name) {
+      return res.status(422).send({ error: 'Please enter first name.' });
+    }
+    if(!last_name) {
+      return res.status(422).send({ error: 'Please enter last name.' });
+    }
+
+
+    stripe.accounts.create({
+      type: 'custom',
+      country: 'CH',
+      email: email,
+      business_type: 'individual',
+      individual: {
+        first_name : first_name,
+         last_name : last_name,
+          dob: {
+            day: dobDay ,
+             month: dobMonth,
+            year:  dobYear
+          },
+          address: {
+            line1: address,
+            city: city,
+            postal_code: zipCode,
+          },
+          email: email,
+         phone: phone
+        }, 
+        tos_acceptance: {
+          date: Math.floor(Date.now() / 1000),
+          ip: req.ip
+        },
+          }).then(data=>{
+              let { id } = data;
+              let newStripeModel = new StripeModel({
+                email: email,
+                stripeAccKey: id
+              })
+              newStripeModel.save((err,result)=>{
+                if(err){
+                  console.log(err)
+                  res.send(err)
+                }else{
+                  res.send('error: 0')
+                }
+              })
+          }).catch(err=>{
+            console.log(err)
+          })
+}
+exports.addCard = function (req, res) {
+
 }
 
 const createStripeAcc = function (acc, req, res) {
@@ -160,6 +168,89 @@ stripe.accounts.update(
 
 
 /* 
+ // create card token 
+    // create acc 
+    // verify acc 
+    //add paypent card to acc 
+    let acc1 = 'acct_1FX57XBz3zbIMGXl';
+    let acc2 = 'acct_1FWgzWJiDjSKwqNC';
+   
+    stripe.transfers.create({
+      amount: 1,
+      currency: "chf",
+      destination: acc1,
+    }).then(result=>{
+        console.log(result)
+      }).catch(err=>{
+        console.log(err)
+      })
+  //  let r = Math.random().toString(36).substring(7);
+
+ 
+    // stripe.charges.create({
+    //   amount: 10000,
+    //   currency: "chf",
+    //   source: acc,
+    //   transfer_group: r,
+    // }).then(result=>{
+    //       console.log(result)
+    //     }).catch(err=>{
+    //       console.log(err)
+    //     })
+    
+    // // Create a Transfer to the connected account (later):
+    // stripe.transfers.create({
+    //   amount: 7000,
+    //   currency: "chf",
+    //   destination: acc,
+    //   transfer_group: r,
+    // }).then(result=>{
+    //       console.log(result)
+    //     }).catch(err=>{
+    //       console.log(err)
+    //     })
+    // stripe.charges.create({
+    //   amount: 1000,
+    //   currency: "chf",
+    //   source: acc1,
+    //   transfer_data: {
+    //     destination: acc2,
+    //   },
+    // }).then(result=>{
+    //         console.log(result)
+    //       }).catch(err=>{
+    //         console.log(err)
+    //       })
+     
+ // stripe.charges.create({
+    //   amount: 1500,
+    //   currency: "chf",
+    //   source: acc
+    // }).then(result=>{
+    //   console.log(result)
+    // }).catch(err=>{
+    //   console.log(err)
+    // })
+    // stripe.payouts.create({
+    //   amount: 1000,
+    //   currency: 'chf',
+    // }, {
+    //   stripe_account: acc1,
+    // }).then(function(payout) {
+      
+    // });
+    // stripe.charges.create({
+    //   amount: 1000,
+    //   currency: "chf",
+    //   source: acc1,
+    //   application_fee_amount: 123,
+    //   transfer_data: {
+    //     destination: acc2,
+    //   },
+    // }).then(function(charge) {
+    //   console.log(charge)
+    // }).catch(err=>{
+    //   console.log(err)})
 Business type
 Bank account or debit card
 Date of birth
@@ -256,43 +347,9 @@ stripe.accounts.retrieveExternalAccount(
           cvc: '123'
         }
       })
-      .then((result)=>{
-        card = result.id;
-        console.log(card)
-          stripe.accounts.create({
-            type: 'custom',
-            country: 'CH',
-            email: 'testAcc@example.com',
-            business_type: 'individual',
-                // requested_capabilities: ['card_payments', 'transfers'],
-                // tos_acceptance: {
-                //   date: Math.floor(Date.now() / 1000),
-                //   ip: request.connection.remoteAddress // Assumes you're not using a proxy
-                // }
-         
-          }),(err,result)=>{
-            console.log(err)
-            console.log(result)}
-         })   
-      .then((data)=>{
-        console.log(data)
-      })
-      .catch(err=>{
-        console.log(err)
-      })
+      .then((
       
 
 }
-individual: {
-first_name : 'testName',
- last_name : 'testLast',
-  dob: {
-    day: '21',
-     month: '03',
-    year: '1997'
-  },
-  address: 'srt.Mailon 32',
-  email: 'tesr@email.com',
- phone: '3806895043748'
-},
+
 */

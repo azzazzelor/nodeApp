@@ -221,7 +221,10 @@ const createNewStudent = (data) => {
         dateOfBirth,
         driverLicenseStatus,
 		personalImage,
-		driverLicensePhoto
+		driverLicensePhoto,
+		city,
+		address,
+		zipCode
     } = data;
 
 	return new Promise((resolve, reject) => {
@@ -243,6 +246,15 @@ const createNewStudent = (data) => {
 		//check license photo
 		const licensePhotoValidation = validationService.validateDriverLicensePhoto(driverLicensePhoto);
 		if (licensePhotoValidation.error) return reject(licensePhotoValidation);
+		//check zip code
+		const validateZipCode = validationService.validateZipCode(zipCode);
+		if (validateZipCode.error) return reject(validateZipCode);
+		//adress
+		const validateAddress = validationService.validateAddress(address);
+		if (validateAddress.error) return reject(validateAddress);
+		//city
+		const validateCity = validationService.validateCity(city);
+		if (validateCity.error) return reject(validateCity);
 
 		createUser(data).then((user) => {
 
@@ -253,7 +265,10 @@ const createNewStudent = (data) => {
                 dateOfBirth,
                 driverLicenseStatus,
                 personalImage,
-				driverLicensePhoto
+				driverLicensePhoto,
+				city,
+				address,
+				zipCode
             });
 
             newStudent.save((err, student) => {
@@ -287,6 +302,9 @@ const createNewInstructor = (data) => {
         coverImage,
         pricePerKmCurrency,
 		pricePerHourCurrency,
+		city,
+		address,
+		zipCode
 	} = data;
 
 	const newInstructBodyCar = Object.assign({}, ...data.car);
@@ -347,6 +365,15 @@ const createNewInstructor = (data) => {
 		//check price Per Hour
 		const validatePricePerHour = validationService.validatePricePerHour(pricePerHour);
 		if (validatePricePerHour.error) return reject(validatePricePerHour);
+		//check zip code
+		const validateZipCode = validationService.validateZipCode(zipCode);
+		if (validateZipCode.error) return reject(validateZipCode);
+		//adress
+		const validateAddress = validationService.validateAddress(address);
+		if (validateAddress.error) return reject(validateAddress);
+		//city
+		const validateCity = validationService.validateCity(city);
+		if (validateCity.error) return reject(validateCity);
 
 		createUser(data).then((user) => {
 			const newInstructor = new Instructor({
@@ -369,7 +396,10 @@ const createNewInstructor = (data) => {
 				pricePerHourCurrency,
                 driverLicensePhoto,
                 pricePerKmCurrency,
-				coverImage         
+				coverImage,  
+				city,
+				address,
+				zipCode   
 			})
 			newInstructor.save((err, instructor) => {
             	if (err) {
@@ -393,7 +423,7 @@ const createNewInstructor = (data) => {
 const createNewSchool = (data) => {
 	const {
 		name,
-        adress,
+        address,
         zipCode,
         vatNumber,
         lastDayInspection,
@@ -401,7 +431,8 @@ const createNewSchool = (data) => {
         pricePerTrainingCurrency,
         coverImage, 
         schoolLicensePhoto,
-        personalImage
+		personalImage,
+		city
 	} = data;
 
 	return new Promise((resolve, reject)=>{
@@ -414,9 +445,6 @@ const createNewSchool = (data) => {
 		//check name
 		const validateName = validationService.validateName(name);
 		if (validateName.error) return reject(validateName);
-		//check adress
-		const validateAdress = validationService.validateAdress(adress);
-		if (validateAdress.error) return reject(validateAdress);
 		//check zip 
 		const validateZipCode = validationService.validateZipCode(zipCode);
 		if (validateZipCode.error) return reject(validateZipCode);
@@ -433,14 +461,20 @@ const createNewSchool = (data) => {
 		const validatePricePerTrainingCurrency = validationService.validatePricePerTrainingCurrency(pricePerTrainingCurrency);
 		if (validatePricePerTrainingCurrency.error) return reject(validatePricePerTrainingCurrency);
 		//check school License Photo
-		 const validateSchoolLicencePhoto = validationService.validateSchoolLicencePhoto(schoolLicensePhoto);
-		 if (validateSchoolLicencePhoto.error) return reject(validateSchoolLicencePhoto);
+		const validateSchoolLicencePhoto = validationService.validateSchoolLicencePhoto(schoolLicensePhoto);
+		if (validateSchoolLicencePhoto.error) return reject(validateSchoolLicencePhoto);
+		//adress
+		const validateAddress = validationService.validateAddress(address);
+		if (validateAddress.error) return reject(validateAddress);
+		//city
+		const validateCity = validationService.validateCity(city);
+		if (validateCity.error) return reject(validateCity);
 
 		createUser(data).then((user) =>{
 			const newSchool = new School({
                 userId: user.id,
 				name,
-				adress,
+				address,
 				zipCode,
 				vatNumber,
 				lastDayInspection,
@@ -448,7 +482,8 @@ const createNewSchool = (data) => {
 				pricePerTrainingCurrency,
 				coverImage,
 				schoolLicensePhoto,
-				personalImage,				
+				personalImage,	
+				city			
 			})
 
 			newSchool.save((err, school) => {

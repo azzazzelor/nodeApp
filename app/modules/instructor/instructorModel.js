@@ -95,6 +95,18 @@ const InstructorSchema = new Schema({
             type: String,
             default: 0
         }
+    },
+    city: {
+        type: String,
+        required: true
+    },
+    address: {
+        type: String,
+        required: true
+    },
+    zipCode: {
+        type: String,
+        required: true
     }
 })
 

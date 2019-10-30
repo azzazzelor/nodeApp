@@ -34,11 +34,13 @@ const changeFields = (data,id) => {
         email,
         password,
         phoneNumber,
-        adress,
+        address,
         lastDayInspection,
         name,
         coverImage,
-        personalImage
+        personalImage,
+        city,
+        zipCode
     } = data;
     
 if(password){
@@ -90,18 +92,24 @@ if(password){
          const coverImageValidation = validationService.validateCoverPhotoUrl(coverImage);
          if (coverImageValidation.error) return reject(coverImageValidation);
          //check adress
-         const validateAdress = validationService.validateAdress(adress);
-         if (validateAdress.error) return reject(validateAdress);
+         const validateAddress = validationService.validateAddress(address);
+         if (validateAddress.error) return reject(validateAddress);
          //check last Day Inspection
          const validateLastDayInspection = validationService.validateLastDayInspection(lastDayInspection);
          if (validateLastDayInspection.error) return reject(validateLastDayInspection);
          //check personal image
          const personalImageValidation = validationService.validatePersonalPhotoUrl(personalImage);
          if (personalImageValidation.error) return reject(personalImageValidation);
+         //city
+		 const validateCity = validationService.validateCity(city);
+         if (validateCity.error) return reject(validateCity);
+         //check zip code
+		 const validateZipCode = validationService.validateZipCode(zipCode);
+		 if (validateZipCode.error) return reject(validateZipCode);
          
          School.findOneAndUpdate(
             { userId : id }, // критерий выборки
-            { $set: { adress, lastDayInspection, name, coverImage, personalImage }}, // параметр обновления
+            { $set: { address, lastDayInspection, name, coverImage, personalImage, zipCode, city }}, // параметр обновления
             (err, school) => {
                 if(err){
                     return reject(err);

@@ -37,6 +37,18 @@ const StudentSchema = new Schema({
     likedUsers: {
         type: Array,
         default: [],
+    },
+    city: {
+        type: String,
+        required: true
+    },
+    address: {
+        type: String,
+        required: true
+    },
+    zipCode: {
+        type: String,
+        required: true
     }
 });
 

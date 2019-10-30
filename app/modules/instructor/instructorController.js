@@ -91,7 +91,10 @@ const changeFields = (data,id) => {
         lastName,
         driverExperienceYear,
         personalImage,
-        coverImage
+        coverImage,
+        city,
+		address,
+		zipCode
     } = data;
 
     
@@ -179,7 +182,16 @@ const changeFields = (data,id) => {
          if (validatePricePerHour.error) return reject(validatePricePerHour);
          const validateBirth = validationService.validateBirth(dateOfBirth);
          if (validateBirth.error) return reject(validateBirth);
-         
+         //check zip code
+         const validateZipCode = validationService.validateZipCode(zipCode);
+         if (validateZipCode.error) return reject(validateZipCode);
+         //adress
+         const validateAddress = validationService.validateAddress(address);
+         if (validateAddress.error) return reject(validateAddress);
+         //city
+         const validateCity = validationService.validateCity(city);
+         if (validateCity.error) return reject(validateCity);
+
          Instructor.findOneAndUpdate(
             { userId : id }, // критерий выборки
             { $set: {
@@ -189,6 +201,9 @@ const changeFields = (data,id) => {
                 driverExperienceYear,
                 personalImage,
                 coverImage,
+                city,
+                address,
+                zipCode,
                 car:[{transmission,brand,registrationNumber,pricePerKm,pricePerHour}]
                 }}, // параметры обновления
             function(err, instructor){
@@ -238,7 +253,10 @@ const studentBecomeInstructor = (data,id) =>{
         coverImage,
         pricePerKmCurrency,
         pricePerHourCurrency,
-        dateOfBirth
+        dateOfBirth,
+        city,
+		address,
+		zipCode
 	} = data;
 
 	const newInstructBodyCar = Object.assign({}, ...data.car);
@@ -299,7 +317,16 @@ const studentBecomeInstructor = (data,id) =>{
 		//check price Per Hour
 		const validatePricePerHour = validationService.validatePricePerHour(pricePerHour);
 		if (validatePricePerHour.error) return reject(validatePricePerHour);
-
+        //check zip code
+		const validateZipCode = validationService.validateZipCode(zipCode);
+		if (validateZipCode.error) return reject(validateZipCode);
+		//adress
+		const validateAddress = validationService.validateAddress(address);
+		if (validateAddress.error) return reject(validateAddress);
+		//city
+		const validateCity = validationService.validateCity(city);
+        if (validateCity.error) return reject(validateCity);
+        
             User.deleteOne({_id:id}, function(err){
                 if(err){reject(err)}
                 
@@ -329,7 +356,10 @@ const studentBecomeInstructor = (data,id) =>{
                 driverLicensePhoto,
                 pricePerKmCurrency,
                 coverImage,
-                dateOfBirth              
+                dateOfBirth,
+                city,
+                address,
+                zipCode              
             })
 			newInstructor.save((err, instructor) => {
             	if (err) {

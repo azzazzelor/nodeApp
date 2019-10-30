@@ -271,12 +271,12 @@ exports.validateName = (name) => {
     // };
 };
 
-exports.validateAdress = (adress) =>{
-	if (adress === "") return {
+exports.validateAddress = (address) =>{
+	if (address === "") return {
 		error: 1,
 	name: "AppError",
-		code: VALIDATION_ERRORS.INVALID_ADRESS,
-	errmsg: 'Adress is required'
+		code: VALIDATION_ERRORS.INVALID_ADDRESS,
+	errmsg: 'Address is required'
 	};
 
 	return {
@@ -284,6 +284,21 @@ exports.validateAdress = (adress) =>{
 	};
 
 };
+
+exports.validateCity = (city) =>{
+	if (city === "") return {
+		error: 1,
+	name: "AppError",
+		code: VALIDATION_ERRORS.INVALID_CITY,
+	errmsg: 'City is required'
+	};
+
+	return {
+		error: 0
+	};
+
+};
+
 
 exports.validateZipCode = (code) => {
 	if (typeof(code) === "undefined") return {

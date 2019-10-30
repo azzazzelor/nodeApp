@@ -5,13 +5,13 @@ const StripeController = require('./stripeController');
 
 module.exports = (app) => {
     app.post(
-        '/acc_auth',
+        '/individual_acc',
         //passport.authenticationMiddleware(),
-        StripeController.accountAuth
+        StripeController.createAcc
     );
-    // app.post(
-    //     '/add_filters/:id',
-    //     // passport.authenticationMiddleware(),
-    //     FilterController.add_filters
-    // );
+    app.post(
+        '/add_card', 
+        //passport.authenticationMiddleware(),
+        StripeController.addCard
+    )
 };

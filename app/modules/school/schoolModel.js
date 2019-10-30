@@ -7,7 +7,7 @@ const SchoolSchema = new Schema({
         type : String,
         required : true,
     },
-    adress: {
+    address: {
         type : String,
         required : true,
     },
@@ -60,6 +60,10 @@ const SchoolSchema = new Schema({
             type: String,
             default: 0
         }
+    },
+    city: {
+        type: String,
+        required: true
     }
 });
 
