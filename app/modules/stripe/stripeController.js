@@ -132,7 +132,9 @@ exports.addCard = function (req, res) {
         })
         .then((card=>{
           let {id} = card;
-          return StripeModel.find({email:email})
+          let {brand, last4} = card.card;
+          console.log(brand, id, last4)
+          // return StripeModel.find({email:email})
           
           // console.log(id)
           // stripe.accounts.createExternalAccount(
@@ -143,13 +145,9 @@ exports.addCard = function (req, res) {
           // );
           
         }))
-        .then(result=>{
-           console.log(result, id)
-        })
         .catch(err=>{
           console.log(err)
         })
-
 }
 
 

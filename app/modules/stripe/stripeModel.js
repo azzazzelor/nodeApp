@@ -4,13 +4,36 @@ const mongoose = require("mongoose"),
 const StripeSchema = new Schema({
     Email: {
         type: String,
-        require: true
+        required: true
     },
     stripeAccKey: {
         type: String,
         required: true
     },
-
+    brand: {
+        type: String,
+        required: false
+    },
+    last_three: {
+        type: String,
+        required: false
+    },
+    first_name: {
+        type: String,
+        required: false
+    },
+    last_name: {
+        type: String,
+        required: false
+    },
+    exp_month: {
+        type: String,
+        required: false
+    },
+    exp_year: {
+        type: String,
+        required: false
+    }
 });
 
 module.exports = mongoose.model("Stripe", StripeSchema)

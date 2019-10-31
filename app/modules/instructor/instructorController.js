@@ -3,7 +3,7 @@ const validationService = require('../../services/validation.service');
 const User = require('../user/userModel');
 const Student = require('../student/studentModel');
 const bcrypt = require('bcryptjs');
-
+const FilterModel = require('../filter/filterModel');
 
 /**
  * Create User helper
@@ -230,8 +230,8 @@ const changeFields = (data,id) => {
 }
 
 exports.becomeInstructor = (req, res) => {
-    const reqBody = req.body  
-    const id = req.params.id
+    const reqBody = req.body;  
+    const id = req.params.id;
 
     return studentBecomeInstructor(reqBody,id).then((instructor)=>{
         res.send(instructor)
@@ -334,7 +334,10 @@ const studentBecomeInstructor = (data,id) =>{
             Student.deleteOne({userId:id}, function(err){
                 if(err){reject(err) }
             })
-            
+            FilterModel.deleteOne({userId:id}, function(err){
+                if(err){reject(err) }
+            })
+
            createUser(data).then((user) => {
 			const newInstructor = new Instructor({
                 userId: user.id,
@@ -367,6 +370,7 @@ const studentBecomeInstructor = (data,id) =>{
                     	return reject(err);
                     });
                 } else {
+                    User.updateOne({_id:user.id},{instructor:instructor._id},(err)=>{if(err){reject(err)}});
                     return resolve(instructor);
                 }
             });
