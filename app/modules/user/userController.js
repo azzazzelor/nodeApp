@@ -6,6 +6,7 @@ const Instructor = require('../instructor/instructorModel')
 const School = require('../school/schoolModel')
 const validationService = require('../../services/validation.service');
 const {APP_ERRORS} = require('../../../config/constants');
+const FilterModel  = require('../filter/filterModel');
 
 /**
  * Base GET "/" method
@@ -278,6 +279,10 @@ const createNewStudent = (data) => {
                     });
                 } else {
 					User.updateOne({_id:user.id},{student:student._id},(err)=>{if(err){reject(err)}});
+					// filters save 
+					//km 30 priceCurrency chf priceFrom  0 priceTo 100 rate top rated transmission auto time morning
+					let newFilter = new FilterModel({userId:user.id})
+					newFilter.save((err)=>{if(err){reject(err)}})
                     return resolve(student);
                 }
             });

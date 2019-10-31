@@ -7,39 +7,48 @@ const FilterSchema = new Schema({
     },
     km: {
         type: String,
-        required: true
+        required: true,
+        default: '30',
     },
     priceCurrency: {
         type: String,
-        required: false
+        required: false,
+        default: 'chf',
     },
     priceFrom: {
         type: String,
-        required: false
+        required: false,
+        default: '0',
     },
     priceTo: {
         type: String,
-        required: false
+        required: false,
+        default: '100',
     },
     rate: {
         type: String,
-        required: false
+        required: false,
+        default: 'Top rated' 
     },
     transmission: {
         type: String,
-        required: false
+        required: false,
+        default: 'Auto'
     },
     time: {
         type: String,
-        required: false 
+        required: false,
+        default: 'Morning'
     },
     availibleDateFrom: {
         type: String,
-        required: false
+        required: false,
+        default: null
     },
     availibleDateTo: {
         type: String,
-        required: false
+        required: false,
+        default: null
     },
 });
 

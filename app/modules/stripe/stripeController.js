@@ -75,7 +75,7 @@ exports.createAcc = function (req, res) {
           }).then(data=>{
               let { id } = data;
               let newStripeModel = new StripeModel({
-                email: email,
+                Email: email,
                 stripeAccKey: id
               });
               newStripeModel.save((err,result)=>{
