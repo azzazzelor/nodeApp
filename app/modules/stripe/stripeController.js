@@ -76,7 +76,9 @@ exports.createAcc = function (req, res) {
               let { id } = data;
               let newStripeModel = new StripeModel({
                 Email: email,
-                stripeAccKey: id
+                stripeAccKey: id,
+                first_name: first_name,
+                last_name: last_name
               });
               newStripeModel.save((err,result)=>{
                 if(err){
@@ -120,6 +122,9 @@ exports.addCard = function (req, res) {
         }
         let new_exp_month = +exp_month;
         let new_exp_year = +exp_year;
+        let last3 = '';
+        let cardId = '';
+        let cardBrand = '';
 
         stripe.tokens.create({
           card: {
@@ -133,10 +138,13 @@ exports.addCard = function (req, res) {
         .then((card=>{
           let {id} = card;
           let {brand, last4} = card.card;
-          console.log(brand, id, last4)
-          // return StripeModel.find({email:email})
+          last3 = last4.slice(1)
+          cardId = id;
+          cardBrand = brand;
           
-          // console.log(id)
+          return StripeModel.findOne({Email:email}).select('stripeAccKey -_id').then(data=>{return data.stripeAccKey})
+          
+          
           // stripe.accounts.createExternalAccount(
           //   acc,
           //   {
@@ -144,7 +152,22 @@ exports.addCard = function (req, res) {
           //   }
           // );
           
+            // StripeModel.findOneAndUpdate({email:email},{brand:brand,last_three:last3, })
+
         }))
+        .then(acc=>{
+          stripe.accounts.createExternalAccount(
+            acc,
+            {
+              external_account: cardId
+            }
+          )
+          
+           
+        })
+        .then(result=>{
+          console.log(result)
+        })
         .catch(err=>{
           console.log(err)
         })

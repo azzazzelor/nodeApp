@@ -375,3 +375,20 @@ exports.getStudentsOrders = function (req, res) {
         res.send('error: 1')
     })
 }
+
+exports.getOneOrder = function (req, res) {
+    let {orderId} = req.body;
+
+    if(!orderId) {
+        return  res.status(422).send({ error: 'Please send orderId.' });
+    }
+
+    OrderModel
+    .findById(orderId)
+    .then(data=>{
+        res.status(200).json(data)
+    })
+    .catch(error=>{
+        res.send('error: 1')
+    })    
+}
