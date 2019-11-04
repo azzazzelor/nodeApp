@@ -19,5 +19,10 @@ module.exports = (app) => {
          //passport.authenticationMiddleware(),
          StripeController.transaction
 
-    )
+    );
+    app.post(
+        '/get_card_info',
+        //passport.authenticationMiddleware(),
+        StripeController.get_card_info
+    );
 };

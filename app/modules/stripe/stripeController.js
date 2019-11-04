@@ -181,20 +181,36 @@ exports.transaction = function (req, res) {
     stripe.charges.create({
       amount: 1500,
       currency: "chf",
-      source: acc1
+      source: acc1,
+      receipt_email: senderEmail,
     }).then(result=>{
-      console.log(result)
+      if(paid){
+        stripe.payouts.create({
+          amount: 1000,
+          currency: 'chf',
+        }, {
+          stripe_account: acc2,
+        }).then(function(payout) {
+          console.log(payout)
+        });
+      }
     }).catch(err=>{
       console.log(err)
     })
-    stripe.payouts.create({
-      amount: 1000,
-      currency: 'chf',
-    }, {
-      stripe_account: acc2,
-    }).then(function(payout) {
-      console.log(payout)
-    });
+    
+}
+
+exports.get_card_info = function (req, res) {
+  let {email} = req.body;
+  StripeModel
+  .find({Email:email})
+  .select('brand last_three first_name last_name exp_month exp_year -_id')
+  .then(data=>{
+    res.send(data)
+  })
+  .catch(err=>{
+    res.send('error: 1')
+  })
 }
 
 
