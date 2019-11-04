@@ -142,99 +142,60 @@ exports.addCard = function (req, res) {
           cardId = id;
           cardBrand = brand;
           
-          return StripeModel.findOne({Email:email}).select('stripeAccKey -_id').then(data=>{return data.stripeAccKey})
-          
-          
-          // stripe.accounts.createExternalAccount(
-          //   acc,
-          //   {
-          //     external_account: 'tok_mastercard_debit_transferSuccess'
-          //   }
-          // );
-          
-            // StripeModel.findOneAndUpdate({email:email},{brand:brand,last_three:last3, })
-
+          return StripeModel
+          .findOne({Email:email})
+          .select('stripeAccKey -_id')
+          .then(data=>{
+            return data.stripeAccKey
+          })
         }))
         .then(acc=>{
+          // console.log(typeof cardId, typeof acc)
           stripe.accounts.createExternalAccount(
             acc,
             {
-              external_account: cardId
+              external_account: 'tok_mastercard_debit_transferSuccess'
             }
-          )
-          
-           
+          ).then((res)=>{
+             StripeModel.findOneAndUpdate({Email: email},{brand: brand, last_three: last3, })
+            console.log(res)
+          })   
         })
         .then(result=>{
-          console.log(result)
+          res.send({error: 0})
         })
         .catch(err=>{
-          console.log(err)
+          res.send({
+            error: 1,
+            errorName: 'StripeError',
+            errorMessage : err
+          })
         })
 }
 
-
-const createCard = function (acc, req, res) {
-
-  stripe.tokens.create({
-    card: {
-      number: '4000000000004210',
-      exp_month: 12,
-      exp_year: 2020,
-      cvc: '123',
-      currency: 'chf'
-    }
-  })
-  .then((card=>{
-    console.log(card)
-    // console.log(id)
-    stripe.accounts.createExternalAccount(
-      acc,
-      {
-        external_account: 'tok_mastercard_debit_transferSuccess'
-      }
-    );
+exports.transaction = function (req, res) {
+    let {senderEmail, recipientEmail, emount} = req.body;
+    let acc1 = 'acct_1FX57XBz3zbIMGXl';
+    let acc2 = 'acct_1FWgzWJiDjSKwqNC';
     
-  }))
-  .then(result=>{
-    console.log(result)
-  })
-  .catch(err=>{
-    console.log(err)
-  })
-};
-const verifyAcc = function (acc, req, res) {
-stripe.accounts.update(
-  acc,
-  {
-    individual: {
-    first_name : 'testName',
-     last_name : 'testLast',
-      dob: {
-        day: '21',
-         month: '03',
-        year: '1997'
-      },
-      address: {
-        line1: 'Föhrenweg',
-        city: 'Giswil',
-        postal_code: '6074',
-      },
-      email: 'tesr@email.com',
-     phone: '+41754111234'
-    },
-    tos_acceptance: {
-            date: Math.floor(Date.now() / 1000),
-            ip: req.ip
-          },
-
-        },
-  function(err, account) {
-    console.log(err);
-    console.log(account);
-  }
-);
-};
+    stripe.charges.create({
+      amount: 1500,
+      currency: "chf",
+      source: acc1
+    }).then(result=>{
+      console.log(result)
+    }).catch(err=>{
+      console.log(err)
+    })
+    stripe.payouts.create({
+      amount: 1000,
+      currency: 'chf',
+    }, {
+      stripe_account: acc2,
+    }).then(function(payout) {
+      console.log(payout)
+    });
+}
 
 
 /* 

@@ -13,5 +13,11 @@ module.exports = (app) => {
         '/add_card', 
         //passport.authenticationMiddleware(),
         StripeController.addCard
+    );
+    app.post(
+        '/transaction',
+         //passport.authenticationMiddleware(),
+         StripeController.transaction
+
     )
 };
