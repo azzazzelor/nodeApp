@@ -46,11 +46,11 @@ exports.createAcc = function (req, res) {
       return res.status(422).send({ error: 'Please enter last name.' });
     }
     let newNumber = "+" + phone;
-
+    let new_email = email.toLowerCase();
     stripe.accounts.create({
       type: 'custom',
       country: 'CH',
-      email: email,
+      email: new_email,
       business_type: 'individual',
       individual: {
         first_name : first_name,
@@ -75,7 +75,7 @@ exports.createAcc = function (req, res) {
           }).then(data=>{
               let { id } = data;
               let newStripeModel = new StripeModel({
-                Email: email,
+                Email: new_email,
                 stripeAccKey: id,
                 first_name: first_name,
                 last_name: last_name
