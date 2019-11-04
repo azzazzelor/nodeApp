@@ -10,7 +10,7 @@ const ResetTokenSchema = new Schema({
         type: String, 
         required: true
     },
-    createdAt: {
+    expireAt: {
         type: Date,
         required: true,
         default: Date.now, 
@@ -18,5 +18,5 @@ const ResetTokenSchema = new Schema({
     },
 });
 
-
+ResetTokenSchema.createIndex( { "createdAt": 1 }, { expireAfterSeconds: 43200 } )
 module.exports = mongoose.model('passwordResetToken', ResetTokenSchema);
