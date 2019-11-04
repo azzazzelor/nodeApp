@@ -167,7 +167,7 @@ exports.addCard = function (req, res) {
           res.send({
             error: 1,
             errorName: 'StripeError',
-            errorMessage : err
+            errorMessage : err.raw.message
           })
         })
 }
