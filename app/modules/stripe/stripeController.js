@@ -164,10 +164,10 @@ exports.addCard = function (req, res) {
           res.send({error: 0})
         })
         .catch(err=>{
+          console.log(err)
           res.send({
             error: 1,
-            errorName: 'StripeError',
-            errorMessage : err.raw.code
+            errorName: 'StripeError'
           })
         })
 }
