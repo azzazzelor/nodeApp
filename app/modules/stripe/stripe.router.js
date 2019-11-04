@@ -16,9 +16,8 @@ module.exports = (app) => {
     );
     app.post(
         '/transaction',
-         //passport.authenticationMiddleware(),
-         StripeController.transaction
-
+        //passport.authenticationMiddleware(),
+        StripeController.transaction
     );
     app.post(
         '/get_card_info',
