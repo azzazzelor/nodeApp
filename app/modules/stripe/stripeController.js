@@ -157,7 +157,7 @@ exports.addCard = function (req, res) {
               external_account: 'tok_mastercard_debit_transferSuccess'
             }
           ).then((res)=>{
-            StripeModel.updateOne({Email: email},{brand: cardBrand, last_three: last3, },(err)=>{if(err){res.send('error:1')}});
+            StripeModel.updateOne({Email: email},{brand: cardBrand, last_three: last3, exp_month: exp_month, exp_year: exp_year },(err)=>{if(err){res.send('error:1')}});
           })   
         })
         .then(result=>{
