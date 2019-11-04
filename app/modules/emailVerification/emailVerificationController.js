@@ -1,6 +1,6 @@
 const nodemailer = require("nodemailer");
 const User = require('../user/userModel')
-
+const passwordResetToken = require('./tokenModel');
 
 const smtpTransport = nodemailer.createTransport({
     service: "Gmail",
@@ -66,7 +66,7 @@ exports.reset_passw = function (req, res) {
         return res
         .status(422)
         .json({ message: 'Email is required' });
-        }
+    }
 
     User.
     findOne({
@@ -76,7 +76,7 @@ exports.reset_passw = function (req, res) {
             return res
             .status(409)
             .json({ message: 'Email does not exist' });
-            }
+        }
     })
     
     var resettoken = new passwordResetToken({ _userId: user._id, resettoken: crypto.randomBytes(16).toString('hex') });

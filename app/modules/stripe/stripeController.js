@@ -96,6 +96,7 @@ exports.createAcc = function (req, res) {
             })
           })
 }
+
 exports.addCard = function (req, res) {
   const {
          email,
@@ -164,7 +165,6 @@ exports.addCard = function (req, res) {
           res.send({error: 0})
         })
         .catch(err=>{
-          console.log(err)
           res.send({
             error: 1,
             errorName: 'StripeError'
