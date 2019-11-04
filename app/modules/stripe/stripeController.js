@@ -65,7 +65,7 @@ exports.createAcc = function (req, res) {
             city: city,
             postal_code: zipCode,
           },
-          email: email,
+          email: new_email,
          phone: newNumber
         }, 
         tos_acceptance: {
