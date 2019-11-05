@@ -17,6 +17,10 @@ const TrackingSchema = new Schema({
     coordinates:{
         type: Array,
         default: []
+    },
+    orderId:{
+        type: String,
+        required: true
     }
 },
 {

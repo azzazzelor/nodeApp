@@ -11,15 +11,15 @@ module.exports = (app) => {
      // passport.authenticationMiddleware(),
     EmailVerifController.getScript
   );
-  // app.post(
-  //   '/reset_passw',
-  //   // passport.authenticationMiddleware(),
-  //   EmailVerifController.reset_passw
-  // );
-  // app.post(
-  //   '/reset_passw_beck',
-  //   // passport.authenticationMiddleware(),
-  //   EmailVerifController.reset_passw_beck
-  // );
+  app.post(
+    '/reset_passw',
+    // passport.authenticationMiddleware(),
+    EmailVerifController.reset_passw
+  );
+  app.get(
+    '/reset_passw_beck/:key',
+    // passport.authenticationMiddleware(),
+    EmailVerifController.reset_passw_beck
+  );
 };
 

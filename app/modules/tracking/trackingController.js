@@ -1,13 +1,14 @@
 const TrackingModel = require('./trackingModel');
 
 exports.startTracking = function (req, res) {
-    const {instructorId, studentId, coordinates, pricePerKm} = req.body;
+    const {instructorId, studentId, coordinates, pricePerKm, orderId} = req.body;
     
     let newTrack = new TrackingModel({
         instructorId : instructorId,
         studentId : studentId,
         coordinates: coordinates,
-        pricePerKm: pricePerKm
+        pricePerKm: pricePerKm,
+        orderId: orderId
     })
     
     newTrack.save((err,result)=>{
@@ -38,6 +39,10 @@ exports.addPoints = function (req, res) {
     })
 }
 
+// {
+//     "distence" : "",
+//     "price" : ""
+// }
 exports.getTrack = function (req, res) {
     const {trackingId} = req.body;
 
