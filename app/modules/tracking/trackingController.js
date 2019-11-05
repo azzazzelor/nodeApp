@@ -34,15 +34,12 @@ exports.addPoints = function (req, res) {
             res.send(err)
         }else{
             let resulst = calculateDistance(result.pricePerKm,distance );
-            res.send(`price per ${distance}m is ${resulst} currency`)
+            res.send({distance:distance,price:resulst})
         }
     })
 }
 
-// {
-//     "distence" : "",
-//     "price" : ""
-// }
+
 exports.getTrack = function (req, res) {
     const {trackingId} = req.body;
 

@@ -19,8 +19,8 @@ const app = express();
 const server = require("http").Server(app);
 const io = require('socket.io').listen(server);
 
-socketEvents = require('../config/socketEvents');  
-socketEvents(io); 
+// socketEvents = require('../config/socketEvents');  
+// socketEvents(io); 
 
 require('./authentication').init(app);
 
@@ -44,6 +44,36 @@ app.use(session({
 app.use(passport.initialize());
 app.use(passport.session());
 
+
+const arr = [];
+
+io.sockets.on('connection', (socket) => {
+	socket.on('storeClientInfo',(data) => {
+			let clientInfo = new Object();
+            clientInfo.customId = data.customId;
+            clientInfo.clientId = socket.id;
+            clients.push(clientInfo);
+	})
+
+	
+	socket.on('disconnect', (socket) => {
+		for( let i=0, len=clients.length; i<len; ++i ){
+			let c = clients[i];
+
+			if(c.clientId == socket.id){
+				clients.splice(i,1);
+				break;
+			}
+		}
+	})
+})
+
+
+
+
+
 config.loader(app);
+
+
 
 module.exports = app;
