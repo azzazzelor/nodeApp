@@ -35,8 +35,8 @@ exports.addPoints = function (req, res) {
         if(err){
             res.send(err)
         }else{
-            let result = calculateDistance(result.pricePerKm,distance );
-            res.send({distance:distance,price:result})
+            let resulst = calculateDistance(result.pricePerKm,distance );
+            res.send({distance:distance,price:resulst})
         }
     })
 }
@@ -70,5 +70,6 @@ const calculateDistance = function (price_per_km, distance){
 } 
 
 exports.getSystemPref = function (req, res) {
-    console.log(process.env.HOST,process.env.PORT )
+    // console.log(process.env.HOST,process.env.PORT )
+    res.send({server, port: process.env.PORT})
 }
