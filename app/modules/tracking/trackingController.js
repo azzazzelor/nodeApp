@@ -16,7 +16,7 @@ exports.startTracking = function (req, res) {
         if(err){
             res.send(err)
         }else{
-            BookingModel.updateOne({_id:orderId},{trackId:track._id},(err)=>{if(err){res.send({error:1})}});
+            BookingModel.updateOne({_id: orderId},{trackId: track._id},(err)=>{if(err){res.send({error:1})}});
             res.send(result)
         }
     })
@@ -35,8 +35,8 @@ exports.addPoints = function (req, res) {
         if(err){
             res.send(err)
         }else{
-            let resulst = calculateDistance(result.pricePerKm,distance );
-            res.send({distance:distance,price:resulst})
+            let result = calculateDistance(result.pricePerKm,distance );
+            res.send({distance:distance,price:result})
         }
     })
 }
@@ -68,3 +68,7 @@ exports.getTrack = function (req, res) {
 const calculateDistance = function (price_per_km, distance){  
     return (price_per_km * distance) / 1000;
 } 
+
+exports.getSystemPref = function (req, res) {
+    console.log(process.env.HOST,process.env.PORT )
+}
