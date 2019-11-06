@@ -24,7 +24,8 @@ exports.startTracking = function (req, res) {
 
 exports.addPoints = function (req, res) {
     const {coordinates, trackingId, distance,} = req.body;
-
+    console.log(coordinates)
+    console.log(typeof coordinates)
     TrackingModel
     .findByIdAndUpdate(trackingId,
         {$push : {
