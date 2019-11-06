@@ -1,4 +1,5 @@
 const TrackingModel = require('./trackingModel');
+const BookingModel = require('../booking/bookingModel');
 
 exports.startTracking = function (req, res) {
     const {instructorId, studentId, coordinates, pricePerKm, orderId} = req.body;
@@ -11,10 +12,11 @@ exports.startTracking = function (req, res) {
         orderId: orderId
     })
     
-    newTrack.save((err,result)=>{
+    newTrack.save((err,track)=>{
         if(err){
             res.send(err)
         }else{
+            BookingModel.updateOne({_id:orderId},{trackId:track._id},(err)=>{if(err){res.send({error:1})}});
             res.send(result)
         }
     })

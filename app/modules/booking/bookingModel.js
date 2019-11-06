@@ -6,7 +6,7 @@ const BookingSchema = new Schema({
     orderUserId: {
         type: Schema.Types.ObjectId ,
         ref: 'User',
-        require : false
+        required : false
     },
     orderOfilietId: {
         type: Schema.Types.ObjectId ,
@@ -18,19 +18,19 @@ const BookingSchema = new Schema({
     },
     orderUpdateDate: {
         type: Date,
-        require: false 
+        required: false 
     },
     orderStartTime: {
         type : String,
-        require: true 
+        required: true 
     },
     orderEndTime: {
         type : String,
-        require: true
+        required: true
     },
     orderType: {
         type: String,
-        require: true
+        required: true
     },              // per hour or per km
     orderStatus: {
         type : String,
@@ -38,12 +38,17 @@ const BookingSchema = new Schema({
     },
     orderDescription: {
         type: String,
-        require: false
+        required: false
     },  
     unicId: {
         type: String,
         required: true
     },
+    trackId: {
+        type: Schema.Types.ObjectId ,
+        ref: 'Tracking',
+        required: false   
+    }
 });
 
 // BookingSchema.static('compareTimes',function(start2,end2,cb){

@@ -12,12 +12,12 @@ module.exports = (app) => {
         TheoryController.getAllCourses
     );
     app.post(
-        ('/add_one_topic'),
+        '/add_one_topic',
         //passport.authenticationMiddleware(),
         TheoryController.addNewTopic
     );
     app.post(
-        ('/change_topic_rating'),
+        '/change_topic_rating',
         //passport.authenticationMiddleware(),
         TheoryController.changeTopicRating
     )
