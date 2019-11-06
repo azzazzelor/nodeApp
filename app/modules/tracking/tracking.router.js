@@ -6,11 +6,11 @@ module.exports = (app) => {
         //passport.authenticationMiddleware(),
         TrackingController.startTracking
     );
-   app.post(
-       '/addPoints',
-        //passport.authenticationMiddleware(),
-        TrackingController.addPoints
-   );
+//    app.post(
+//        '/addPoints',
+//         //passport.authenticationMiddleware(),
+//         TrackingController.addPoints
+//    );
    app.post(
        '/getTracking',
         //passport.authenticationMiddleware(),

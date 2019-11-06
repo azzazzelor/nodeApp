@@ -17,7 +17,7 @@ exports.startTracking = function (req, res) {
             res.send(err)
         }else{
             BookingModel.updateOne({_id: orderId},{trackId: track._id},(err)=>{if(err){res.send({error:1})}});
-            res.send(result)
+            res.send(track)
         }
     })
 }
