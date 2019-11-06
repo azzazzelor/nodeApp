@@ -3,7 +3,8 @@ const BookingModel = require('../booking/bookingModel');
 
 exports.startTracking = function (req, res) {
     const {instructorId, studentId, coordinates, pricePerKm, orderId} = req.body;
-    
+    console.log(coordinates)
+    console.log(typeof coordinates)
     let newTrack = new TrackingModel({
         instructorId : instructorId,
         studentId : studentId,
@@ -24,8 +25,8 @@ exports.startTracking = function (req, res) {
 
 exports.addPoints = function (req, res) {
     const {coordinates, trackingId, distance,} = req.body;
-    console.log(coordinates)
-    console.log(typeof coordinates)
+    // console.log(coordinates)
+    // console.log(typeof coordinates)
     TrackingModel
     .findByIdAndUpdate(trackingId,
         {$push : {
