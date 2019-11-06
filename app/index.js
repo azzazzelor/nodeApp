@@ -5,12 +5,12 @@ const config = require('../config');
 const express = require('express');
 const passport = require('passport');
 const logger = require('morgan');
-const session = require('express-session');
+// const session = require('express-session');
 const cookieParser = require('cookie-parser');
 const bodyParser = require('body-parser');
 const flash = require('connect-flash');
 const fileUpload = require('express-fileupload');
-
+const session = require('cookie-session');
 
 const TYPE = process.env.LOGGER_STR || "tiny";
 const SECRET = process.env.SECRET_KEY || "dev-secret";
