@@ -3,6 +3,9 @@ const BookingModel = require('../booking/bookingModel');
 
 exports.startTracking = function (req, res) {
     const {instructorId, studentId, coordinates, pricePerKm, orderId} = req.body;
+    let nowDate = Date.now();
+    coordinates.date = nowDate;
+    
     let newTrack = new TrackingModel({
         instructorId : instructorId,
         studentId : studentId,
@@ -15,7 +18,7 @@ exports.startTracking = function (req, res) {
         if(err){
             res.send(err)
         }else{
-            BookingModel.updateOne({_id: orderId},{trackId: track._id},(err)=>{if(err){res.send({error:1})}});
+            BookingModel.updateOne({_id: orderId},{trackId: track._id},(err)=>{if(err){res.send({error:1}).end()}});
             res.send(track)
         }
     })
@@ -23,10 +26,12 @@ exports.startTracking = function (req, res) {
 
 exports.addPoints = function (req, res) {
     const {coordinates, trackingId, distance,} = req.body;
+    let nowDate = Date.now();
+    coordinates.date = nowDate;
     TrackingModel
     .findByIdAndUpdate(trackingId,
         {$push : {
-            coordinates
+            coordinates, 
          }
        })
     .exec((err,result)=>{
