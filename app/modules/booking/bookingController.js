@@ -203,12 +203,14 @@ exports.getOrders = function (req,res) {
     const type = req.params.type;
     const {orderOfilietId, pageNumber} = req.body;
     const limit = 10;
+    let finished = 'Finished';   
 
         try {
             OrderModel
             .find({
                 orderOfilietId: orderOfilietId,
-                orderStatus: type
+                orderStatus: type,
+                orderSatus: finished
             })
             // .skip((+pageNumber - 1) * limit).limit(limit)
             .exec(function(err, result) {
@@ -296,11 +298,10 @@ exports.decline = function (req, res) {
 exports.getInProgresStudents = function (req,res) {
     const {orderOfilietId, pageNumber} = req.body;
     let inprogress = 'inProgress';
-    let finished = 'Finished';
     let limit = 10;
     
         try {
-            const Models = OrderModel.find({orderOfilietId: orderOfilietId,orderStatus: inprogress, orderStatus: finished})
+            const Models = OrderModel.find({orderOfilietId: orderOfilietId,orderStatus: inprogress})
             .select('orderUserId -_id');
 
         Models
