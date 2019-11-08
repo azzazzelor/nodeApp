@@ -210,7 +210,7 @@ exports.getOrders = function (req,res) {
             .find({
                 orderOfilietId: orderOfilietId,
                 orderStatus: type,
-                orderSatus: finished
+                orderStatus: finished
             })
             // .skip((+pageNumber - 1) * limit).limit(limit)
             .exec(function(err, result) {
