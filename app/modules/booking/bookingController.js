@@ -209,8 +209,7 @@ exports.getOrders = function (req,res) {
             OrderModel
             .find({
                 orderOfilietId: orderOfilietId,
-                orderStatus: type,
-                orderStatus: finished
+                orderStatus: {$in:[type, finished]}
             })
             // .skip((+pageNumber - 1) * limit).limit(limit)
             .exec(function(err, result) {
