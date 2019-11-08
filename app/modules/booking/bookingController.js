@@ -204,7 +204,7 @@ exports.getOrders = function (req,res) {
     const {orderOfilietId, pageNumber} = req.body;
     const limit = 10;
     let finished = 'Finished';   
-
+    if(type === 'inProgress'){
         try {
             OrderModel
             .find({
@@ -226,6 +226,29 @@ exports.getOrders = function (req,res) {
             });
         } catch (error) {
                 res.send('error: 1')
+        }}else{
+            try {
+                OrderModel
+                .find({
+                    orderOfilietId: orderOfilietId,
+                    orderStatus: type
+                })
+                // .skip((+pageNumber - 1) * limit).limit(limit)
+                .exec(function(err, result) {
+                    if(err){
+                        res.send(err)
+                    }else{
+                        if(result.length === 0){
+                            return  res.status(200).json(result)
+                        }else{  
+                            let grouped = getGroupedArray(result, 'unicId');
+                            return res.status(200).json(grouped)
+                        }
+                    }
+                });
+            } catch (error) {
+                    res.send('error: 1')
+            }
         }
 }
 
