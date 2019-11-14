@@ -204,7 +204,7 @@ exports.getOrders = function (req,res) {
     const {orderOfilietId, pageNumber} = req.body;
     const limit = 10;
     let finished = 'Finished';   
-    if(type === 'inProgress'){
+    if(type === 'inProgress') {
         try {
             OrderModel
             .find({
@@ -320,10 +320,11 @@ exports.decline = function (req, res) {
 exports.getInProgresStudents = function (req,res) {
     const {orderOfilietId, pageNumber} = req.body;
     let inprogress = 'inProgress';
+    let finished = 'Finished';  
     let limit = 10;
     
         try {
-            const Models = OrderModel.find({orderOfilietId: orderOfilietId,orderStatus: inprogress})
+            const Models = OrderModel.find({orderOfilietId: orderOfilietId,orderStatus: {$in:[inprogress, finished]}})
             .select('orderUserId -_id');
 
         Models
