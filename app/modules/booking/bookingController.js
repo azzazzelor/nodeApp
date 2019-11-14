@@ -320,11 +320,11 @@ exports.decline = function (req, res) {
 exports.getInProgresStudents = function (req,res) {
     const {orderOfilietId, pageNumber} = req.body;
     let inprogress = 'inProgress';
-    let finished = 'Finished';  
+    let finished = 'Finished'
     let limit = 10;
     
         try {
-            const Models = OrderModel.find({orderOfilietId: orderOfilietId,orderStatus: {$in:[inprogress, finished]}})
+            const Models = OrderModel.find({orderOfilietId: orderOfilietId,orderStatus: inprogress })
             .select('orderUserId -_id');
 
         Models
@@ -389,9 +389,9 @@ exports.finishOrder = function (req, res) {
 exports.getStudentsOrders = function (req, res) {
     const { studentId } = req.body;
     let inprogress = 'inProgress';
-
+    let finished = 'Finished';
     OrderModel
-    .find({orderUserId: studentId,orderStatus:inprogress})
+    .find({orderUserId: studentId,orderStatus:{$in:[inprogress, finished]}})
     .then(data=>{
             let grouped = getGroupedArray(data, 'unicId');
             return res.status(200).json(grouped)
