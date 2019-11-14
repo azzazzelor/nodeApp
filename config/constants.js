@@ -50,8 +50,15 @@ const USER_ROLE_TYPES = [
 	'school'
 ];
 
+const ORDERS_TYPES = {
+	inprogress  : 'inProgress',
+	finished : 'Finished',
+	pending : 'pending'
+}
+
 module.exports = {
 	VALIDATION_ERRORS,
 	APP_ERRORS,
-	USER_ROLE_TYPES
+	USER_ROLE_TYPES,
+	ORDERS_TYPES
 };

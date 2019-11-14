@@ -1,6 +1,8 @@
 const OrderModel = require('./bookingModel');
 const UserModel = require('../user/userModel');
 const InstructorModel = require ('../instructor/instructorModel')
+const {USER_ROLE_TYPES} = require ('../../../config/constants');
+const  {inprogress, finished} = USER_ROLE_TYPES;
 
 exports.filterBookings = function(req, res){
 //  1 найти всех ближайших инстр и школ по локации
@@ -77,7 +79,7 @@ exports.filterBookings = function(req, res){
         })
         .then(data=>{
             resArrWithFilerSchoolsInstroctors.push(...data);
-            const orders = OrderModel.find({'orderStatus':'inProgress',orderCreateDate : {$gt : dateFrom, $lt: dateTo}}).select('orderStartTime orderEndTime orderType orderOfilietId ')
+            const orders = OrderModel.find({'orderStatus':inprogress,orderCreateDate : {$gt : dateFrom, $lt: dateTo}}).select('orderStartTime orderEndTime orderType orderOfilietId ')
             return orders;
         })
         .then(data=>{
@@ -203,8 +205,8 @@ exports.getOrders = function (req,res) {
     const type = req.params.type;
     const {orderOfilietId, pageNumber} = req.body;
     const limit = 10;
-    let finished = 'Finished';   
-    if(type === 'inProgress') {
+ 
+    if(type === inprogress) {
         try {
             OrderModel
             .find({
@@ -291,7 +293,6 @@ const getGroupedArray = (array, key) => {
 
 exports.accept = function (req, res) {
     const {unicID} = req.body;
-    let inprogress = 'inProgress';
     OrderModel
     .updateMany(
         {unicId:unicID},
@@ -319,8 +320,6 @@ exports.decline = function (req, res) {
 
 exports.getInProgresStudents = function (req,res) {
     const {orderOfilietId, pageNumber} = req.body;
-    let inprogress = 'inProgress';
-    let finished = 'Finished'
     let limit = 10;
     
         try {
@@ -371,7 +370,7 @@ exports.finishOrder = function (req, res) {
         return  res.status(422).send({ error: 'Please send orderId.' });
     }
     
-    let finished = 'Finished';
+
 
     OrderModel
     .findOneAndUpdate(
@@ -388,8 +387,7 @@ exports.finishOrder = function (req, res) {
 
 exports.getStudentsOrders = function (req, res) {
     const { studentId } = req.body;
-    let inprogress = 'inProgress';
-    let finished = 'Finished';
+
     OrderModel
     .find({orderUserId: studentId,orderStatus:{$in:[inprogress, finished]}})
     .then(data=>{

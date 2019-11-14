@@ -1,3 +1,5 @@
+const {USER_ROLE_TYPES} = require ('../../../config/constants');
+const {pending} = USER_ROLE_TYPES;
 const mongoose = require('mongoose'),
 	Schema = mongoose.Schema;
 
@@ -34,7 +36,7 @@ const BookingSchema = new Schema({
     },              // per hour or per km
     orderStatus: {
         type : String,
-        default: 'pending',
+        default: pending,
     },
     orderDescription: {
         type: String,
