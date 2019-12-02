@@ -241,6 +241,7 @@ exports.getOrders = function (req,res) {
                         if(result.length === 0){
                             return  res.status(200).json(result)
                         }else{  
+
                             let grouped = getGroupedArray(result, 'unicId');
                             return res.status(200).json(grouped)
                         }
@@ -257,6 +258,7 @@ const getGroupedArray = (array, key) => {
       (sum[current[key]] = sum[current[key]] || []).push(current);
       return sum;
     }, {});
+    
   
     return Object.values(object);
   };

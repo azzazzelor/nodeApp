@@ -1,5 +1,4 @@
 const bcrypt = require('bcryptjs');
-
 const User = require('./userModel');
 const Student = require('../student/studentModel');
 const Instructor = require('../instructor/instructorModel')
@@ -322,7 +321,7 @@ const createNewInstructor = (data) => {
 		pricePerHour
     } = newInstructBodyCar;
 		
-	return new Promise((resolve, reject)=>{
+	return new Promise((resolve, reject) => {
 		//check first name
 		const firstNameValidation = validationService.validateFirstName(firstName);
 		if (firstNameValidation.error) return reject(firstNameValidation);
