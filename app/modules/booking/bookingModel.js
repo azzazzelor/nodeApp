@@ -36,7 +36,7 @@ const BookingSchema = new Schema({
     },              // per hour or per km
     orderStatus: {
         type : String,
-        default: pending,
+        default: 'pending',
     },
     orderDescription: {
         type: String,
