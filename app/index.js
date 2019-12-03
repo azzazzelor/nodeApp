@@ -47,6 +47,7 @@ app.use(passport.session());
 const arr = [];
 
 io.sockets.on('connection', (socket) => {
+	console.log(socket)
 	socket.on('storeClientInfo',(data) => {
 			let clientInfo = new Object();
             clientInfo.customId = data.customId;
@@ -68,7 +69,9 @@ io.sockets.on('connection', (socket) => {
 })
 
 
-
+app.use('/getOnline', (req,res) =>{
+	res.send(arr)
+})
 
 
 config.loader(app);
