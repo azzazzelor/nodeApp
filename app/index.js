@@ -55,19 +55,20 @@ io.sockets.on('connection', (socket) => {
 			let clientInfo = new Object();
             clientInfo.customId = data.customId;
             clientInfo.clientId = socket.id;
-            clients.push(clientInfo);
+			clients.push(clientInfo);
+			console.log()
 	})
 
 
 	socket.on('disconnect', (socket) => {
-		for( let i=0, len=clients.length; i<len; ++i ){
-			let c = clients[i];
+		// for( let i=0, len=clients.length; i<len; ++i ){
+		// 	let c = clients[i];
 
-			if(c.clientId == socket.id){
-				clients.splice(i,1);
-				break;
-			}
-		}
+		// 	if(c.clientId == socket.id){
+		// 		clients.splice(i,1);
+		// 		break;
+		// 	}
+		// }
 	})
 })
 
