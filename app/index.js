@@ -62,25 +62,25 @@ io.sockets.on('connection', (socket) => {
 	})
 
 
-	socket.on('disconnect', (socket) => {
+	socket.on('disconnect', () => {
 		console.log('disconnect')
-		console.log(socket)
-		console.log(clients)
+		// console.log(socket.id)
+		// console.log(clients)
 		// clients.map(el => {
 		// 	if(el.clientId === socket.id){
 		// 		let index = 
 		// 		clients.splice()
 		// 	}
 		// })
-		// for( let i=0, len=clients.length; i<len; ++i ){
-		// 	let c = clients[i];
-		// 	console.log(c, i)
-		// 	if(c.clientId === socket.id){
-		// 		console.log('suka ')
-		// 		clients.splice(i,1);
-		// 		break;
-		// 	}
-		// }
+		for( let i=0, len=clients.length; i<len; ++i ){
+			let c = clients[i];
+			console.log(c, i)
+			if(c.clientId === socket.id){
+				console.log('suka ')
+				clients.splice(i,1);
+				break;
+			}
+		}
 	})
 })
 
