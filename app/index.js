@@ -72,9 +72,9 @@ io.sockets.on('connection', (socket) => {
 		// })
 		for( let i=0, len=clients.length; i<len; ++i ){
 			let c = clients[i];
-			console.log(c)
+			console.log(c, i)
 			if(c.clientId === socket.id){
-				console.log('splice')
+				console.log(i,c)
 				clients.splice(i,1);
 				break;
 			}
