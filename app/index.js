@@ -58,6 +58,7 @@ io.sockets.on('connection', (socket) => {
             clientInfo.customId = data.customId;
             clientInfo.clientId = socket.id;
 			clients.push(clientInfo);
+			
 			// console.log(clients)
 	})
 
