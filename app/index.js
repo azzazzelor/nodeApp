@@ -64,15 +64,21 @@ io.sockets.on('connection', (socket) => {
 
 	socket.on('disconnect', (socket) => {
 		console.log('disconnect')
-		// for( let i=0, len=clients.length; i<len; ++i ){
-		// 	let c = clients[i];
-		// 	console.log(clientId,socket.id)
-		// 	if(c.clientId === socket.id){
-		// 		console.log('splice')
-		// 		clients.splice(i,1);
-		// 		break;
+		// clients.map(el => {
+		// 	if(el.clientId === socket.id){
+		// 		let index = 
+		// 		clients.splice()
 		// 	}
-		// }
+		// })
+		for( let i=0, len=clients.length; i<len; ++i ){
+			let c = clients[i];
+			console.log(clientId,socket.id)
+			if(c.clientId === socket.id){
+				console.log('splice')
+				clients.splice(i,1);
+				break;
+			}
+		}
 	})
 })
 
