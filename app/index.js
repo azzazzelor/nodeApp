@@ -74,11 +74,11 @@ io.sockets.on('connection', (socket) => {
 		// })
 		for( let i=0, len=clients.length; i<len; ++i ){
 			let c = clients[i];
-			console.log(c, i)
+			// console.log(c, i)
 			if(c.clientId === socket.id){
-				console.log('suka ')
+				// console.log('suka ')
 				clients.splice(i,1);
-				break;
+				continue;
 			}
 		}
 	})
