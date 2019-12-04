@@ -74,7 +74,7 @@ io.sockets.on('connection', (socket) => {
 			let c = clients[i];
 			console.log(c, i)
 			if(c.clientId === socket.id){
-				console.log(i,c)
+				console.log('suka ')
 				clients.splice(i,1);
 				break;
 			}
