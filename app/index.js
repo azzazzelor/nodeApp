@@ -47,7 +47,7 @@ app.use(session({
 app.use(passport.initialize());
 app.use(passport.session());
 
-const arr = [];
+const clients = [];
 
 io.sockets.on('connection', (socket) => {
 	console.log(socket)
@@ -56,7 +56,7 @@ io.sockets.on('connection', (socket) => {
             clientInfo.customId = data.customId;
             clientInfo.clientId = socket.id;
 			clients.push(clientInfo);
-			console.log()
+			console.log(clients)
 	})
 
 
