@@ -64,7 +64,7 @@ io.sockets.on('connection', (socket) => {
 
 	socket.on('disconnect', (socket) => {
 		console.log('disconnect')
-		console.log(socket.id)
+		console.log(socket)
 		console.log(clients)
 		// clients.map(el => {
 		// 	if(el.clientId === socket.id){
