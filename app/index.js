@@ -21,7 +21,7 @@ const app = express();
 // const server = require("http").Server(app);
 // const io = require('socket.io').listen(server);   
 */
-const server = app.listen(process.env.PORT); 
+const server = app.listen(process.env.PORT || 5000); 
 const io = require('socket.io').listen(server);   /// make changes for android socket 
 
 // socketEvents = require('../config/socketEvents');  
@@ -66,8 +66,9 @@ io.sockets.on('connection', (socket) => {
 		console.log('disconnect')
 		for( let i=0, len=clients.length; i<len; ++i ){
 			let c = clients[i];
-
-			if(c.clientId == socket.id){
+			console.log(clientId,socket.id)
+			if(c.clientId === socket.id){
+				console.log('splice')
 				clients.splice(i,1);
 				break;
 			}
