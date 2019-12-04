@@ -63,6 +63,7 @@ io.sockets.on('connection', (socket) => {
 
 
 	socket.on('disconnect', (socket) => {
+		console.log('disconnect')
 		for( let i=0, len=clients.length; i<len; ++i ){
 			let c = clients[i];
 
