@@ -52,33 +52,35 @@ app.use(passport.session());
 const clients = [];
 
 io.sockets.on('connection', (socket) => {
-	console.log(socket)
+	// console.log(socket)
 	socket.on('storeClientInfo',(data) => {
 			let clientInfo = new Object();
             clientInfo.customId = data.customId;
             clientInfo.clientId = socket.id;
 			clients.push(clientInfo);
-			console.log(clients)
+			// console.log(clients)
 	})
 
 
 	socket.on('disconnect', (socket) => {
 		console.log('disconnect')
+		console.log(socket.id)
+		console.log(clients)
 		// clients.map(el => {
 		// 	if(el.clientId === socket.id){
 		// 		let index = 
 		// 		clients.splice()
 		// 	}
 		// })
-		for( let i=0, len=clients.length; i<len; ++i ){
-			let c = clients[i];
-			console.log(c, i)
-			if(c.clientId === socket.id){
-				console.log('suka ')
-				clients.splice(i,1);
-				break;
-			}
-		}
+		// for( let i=0, len=clients.length; i<len; ++i ){
+		// 	let c = clients[i];
+		// 	console.log(c, i)
+		// 	if(c.clientId === socket.id){
+		// 		console.log('suka ')
+		// 		clients.splice(i,1);
+		// 		break;
+		// 	}
+		// }
 	})
 })
 
