@@ -16,11 +16,11 @@ const TYPE = process.env.LOGGER_STR || "tiny";
 const SECRET = process.env.SECRET_KEY || "dev-secret";
 
 const app = express();
-const server = require("http").Server(app);
-const io = require('socket.io').listen(server);
-
-// const server = app.listen(process.env.PORT);
+// const server = require("http").Server(app);
 // const io = require('socket.io').listen(server);
+
+const server = app.listen(process.env.PORT);
+const io = require('socket.io').listen(server);
 
 // socketEvents = require('../config/socketEvents');  
 // socketEvents(io); // can pass app , in file we can 
