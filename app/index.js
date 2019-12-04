@@ -16,11 +16,13 @@ const TYPE = process.env.LOGGER_STR || "tiny";
 const SECRET = process.env.SECRET_KEY || "dev-secret";
 
 const app = express();
+/* 
+	deleate in main index file js listener
 // const server = require("http").Server(app);
-// const io = require('socket.io').listen(server);
-
-const server = app.listen(process.env.PORT);
-const io = require('socket.io').listen(server);
+// const io = require('socket.io').listen(server);   
+*/
+const server = app.listen(process.env.PORT); 
+const io = require('socket.io').listen(server);   /// make changes for android socket 
 
 // socketEvents = require('../config/socketEvents');  
 // socketEvents(io); // can pass app , in file we can 
@@ -61,14 +63,14 @@ io.sockets.on('connection', (socket) => {
 
 
 	socket.on('disconnect', (socket) => {
-		// for( let i=0, len=clients.length; i<len; ++i ){
-		// 	let c = clients[i];
+		for( let i=0, len=clients.length; i<len; ++i ){
+			let c = clients[i];
 
-		// 	if(c.clientId == socket.id){
-		// 		clients.splice(i,1);
-		// 		break;
-		// 	}
-		// }
+			if(c.clientId == socket.id){
+				clients.splice(i,1);
+				break;
+			}
+		}
 	})
 })
 
