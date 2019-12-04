@@ -74,5 +74,5 @@ const calculateDistance = function (price_per_km, distance){
 
 exports.getSystemPref = function (req, res) {
     // console.log(process.env.HOST,process.env.PORT )
-    res.send({server, port: process.env.PORT})
+    res.send({ port: process.env.PORT})
 }
