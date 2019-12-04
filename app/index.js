@@ -59,20 +59,16 @@ io.sockets.on('connection', (socket) => {
             clientInfo.clientId = socket.id;
 			clients.push(clientInfo);
 			
+
 			// console.log(clients)
 	})
 
 
+	// 
+	
+
 	socket.on('disconnect', () => {
 		console.log('disconnect')
-		// console.log(socket.id)
-		// console.log(clients)
-		// clients.map(el => {
-		// 	if(el.clientId === socket.id){
-		// 		let index = 
-		// 		clients.splice()
-		// 	}
-		// })
 		for( let i=0, len=clients.length; i<len; ++i ){
 			let c = clients[i];
 			// console.log(c, i)
