@@ -74,7 +74,7 @@ io.sockets.on('connection', (socket) => {
 
 
 app.use('/getOnline', (req,res) =>{
-	res.send(arr)
+	res.send(clients)
 })
 
 
