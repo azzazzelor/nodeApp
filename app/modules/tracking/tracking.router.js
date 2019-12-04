@@ -16,9 +16,9 @@ module.exports = (app) => {
         //passport.authenticationMiddleware(),
         TrackingController.getTrack
    );
-//    app.get(
-//        '/getSystemPref',
-//        //passport.authenticationMiddleware(),
-//        TrackingController.getSystemPref
-//    );
+   app.get(
+       '/getSystemPref',
+       //passport.authenticationMiddleware(),
+       TrackingController.getSystemPref
+   );
 };
